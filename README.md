@@ -18,7 +18,7 @@ A simple multiple room manager for socket.io on express.
 It's hosted as an `npm` package so installation is of course as simple as:
 
 ```bash
-yarn add bouncer.js --save
+yarn add @jacekpietal/bouncer.js --save
 ```
 
 ## The application:
