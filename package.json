@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "1 bouncer + 1 server = infinite rooms manager",
   "main": "bouncer.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -8,13 +8,16 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "test": "http-server . & node bouncer.spec"
+    "test": "jest",
+    "test:chat": "node bouncer.node.js &>/dev/null; http-server .",
+    "precommmit": "prettier . --write"
   },
   "dependencies": {
-    "socket.io": "^2.3.0"
+    "uWebSockets.js": "uNetworking/uWebSockets.js#v17.6.0"
   },
   "devDependencies": {
     "http-server": "*",
-    "express": "^4.17.1"
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5"
   }
 }

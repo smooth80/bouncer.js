@@ -1,94 +1,61 @@
-const http = require("http");
-const socketIo = require("socket.io");
+const uWebSockets = require("uWebSockets.js");
 
-const {
-  PORT,
-  LOGO,
-  ACCESS_CONTROL_ALLOW_ORIGIN,
-  ACCESS_CONTROL_ALLOW_HEADERS,
-} = require("./config");
-
-const preflightHeadersFactory = (req) => ({
-  "Access-Control-Allow-Headers": ACCESS_CONTROL_ALLOW_HEADERS,
-  "Access-Control-Allow-Origin":
-    ACCESS_CONTROL_ALLOW_ORIGIN || req.headers.origin,
-  "Access-Control-Allow-Credentials": true,
-});
-
-function handlePreflightRequest(req, res) {
-  res.writeHead(200, preflightHeadersFactory(req));
-  res.end();
-}
+const utils = require("./bouncer.utils.js");
+const defaultConfig = require("./config.js");
 
 /**
- * Usage:
- *
- * const plugins = Array<(io, socket, data) => void>
- *
- * new Bouncer(plugins)
- *   .createServer(express())
- *   .connect()
+ * @param {[key: string]: any} configuration
  */
-module.exports = class Bouncer {
-  /**
-   * Initialize bouncer with plugins array
-   *
-   * @param {function[]} plugins
-   */
-  constructor(plugins) {
-    this.plugins = new Set(plugins || []);
+const bouncerJs = (configuration = {}) => {
+  const rooms = new Map();
+  const config = Object.assign({}, defaultConfig, configuration);
 
-    this.speak("started");
-  }
-  /**
-   * Speak with logo at the start
-   * helper function
-   *
-   * @param {string} sentence
-   */
-  speak(sentence) {
-    console.log(`${LOGO} ${sentence}`);
-  }
-  /**
-   * Create http server instance for express app
-   * chainable
-   *
-   * @param {Express} expressApp
-   */
-  createServer(expressApp) {
-    this.httpServer = http.Server(expressApp);
-    this.httpServer.listen(PORT);
+  const ssl = config.ssl || {};
+  const start = config.ssl ? uWebSockets.SSLApp : uWebSockets.App;
 
-    this.speak(`listens @ ${PORT}`);
-
-    return this;
+  if (config.debug) {
+    console.log("Start with config", config);
   }
-  /**
-   * Connects to created server instance
-   * chainable
-   */
-  connect() {
-    this.io = socketIo(this.httpServer, { handlePreflightRequest });
-    this.io.on("connection", (socket) => this.onSocketConnect(socket));
 
-    return this;
-  }
-  /**
-   * On socket connection this function is run so the bouncer
-   * Knows that after a handshake the room is joined and plugin
-   * is initialized
-   * helper function
-   *
-   * @param {Socket} socket
-   */
-  onSocketConnect(socket) {
-    this.speak("socket @ door");
-    this.plugins.forEach((plugin) => {
-      socket.on(`handshake:${plugin.name}`, (data) => {
-        this.speak(`joins ${plugin.name}`);
-        socket.join(plugin.name);
-        plugin.call(this, socket, data);
-      });
+  const { joinRoom, leaveRoom, getRoomName, broadcast } = utils(rooms, config);
+
+  return start({
+    key_file_name: ssl.key,
+    cert_file_name: ssl.cert,
+  })
+    .ws("/*", {
+      /**
+       * @param {WebSocket} ws
+       */
+      close: (ws) => {
+        leaveRoom(ws);
+      },
+      /**
+       * @param {WebSocket} ws
+       * @param {any} message
+       */
+      message: (ws, message) => {
+        const utf8 = Buffer.from(message).toString();
+        const { join, leave } = getRoomName(utf8);
+
+        if (leave) {
+          leaveRoom(ws);
+        }
+
+        if (join) {
+          joinRoom(ws, join);
+        }
+
+        if (!join && !leave) {
+          broadcast(ws, utf8);
+        }
+      },
+    })
+    .listen(config.port, (listenSocket) => {
+      if (listenSocket) {
+        console.log(`${config.LOGO} Listens on port ${config.port}`);
+      }
     });
-  }
 };
+
+module.exports = bouncerJs;

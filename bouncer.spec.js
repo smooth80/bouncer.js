@@ -1,34 +1,37 @@
-const express = require("express");
-const Bouncer = require("./bouncer");
+describe("GIVEN bouncer is provided", () => {
+  it("THEN requiring the library does not throw an error", () => {
+    expect(require("./bouncer")).not.toThrow();
+  });
 
-let messages = [];
+  describe("WHEN it is instantiated", () => {
+    it("THEN it should initialize without throwing error", () => {
+      const bouncerJs = require("./bouncer");
 
-// context (this) = bouncer instance
-const plugins = [
-  function chat(socket, handshake) {
-    // Extend socket
-    socket.name = Math.random().toString(36).replace(".", "");
+      expect(bouncerJs).not.toThrow();
+    });
 
-    // Bind events
-    socket.on("sent", (data) => speak(this, socket.name, "sent", data));
-    socket.on("disconnect", (data) => speak(this, socket.name, "left", data));
-    socket.emit("messages", { messages, handshake });
+    it("THEN initialization should return a truthy instance", () => {
+      const bouncerJs = require("./bouncer");
 
-    // Notify others
-    speak(this, socket.name, "joined", handshake);
-  },
-];
+      expect(bouncerJs()).toBeTruthy();
+    });
+  });
 
-const app = express();
-const bouncer = new Bouncer(plugins).createServer(app).connect();
+  describe("WHEN bouncer is initialized in debug mode", () => {
+    it("THEN it should not throw error", () => {
+      const bouncerJs = require("./bouncer");
+      const bouncer = bouncerJs({ debug: true });
 
-if (!bouncer) {
-  process.exit(1);
-}
+      expect(bouncer).toBeTruthy();
+    });
+  });
 
-function speak(bouncer, name, action, data) {
-  messages.push({ name, action, data });
+  describe("WHEN bouncer is initialized on specified port", () => {
+    it("THEN it should not throw error", () => {
+      const bouncerJs = require("./bouncer");
+      const bouncer = bouncerJs({ debug: true, port: 8081 });
 
-  bouncer.io.emit(action, { name, data });
-  bouncer.speak(`${name} ${action} ${JSON.stringify(data)}`);
-}
+      expect(bouncer).toBeTruthy();
+    });
+  });
+});

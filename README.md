@@ -1,11 +1,13 @@
 # Bouncer🚀
 
-A simple multiple room manager for socket.io on express.
+A simple multiple room manager for micro-WebSockets.
 
 ## General use case
 
-- you're only able to spawn one process and you'd like to have an `express` app with whatever framework,
-- at the same time spawn X number of scalable microservices that use `node` and can connect `socket.io` (websockets).
+- You're only able to spawn one process and you'd like to have an app with rooms.
+- At the same time spawn X number of scalable microservices that can connect as websockets\*.
+
+\*) To do so, override default config.onMessage
 
 ## Common use case
 
@@ -26,35 +28,25 @@ yarn add @jacekpietal/bouncer.js --save
 Node.js part:
 
 ```javascript
-// context (this) = bouncer instance
-const plugins = [
-  function chat(socket, handshake) {
-    // Extend socket
-    socket.name = Math.random().toString(36).replace(".", "");
+const bouncerJs = require("@jacekpietal/bouncer.js");
 
-    // Bind events
-    socket.on("sent", (data) => speak(this, socket.name, "sent", data));
-    socket.on("disconnect", (data) => speak(this, socket.name, "left", data));
-    socket.emit("messages", { messages, handshake });
-
-    // Notify others
-    speak(this, socket.name, "joined", handshake);
-  },
-];
-
-const app = express();
-const bouncer = new Bouncer(plugins).createServer(app).connect();
+const bouncer = bouncerJs();
+// "bouncer🚀 started"
+// "bouncer🚀 listens @ 1337"
 ```
 
 Frontend part:
 
 ```javascript
-const io = require("socket.io-client");
-const socket = io();
+const socket = new WebSocket("ws://localhost:1337");
 
-socket.on("connect", function () {
-  socket.emit("handshake:chat");
-});
+socket.onopen = (value) => {
+  socket.send("/join chat");
+};
+
+socket.onmessage = ({ data }) => {
+  console.log(data);
+};
 ```
 
 ## Full Application (Chat) Example:
@@ -62,7 +54,7 @@ socket.on("connect", function () {
 To run below example you can run:
 
 ```bash
-yarn test
+yarn test:chat
 ```
 
 ## Configuration

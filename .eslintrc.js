@@ -1,10 +1,10 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
-  extends: 'standard',
+  extends: "standard",
   plugins: [],
   rules: {},
-  globals: {}
-}
+  globals: {},
+};
