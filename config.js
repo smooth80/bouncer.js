@@ -16,7 +16,11 @@ module.exports.createSocketId = createSocketIdFallback;
  * @param {boolean} isBinary
  */
 function onMessageFallback(ws, message) {
-  ws.send(JSON.stringify(message));
+  try {
+    ws.send(JSON.stringify(message));
+  } catch (err) {
+    console.warn(err);
+  }
 }
 
 function createSocketIdFallback() {

@@ -26,7 +26,7 @@ module.exports = (rooms, config) => {
 
     broadcast(ws.topic, {
       author: ws.id,
-      event: "join",
+      event: config.join,
       data: ws.topic,
     });
 
@@ -53,7 +53,7 @@ module.exports = (rooms, config) => {
 
     broadcast(ws.topic, {
       author: ws.id,
-      event: "leave",
+      event: config.leave,
       data: ws.topic,
     });
 
@@ -89,7 +89,11 @@ module.exports = (rooms, config) => {
 
     if (room) {
       for (let [, sock] of room) {
-        onMessage(sock, message, false);
+        try {
+          onMessage(sock, message, false);
+        } catch (err) {
+          console.error(err);
+        }
       }
     }
   }
