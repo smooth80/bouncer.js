@@ -24,7 +24,11 @@ module.exports = (rooms, config) => {
 
     ws.topic = roomName;
 
-    broadcast(ws, `${config.join}${ws.topic}`);
+    broadcast(ws.topic, {
+      author: ws.id,
+      event: "join",
+      data: ws.topic,
+    });
 
     return true;
   }
@@ -47,7 +51,11 @@ module.exports = (rooms, config) => {
       console.log({ leave: { room }, rooms });
     }
 
-    broadcast(ws, `${config.leave}${ws.topic}`);
+    broadcast(ws.topic, {
+      author: ws.id,
+      event: "leave",
+      data: ws.topic,
+    });
 
     delete ws.topic;
 
@@ -73,17 +81,15 @@ module.exports = (rooms, config) => {
   }
 
   /**
-   * @param {WebSocket} ws
-   * @param {string} message
+   * @param {string} topic
+   * @param {any} message
    */
-  function broadcast(ws, message) {
-    const room = rooms.get(ws.topic);
+  function broadcast(topic, message) {
+    const room = rooms.get(topic);
 
     if (room) {
-      const json = JSON.stringify([ws.id, message]);
-
       for (let [, sock] of room) {
-        onMessage(sock, json, false);
+        onMessage(sock, message, false);
       }
     }
   }

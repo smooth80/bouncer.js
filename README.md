@@ -41,11 +41,12 @@ Frontend part:
 const socket = new WebSocket("ws://localhost:1337");
 
 socket.onopen = (value) => {
-  socket.send("/join chat");
+  socket.send(JSON.stringify({ event: "/join", data: "chat" }));
 };
 
-socket.onmessage = ({ data }) => {
-  console.log(data);
+socket.onmessage = ({ data: string }) => {
+  const { author, event, data } = JSON.parse(string);
+  console.log({ author, event, data });
 };
 ```
 

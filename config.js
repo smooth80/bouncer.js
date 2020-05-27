@@ -2,9 +2,9 @@ module.exports.LOGO = "bouncer🚀";
 
 module.exports.port = process.env.PORT || 1337;
 
-module.exports.join = "/join ";
+module.exports.join = "/join";
 
-module.exports.leave = "/leave ";
+module.exports.leave = "/leave";
 
 module.exports.onMessage = onMessageFallback;
 
@@ -15,8 +15,8 @@ module.exports.createSocketId = createSocketIdFallback;
  * @param {any} message
  * @param {boolean} isBinary
  */
-function onMessageFallback(ws, message, isBinary) {
-  ws.send(message, isBinary);
+function onMessageFallback(ws, message) {
+  ws.send(JSON.stringify(message));
 }
 
 function createSocketIdFallback() {

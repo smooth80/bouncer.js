@@ -34,19 +34,17 @@
         const socket = new WebSocket("ws://localhost:1337");
 
         socket.onopen = (value) => {
-          socket.send("/join chat");
+          socket.send(JSON.stringify({ event: "/join", data: "chat" }));
         };
 
-        socket.onmessage = ({ data }) => {
-          const [user, message] = JSON.parse(event.data);
+        socket.onmessage = ({ data: string }) => {
+          const { author, event, data } = JSON.parse(string);
           const username = document.getElementById("username");
 
-          if (!username.value) {
-            username.innerText = user;
-          }
+          username.innerText = username.innerText || author;
 
           document.getElementById("messages").innerHTML +=
-            "<div>" + user + " &gt; " + message + "</div>\n";
+            "<div>" + author + " &gt; " + event + " &gt; " + data + "</div>\n";
         };
 
         document.getElementById("chat").addEventListener("submit", (event) => {
@@ -54,7 +52,7 @@
 
           const input = document.getElementById("message");
 
-          socket.send(input.value);
+          socket.send(JSON.stringify({ event: "say", data: input.value }));
           input.value = "";
         });
       })();
