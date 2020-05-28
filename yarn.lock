@@ -3424,9 +3424,9 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-uWebSockets.js@uNetworking/uWebSockets.js#v17.6.0:
+"uWebSockets.js@git://github.com/uNetWorking/uWebSockets.js.git#v17.6.0":
   version "17.6.0"
-  resolved "https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/a24c50180536c1edbc112ba63cda7d07df1b4a93"
+  resolved "git://github.com/uNetWorking/uWebSockets.js.git#a24c50180536c1edbc112ba63cda7d07df1b4a93"
 
 union-value@^1.0.0:
   version "1.0.1"

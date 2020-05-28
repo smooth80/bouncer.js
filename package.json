@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "1 bouncer + 1 server = infinite rooms manager",
   "main": "bouncer.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -13,7 +13,7 @@
     "precommmit": "prettier . --write"
   },
   "dependencies": {
-    "uWebSockets.js": "uNetworking/uWebSockets.js#v17.6.0"
+    "uWebSockets.js": "git://github.com/uNetWorking/uWebSockets.js.git#v17.6.0"
   },
   "devDependencies": {
     "http-server": "*",
