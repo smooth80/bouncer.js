@@ -1,4 +1,4 @@
-const uWebSockets = require("uWebSockets.js");
+const uWebSockets = require("uwebsockets.js");
 
 const getUtils = require("./bouncer.utils.js");
 const defaultConfig = require("./config.js");
