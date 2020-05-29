@@ -11,19 +11,28 @@ const bouncerJs = (configuration = {}) => {
   const rooms = new Map();
   const config = Object.assign({}, defaultConfig, configuration);
 
-  const utils = getUtils(rooms, config);
-
-  const ssl = config.ssl || {};
-  const start = config.ssl ? uWebSockets.SSLApp : uWebSockets.App;
-
   if (config.debug) {
     console.log("Start with config", config);
   }
 
+  const ssl = config.ssl || {};
+
+  // utility functions for handling messages
+  const start = config.ssl ? uWebSockets.SSLApp : uWebSockets.App;
+
   const bouncer = start({
     key_file_name: ssl.key,
     cert_file_name: ssl.cert,
-  })
+  });
+
+  // bind utils context (this) to bouncer instance
+  const utils = Object.entries(getUtils(rooms, config)).reduce(
+    (boundUtils, [name, util]) =>
+      Object.assign({ [name]: util.bind(bouncer) }, boundUtils),
+    {}
+  );
+
+  bouncer
     .ws("/*", {
       /**
        * @param {WebSocket} ws
@@ -44,7 +53,7 @@ const bouncerJs = (configuration = {}) => {
         } else if (event === config.join) {
           utils.joinRoom(ws, data);
         } else {
-          utils.broadcast(ws.topic, { id: ws.id, event, data }, bouncer);
+          utils.broadcast(ws.topic, { id: ws.id, event, data });
         }
       },
     })

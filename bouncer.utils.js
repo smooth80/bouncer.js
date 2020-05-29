@@ -1,27 +1,27 @@
 module.exports = (rooms, config) => {
   /**
    * @param {WebSocket} ws
-   * @param {string} roomName
+   * @param {string} topic
    *
    * @returns {boolean}
    */
-  function joinRoom(ws, roomName) {
+  function joinRoom(ws, topic) {
     if (ws.topic) return false;
 
-    const room = rooms.get(roomName) || new Map();
+    const room = rooms.get(topic) || new Map();
 
     ws.id = ws.id || config.createSocketId();
 
     room.set(ws.id, ws);
-    rooms.set(roomName, room);
+    rooms.set(topic, room);
+
+    ws.topic = topic;
 
     if (config.debug) {
-      console.log({ join: { room }, rooms });
+      console.log({ join: { topic: ws.topic, id: ws.id } });
     }
 
-    ws.topic = roomName;
-
-    broadcast(ws.topic, {
+    broadcast.call(this, ws.topic, {
       id: ws.id,
       event: config.join,
       data: ws.topic,
@@ -32,7 +32,6 @@ module.exports = (rooms, config) => {
 
   /**
    * @param {WebSocket} ws
-   * @param {string} roomName
    *
    * @returns {boolean}
    */
@@ -45,10 +44,10 @@ module.exports = (rooms, config) => {
     rooms.set(ws.topic, room);
 
     if (config.debug) {
-      console.log({ leave: { room }, rooms });
+      console.log({ leave: { topic: ws.topic, id: ws.id } });
     }
 
-    broadcast(ws.topic, {
+    broadcast.call(this, ws.topic, {
       id: ws.id,
       event: config.leave,
       data: ws.topic,
@@ -62,9 +61,8 @@ module.exports = (rooms, config) => {
   /**
    * @param {string} topic
    * @param {object} message
-   * @param {uWebSockets.SSLApp | uWebSockets.App} bouncer
    */
-  function broadcast(topic, message, bouncer) {
+  function broadcast(topic, message) {
     const room = rooms.get(topic);
 
     if (room) {
@@ -72,7 +70,7 @@ module.exports = (rooms, config) => {
         try {
           const plugin = config.plugins[topic];
           if (plugin) {
-            plugin(ws, message, bouncer);
+            plugin.call(this, ws, message);
           }
         } catch (err) {
           console.error(err);
