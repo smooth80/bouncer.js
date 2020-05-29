@@ -1,7 +1,4 @@
 module.exports = (rooms, config) => {
-  const createSocketId = config.createSocketId;
-  const onMessage = config.onMessage;
-
   /**
    * @param {WebSocket} ws
    * @param {string} roomName
@@ -13,7 +10,7 @@ module.exports = (rooms, config) => {
 
     const room = rooms.get(roomName) || new Map();
 
-    ws.id = ws.id || createSocketId();
+    ws.id = ws.id || config.createSocketId();
 
     room.set(ws.id, ws);
     rooms.set(roomName, room);
@@ -25,7 +22,7 @@ module.exports = (rooms, config) => {
     ws.topic = roomName;
 
     broadcast(ws.topic, {
-      author: ws.id,
+      id: ws.id,
       event: config.join,
       data: ws.topic,
     });
@@ -52,7 +49,7 @@ module.exports = (rooms, config) => {
     }
 
     broadcast(ws.topic, {
-      author: ws.id,
+      id: ws.id,
       event: config.leave,
       data: ws.topic,
     });
@@ -63,34 +60,19 @@ module.exports = (rooms, config) => {
   }
 
   /**
-   * @param {string} message
-   */
-  function getRoomName(message) {
-    if (message.startsWith(config.join)) {
-      return {
-        leave: true,
-        join: message.slice(config.join.length, message.length),
-      };
-    }
-
-    if (message.startsWith(config.leave)) {
-      return { leave: message.slice(config.leave.length, message.length) };
-    }
-
-    return {};
-  }
-
-  /**
    * @param {string} topic
-   * @param {any} message
+   * @param {object} message
    */
   function broadcast(topic, message) {
     const room = rooms.get(topic);
 
     if (room) {
-      for (let [, sock] of room) {
+      for (let [, ws] of room) {
         try {
-          onMessage(sock, message, false);
+          const plugin = config.plugins[topic];
+          if (plugin) {
+            plugin(ws, message);
+          }
         } catch (err) {
           console.error(err);
         }
@@ -101,7 +83,6 @@ module.exports = (rooms, config) => {
   return {
     joinRoom,
     leaveRoom,
-    getRoomName,
     broadcast,
   };
 };

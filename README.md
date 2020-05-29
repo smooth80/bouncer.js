@@ -30,7 +30,13 @@ Node.js part:
 ```javascript
 const bouncerJs = require("@jacekpietal/bouncer.js");
 
-const bouncer = bouncerJs();
+const bouncer = bouncerJs({
+  plugins: {
+    chat: function (ws, message) {
+      ws.send(JSON.stringify(message));
+    },
+  },
+});
 // "bouncer🚀 started"
 // "bouncer🚀 listens @ 1337"
 ```

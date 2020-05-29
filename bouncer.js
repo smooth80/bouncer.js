@@ -37,14 +37,14 @@ const bouncerJs = (configuration = {}) => {
        */
       message: (ws, message) => {
         const utf8 = Buffer.from(message).toString();
-        const json = getJSON(utf8);
+        const { event, data } = getJSON(utf8);
 
-        if (json.event === config.leave) {
+        if (event === config.leave) {
           utils.leaveRoom(ws);
-        } else if (json.event === config.join) {
-          utils.joinRoom(ws, json.data);
+        } else if (event === config.join) {
+          utils.joinRoom(ws, data);
         } else {
-          utils.broadcast(ws.topic, Object.assign({ author: ws.id }, json));
+          utils.broadcast(ws.topic, { id: ws.id, event, data });
         }
       },
     })

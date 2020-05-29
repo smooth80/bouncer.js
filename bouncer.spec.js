@@ -27,9 +27,27 @@ describe("GIVEN bouncer is provided", () => {
   });
 
   describe("WHEN bouncer is initialized on specified port", () => {
-    it("THEN it should not throw error", () => {
+    it("THEN it should start without error", () => {
       const bouncerJs = require("./bouncer");
-      const bouncer = bouncerJs({ debug: true, port: 8081 });
+      const bouncer = bouncerJs({ debug: true, port: 8080 });
+
+      expect(bouncer).toBeTruthy();
+    });
+  });
+
+  describe("WHEN bouncer is initialized with plugin", () => {
+    it("THEN it should start without error", () => {
+      const bouncerJs = require("./bouncer");
+      const bouncer = bouncerJs({
+        debug: true,
+        plugins: {
+          chat: function (ws, message) {
+            console.log(message);
+
+            ws.send(JSON.stringify(message));
+          },
+        },
+      });
 
       expect(bouncer).toBeTruthy();
     });

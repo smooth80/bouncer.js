@@ -38,13 +38,13 @@
         };
 
         socket.onmessage = ({ data: string }) => {
-          const { author, event, data } = JSON.parse(string);
+          const { id, event, data } = JSON.parse(string);
           const username = document.getElementById("username");
 
-          username.innerText = username.innerText || author;
+          username.innerText = username.innerText || id;
 
           document.getElementById("messages").innerHTML +=
-            "<div>" + author + " &gt; " + event + " &gt; " + data + "</div>\n";
+            "<div>" + id + " &gt; " + event + " &gt; " + data + "</div>\n";
         };
 
         document.getElementById("chat").addEventListener("submit", (event) => {

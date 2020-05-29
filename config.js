@@ -6,16 +6,17 @@ module.exports.join = "/join";
 
 module.exports.leave = "/leave";
 
-module.exports.onMessage = onMessageFallback;
+module.exports.onMessage = echo;
 
-module.exports.createSocketId = createSocketIdFallback;
+module.exports.createSocketId = simpleId;
+
+module.exports.plugins = {};
 
 /**
  * @param {WebSocket} ws
- * @param {any} message
- * @param {boolean} isBinary
+ * @param {object} message
  */
-function onMessageFallback(ws, message) {
+function echo(ws, message) {
   try {
     ws.send(JSON.stringify(message));
   } catch (err) {
@@ -23,6 +24,6 @@ function onMessageFallback(ws, message) {
   }
 }
 
-function createSocketIdFallback() {
+function simpleId() {
   return Math.random().toString(16).replace(".", "");
 }
