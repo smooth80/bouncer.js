@@ -51,8 +51,9 @@ socket.onopen = (value) => {
 };
 
 socket.onmessage = ({ data: string }) => {
-  const { author, event, data } = JSON.parse(string);
-  console.log({ author, event, data });
+  const { id, event, data } = JSON.parse(string);
+
+  console.log({ id, event, data });
 };
 ```
 
