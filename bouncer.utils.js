@@ -62,8 +62,9 @@ module.exports = (rooms, config) => {
   /**
    * @param {string} topic
    * @param {object} message
+   * @param {uWebSockets.SSLApp | uWebSockets.App} bouncer
    */
-  function broadcast(topic, message) {
+  function broadcast(topic, message, bouncer) {
     const room = rooms.get(topic);
 
     if (room) {
@@ -71,7 +72,7 @@ module.exports = (rooms, config) => {
         try {
           const plugin = config.plugins[topic];
           if (plugin) {
-            plugin(ws, message);
+            plugin(ws, message, bouncer);
           }
         } catch (err) {
           console.error(err);

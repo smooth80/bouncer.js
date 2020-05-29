@@ -44,7 +44,7 @@ const bouncerJs = (configuration = {}) => {
         } else if (event === config.join) {
           utils.joinRoom(ws, data);
         } else {
-          utils.broadcast(ws.topic, { id: ws.id, event, data });
+          utils.broadcast(ws.topic, { id: ws.id, event, data }, bouncer);
         }
       },
     })
