@@ -1,6 +1,8 @@
 # bouncer 🤵
 
-[![CircleCI](https://circleci.com/gh/Prozi/bouncer.js.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
+[![npm version](https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js.svg)](https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js)
+
+[![CircleCI](https://circleci.com/gh/Prozi/bouncer.js.svg?style=svg)](https://circleci.com/gh/Prozi/bouncer.js)
 
 A simple multiple room manager for micro-WebSockets.
 
