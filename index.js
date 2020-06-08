@@ -1,7 +1,6 @@
 const uWebSockets = require("uwebsockets.js");
-
-const getUtils = require("./bouncer.utils.js");
 const defaultConfig = require("./config.js");
+const api = require("./api.js");
 
 /**
  * @param {[key: string]: any} configuration
@@ -10,27 +9,20 @@ const defaultConfig = require("./config.js");
 const bouncerJs = (configuration = {}) => {
   const rooms = new Map();
   const config = Object.assign({}, defaultConfig, configuration);
+  const ssl = config.ssl || {};
+
+  // bind utils context (this) to bouncer instance
+  const { join, leave, broadcast, send } = api(rooms, config);
 
   if (config.debug) {
     console.log("Start with config", config);
   }
 
-  const ssl = config.ssl || {};
-
-  // utility functions for handling messages
   const start = config.ssl ? uWebSockets.SSLApp : uWebSockets.App;
-
   const bouncer = start({
     key_file_name: ssl.key,
     cert_file_name: ssl.cert,
   });
-
-  // bind utils context (this) to bouncer instance
-  const utils = Object.entries(getUtils(rooms, config)).reduce(
-    (boundUtils, [name, util]) =>
-      Object.assign({ [name]: util.bind(bouncer) }, boundUtils),
-    {}
-  );
 
   bouncer
     .ws("/*", {
@@ -38,7 +30,7 @@ const bouncerJs = (configuration = {}) => {
        * @param {WebSocket} ws
        */
       close: (ws) => {
-        utils.leaveRoom(ws);
+        leave(ws);
       },
       /**
        * @param {WebSocket} ws
@@ -46,14 +38,16 @@ const bouncerJs = (configuration = {}) => {
        */
       message: (ws, message) => {
         const utf8 = Buffer.from(message).toString();
-        const { event, data } = getJSON(utf8);
+        const { id: optionalId, event, data } = getJSON(utf8);
+        const id = optionalId || ws.id;
+        const run = config.plugins[ws.topic] || broadcast;
 
         if (event === config.leave) {
-          utils.leaveRoom(ws);
+          leave(ws);
         } else if (event === config.join) {
-          utils.joinRoom(ws, data);
+          join(ws, data);
         } else {
-          utils.broadcast(ws.topic, { id: ws.id, event, data });
+          run(ws.topic, { id, event, data });
         }
       },
     })
@@ -63,7 +57,17 @@ const bouncerJs = (configuration = {}) => {
       }
     });
 
-  return Object.assign(bouncer, { utils, rooms, config });
+  return Object.assign({
+    // helper functions
+    join,
+    leave,
+    broadcast,
+    send,
+    // reference to bouncer.rooms object
+    rooms,
+    // reference to resulting config
+    config,
+  });
 };
 
 function getJSON(utf8) {

@@ -5,9 +5,7 @@ A simple multiple room manager for micro-WebSockets.
 ## General use case
 
 - You're only able to spawn one process and you'd like to have an app with rooms.
-- At the same time spawn X number of scalable microservices that can connect as websockets\*.
-
-\*) To do so, override default config.onMessage
+- At the same time spawn X number of scalable microservices that can connect as websockets.
 
 ## Common use case
 
@@ -23,25 +21,36 @@ It's hosted as an `npm` package so installation is of course as simple as:
 yarn add @jacekpietal/bouncer.js --save
 ```
 
-## The application:
+## Chat [full working app] example:
 
-Node.js part:
+### Node.js part:
 
 ```javascript
-const bouncerJs = require("@jacekpietal/bouncer.js");
+const bouncerJs = require("@jacekpietal/bouncer");
 
-const bouncer = bouncerJs({
-  plugins: {
-    chat: function (ws, message) {
-      ws.send(JSON.stringify(message));
-    },
-  },
+const { broadcast } = bouncerJs({
+  debug: true,
+  plugins: { chat },
 });
+
+/**
+ * @param {WebSocket} ws
+ * @param {object} message
+ */
+function chat(ws, { id, event, data }) {
+  switch (event) {
+    case "say":
+      // broadcast to all sockets inside chat topic
+      broadcast("chat", { id, event, data });
+      break;
+  }
+}
+
 // "bouncer🚀 started"
 // "bouncer🚀 listens @ 1337"
 ```
 
-Frontend part:
+### Frontend part:
 
 ```javascript
 const socket = new WebSocket("ws://localhost:1337");
@@ -57,13 +66,13 @@ socket.onmessage = ({ data: string }) => {
 };
 ```
 
-## Full Application (Chat) Example:
-
-To run below example you can run:
+### To above example you can run:
 
 ```bash
 yarn test:chat
 ```
+
+And visit `http://localhost:8080` in your favourite Chrome browser or other.
 
 ## Configuration
 

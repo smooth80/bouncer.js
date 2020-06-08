@@ -5,7 +5,7 @@ module.exports = (rooms, config) => {
    *
    * @returns {boolean}
    */
-  function joinRoom(ws, topic) {
+  function join(ws, topic) {
     if (ws.topic) return false;
 
     const room = rooms.get(topic) || new Map();
@@ -21,7 +21,7 @@ module.exports = (rooms, config) => {
       console.log({ join: { topic: ws.topic, id: ws.id } });
     }
 
-    broadcast.call(this, ws.topic, {
+    broadcast(ws.topic, {
       id: ws.id,
       event: config.join,
       data: ws.topic,
@@ -35,7 +35,7 @@ module.exports = (rooms, config) => {
    *
    * @returns {boolean}
    */
-  function leaveRoom(ws) {
+  function leave(ws) {
     if (!ws.topic) return false;
 
     const room = rooms.get(ws.topic) || new Map();
@@ -47,7 +47,7 @@ module.exports = (rooms, config) => {
       console.log({ leave: { topic: ws.topic, id: ws.id } });
     }
 
-    broadcast.call(this, ws.topic, {
+    broadcast(ws.topic, {
       id: ws.id,
       event: config.leave,
       data: ws.topic,
@@ -62,26 +62,36 @@ module.exports = (rooms, config) => {
    * @param {string} topic
    * @param {object} message
    */
-  function broadcast(topic, message) {
+  function broadcast(topic, { id, event, data }) {
     const room = rooms.get(topic);
 
     if (room) {
-      for (let [, ws] of room) {
+      for (let [roomName, ws] of room) {
         try {
-          const plugin = config.plugins[topic];
-          if (plugin) {
-            plugin.call(this, ws, message);
-          }
+          send(ws, { id, event, data });
         } catch (err) {
-          console.error(err);
+          console.error(roomName, err);
         }
       }
     }
   }
 
+  /**
+   * @param {string} message
+   */
+  function send(ws, message) {
+    switch (typeof message) {
+      case "string":
+        ws.send(message);
+      default:
+        ws.send(JSON.stringify(message, null, 2));
+    }
+  }
+
   return {
-    joinRoom,
-    leaveRoom,
+    send,
+    join,
+    leave,
     broadcast,
   };
 };

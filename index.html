@@ -32,6 +32,7 @@
     <script>
       (function () {
         const socket = new WebSocket("ws://localhost:1337");
+        const username = document.getElementById("username");
 
         socket.onopen = (value) => {
           socket.send(JSON.stringify({ event: "/join", data: "chat" }));
@@ -39,7 +40,6 @@
 
         socket.onmessage = ({ data: string }) => {
           const { id, event, data } = JSON.parse(string);
-          const username = document.getElementById("username");
 
           username.innerText = username.innerText || id;
 
