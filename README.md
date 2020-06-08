@@ -51,9 +51,6 @@ function chat(ws, { id, event, data }) {
       break;
   }
 }
-
-// "bouncer 🤵 started"
-// "bouncer 🤵 listens @ 1337"
 ```
 
 ### Frontend part:
@@ -79,6 +76,41 @@ yarn test:chat
 ```
 
 And visit `http://localhost:8080` in your favourite Chrome browser or other.
+
+---
+
+## API:
+
+Call to `bouncerJs()`
+
+1. Expects the following object as argument:
+
+```
+{
+  config,
+  plugins,
+}
+```
+
+2. Returns following api:
+
+```javascript
+{
+  // Helper functions
+  join,
+  leave,
+  broadcast,
+  send,
+  // Reference to bouncer object
+  bouncer,
+  // Reference to rooms Map
+  rooms,
+  // Reference to resulting config JSON
+  config,
+}
+```
+
+---
 
 ## Configuration
 
@@ -111,8 +143,8 @@ see [socket-starter.shim.js](https://github.com/Prozi/bouncer.js/blob/master/soc
 | Snapshots:   | 0 total             |
 | Time:        | 1.005 s             |
 
-
 To test run:
+
 - `yarn test` (automatic)
 - `yarn test:chat` (manual)
 

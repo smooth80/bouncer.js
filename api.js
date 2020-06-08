@@ -21,12 +21,6 @@ module.exports = (rooms, config) => {
       console.log({ join: { topic: ws.topic, id: ws.id } });
     }
 
-    broadcast(ws.topic, {
-      id: ws.id,
-      event: config.join,
-      data: ws.topic,
-    });
-
     return true;
   }
 
@@ -47,22 +41,16 @@ module.exports = (rooms, config) => {
       console.log({ leave: { topic: ws.topic, id: ws.id } });
     }
 
-    broadcast(ws.topic, {
-      id: ws.id,
-      event: config.leave,
-      data: ws.topic,
-    });
-
     delete ws.topic;
 
     return true;
   }
 
   /**
-   * @param {string} topic
+   * @param {object} containingTopic
    * @param {object} message
    */
-  function broadcast(topic, { id, event, data }) {
+  function broadcast({ topic }, { id, event, data }) {
     const room = rooms.get(topic);
 
     if (room) {

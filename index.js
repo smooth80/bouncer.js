@@ -39,17 +39,23 @@ const bouncerJs = (configuration = {}) => {
       message: (ws, message) => {
         const utf8 = Buffer.from(message).toString();
         const { id: optionalId, event, data } = getJSON(utf8);
-        const run = config.plugins[ws.topic] || broadcast;
 
-        if (event === config.leave) {
-          leave(ws);
-        }
-
+        // Optional join: sets ws.topic
         if (event === config.join) {
           join(ws, data);
         }
 
-        run(ws.topic, { id: optionalId || ws.id, event, data });
+        // Optional call plugin if exists
+        const run = ws.topic && config.plugins[ws.topic];
+
+        if (typeof run !== "undefined") {
+          run(ws, { id: optionalId || ws.id, event, data });
+        }
+
+        // Optional leave: removes ws.topic
+        if (event === config.leave) {
+          leave(ws);
+        }
       },
     })
     .listen(config.port, (listenSocket) => {
@@ -58,19 +64,19 @@ const bouncerJs = (configuration = {}) => {
       }
     });
 
-  return Object.assign({
-    // helper functions
+  return {
+    // Helper functions
     join,
     leave,
     broadcast,
     send,
-    // reference to bouncer object
+    // Reference to bouncer object
     bouncer,
-    // reference to rooms Map
+    // Reference to rooms Map
     rooms,
-    // reference to resulting config JSON
+    // Reference to resulting config JSON
     config,
-  });
+  };
 };
 
 function getJSON(utf8) {
