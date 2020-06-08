@@ -111,7 +111,10 @@ see [socket-starter.shim.js](https://github.com/Prozi/bouncer.js/blob/master/soc
 | Snapshots:   | 0 total             |
 | Time:        | 1.005 s             |
 
-to test run `yarn test` (automatic) or `yarn test:chat` (manual)
+
+To test run:
+- `yarn test` (automatic)
+- `yarn test:chat` (manual)
 
 ---
 
