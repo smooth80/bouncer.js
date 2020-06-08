@@ -58,6 +58,8 @@ describe("GIVEN bouncer is provided", () => {
         expect(id).toBeTruthy();
         expect(event).toBe(config.join);
 
+        socket.close();
+
         done();
       };
 

@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.3.9",
+  "version": "2.3.10",
   "description": "1 bouncer 🤵 + 1 server = infinite micro-websockets rooms",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -10,12 +10,20 @@
   "scripts": {
     "test": "jest",
     "test:chat": "node chat.js &>/dev/null; http-server .",
-    "precommmit": "prettier . --write"
+    "lint": "yarn eslint . --fix",
+    "prettier": "prettier . --write",
+    "precommit": "yarn lint; yarn prettier"
   },
   "dependencies": {
     "uwebsockets.js": "git://github.com/uNetWorking/uWebSockets.js.git#v17.6.0"
   },
   "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.21.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "http-server": "*",
     "jest": "^26.0.1",
     "prettier": "^2.0.5",

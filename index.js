@@ -31,11 +31,11 @@ const bouncerJs = (configuration = {}) => {
        */
       close: (ws) => {
         try {
-          run(ws, config.leave, ws.topic);
+          const { id, topic } = ws;
+
           leave(ws);
 
-          ws.closed = true;
-          ws.close();
+          broadcast({ topic }, { id, event: config.leave, data: topic });
         } catch (err) {
           console.error(err.stack || err);
         }

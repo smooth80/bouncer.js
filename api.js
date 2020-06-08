@@ -10,7 +10,7 @@ module.exports = (rooms, config) => {
     const action = ws.topic && config.plugins[ws.topic];
 
     if (typeof action !== "undefined") {
-      action(ws, { id: ws.id || id, event, data });
+      action(ws, { id: ws.id, event, data });
 
       return true;
     }
@@ -37,7 +37,7 @@ module.exports = (rooms, config) => {
     }
 
     if (config.debug) {
-      console.log({ join: { topic: ws.topic, id: ws.id } });
+      console.log({ [config.join]: { topic: ws.topic, id: ws.id } });
     }
 
     return true;
@@ -62,10 +62,12 @@ module.exports = (rooms, config) => {
     }
 
     if (config.debug) {
-      console.log({ leave: { topic: ws.topic, id: ws.id } });
+      console.log({ [config.leave]: { topic: ws.topic, id: ws.id } });
     }
 
     delete ws.topic;
+
+    return true;
   }
 
   /**
@@ -73,10 +75,8 @@ module.exports = (rooms, config) => {
    * @param {object} message
    */
   function broadcast({ topic }, { id, event, data }) {
-    const room = rooms.get(topic);
-
-    if (room) {
-      for (let [roomName, ws] of room) {
+    if (rooms.has(topic)) {
+      for (const [roomName, ws] of rooms.get(topic)) {
         try {
           send(ws, { id, event, data });
         } catch (err) {

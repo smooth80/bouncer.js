@@ -147,7 +147,7 @@ see [socket-starter.shim.js](https://github.com/Prozi/bouncer.js/blob/master/soc
 | Test Suites: | 2 passed, 2 total   |
 | Tests:       | 10 passed, 10 total |
 | Snapshots:   | 0 total             |
-| Time:        | 1.005 s             |
+| Time:        | 1.15 s              |
 
 To test run:
 
