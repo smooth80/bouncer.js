@@ -43,7 +43,7 @@ describe("GIVEN bouncer is provided", () => {
         port: 8081,
         plugins: {
           chat: function (ws, message) {
-            send(message);
+            send(ws, message);
           },
         },
       });
