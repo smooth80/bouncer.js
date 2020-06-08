@@ -1,6 +1,6 @@
 const bouncerJs = require(".");
 
-const { broadcast } = bouncerJs({
+const { config, broadcast } = bouncerJs({
   debug: true,
   plugins: { chat },
 });
@@ -11,9 +11,15 @@ const { broadcast } = bouncerJs({
  */
 function chat(ws, { id, event, data }) {
   switch (event) {
+    case config.join:
+    case config.leave:
     case "say":
-      // broadcast to all sockets inside chat topic
-      broadcast("chat", { id, event, data });
+      // Broadcast to all sockets inside chat topic
+      broadcast({ topic: "chat" }, { id, event, data });
+
+      if (config.debug) {
+        console.log({ id, event, data });
+      }
       break;
   }
 }

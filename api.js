@@ -1,8 +1,26 @@
 module.exports = (rooms, config) => {
   /**
    * @param {WebSocket} ws
+   * @param {string} event
+   * @param {object} data
+   * @returns {boolean}
+   */
+  function run(ws, event, data) {
+    // Optional call plugin if exists
+    const action = ws.topic && config.plugins[ws.topic];
+
+    if (typeof action !== "undefined") {
+      action(ws, { id: ws.id || id, event, data });
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * @param {WebSocket} ws
    * @param {string} topic
-   *
    * @returns {boolean}
    */
   function join(ws, topic) {
@@ -11,11 +29,12 @@ module.exports = (rooms, config) => {
     const room = rooms.get(topic) || new Map();
 
     ws.id = ws.id || config.createSocketId();
+    ws.topic = topic;
 
     room.set(ws.id, ws);
-    rooms.set(topic, room);
-
-    ws.topic = topic;
+    if (!rooms.get(ws.topic)) {
+      rooms.set(ws.topic, room);
+    }
 
     if (config.debug) {
       console.log({ join: { topic: ws.topic, id: ws.id } });
@@ -26,7 +45,6 @@ module.exports = (rooms, config) => {
 
   /**
    * @param {WebSocket} ws
-   *
    * @returns {boolean}
    */
   function leave(ws) {
@@ -35,15 +53,19 @@ module.exports = (rooms, config) => {
     const room = rooms.get(ws.topic) || new Map();
 
     room.delete(ws.id);
-    rooms.set(ws.topic, room);
+    if (!rooms.get(ws.topic)) {
+      rooms.set(ws.topic, room);
+    }
+
+    if (room.size === 0) {
+      rooms.delete(ws.topic);
+    }
 
     if (config.debug) {
       console.log({ leave: { topic: ws.topic, id: ws.id } });
     }
 
     delete ws.topic;
-
-    return true;
   }
 
   /**
@@ -77,6 +99,7 @@ module.exports = (rooms, config) => {
   }
 
   return {
+    run,
     send,
     join,
     leave,

@@ -8,11 +8,11 @@ const api = require("./api.js");
  */
 const bouncerJs = (configuration = {}) => {
   const rooms = new Map();
-  const config = Object.assign({}, defaultConfig, configuration);
+  const config = Object.assign(defaultConfig, configuration);
   const ssl = config.ssl || {};
 
   // bind utils context (this) to bouncer instance
-  const { join, leave, broadcast, send } = api(rooms, config);
+  const { join, leave, broadcast, send, run } = api(rooms, config);
 
   if (config.debug) {
     console.log("Start with config", config);
@@ -30,31 +30,38 @@ const bouncerJs = (configuration = {}) => {
        * @param {WebSocket} ws
        */
       close: (ws) => {
-        leave(ws);
+        try {
+          run(ws, config.leave, ws.topic);
+          leave(ws);
+
+          ws.closed = true;
+          ws.close();
+        } catch (err) {
+          console.error(err.stack || err);
+        }
       },
       /**
        * @param {WebSocket} ws
        * @param {ArrayBuffer} message
        */
       message: (ws, message) => {
-        const utf8 = Buffer.from(message).toString();
-        const { id: optionalId, event, data } = getJSON(utf8);
+        try {
+          const utf8 = Buffer.from(message).toString();
+          const { event, data } = JSON.parse(utf8);
 
-        // Optional join: sets ws.topic
-        if (event === config.join) {
-          join(ws, data);
-        }
+          // Optional join: sets ws.topic
+          if (event === config.join) {
+            join(ws, data);
+          }
 
-        // Optional call plugin if exists
-        const run = ws.topic && config.plugins[ws.topic];
+          run(ws, event, data);
 
-        if (typeof run !== "undefined") {
-          run(ws, { id: optionalId || ws.id, event, data });
-        }
-
-        // Optional leave: removes ws.topic
-        if (event === config.leave) {
-          leave(ws);
+          // Optional leave: removes ws.topic
+          if (event === config.leave) {
+            leave(ws);
+          }
+        } catch (err) {
+          console.error(err.stack || err);
         }
       },
     })
@@ -78,15 +85,5 @@ const bouncerJs = (configuration = {}) => {
     config,
   };
 };
-
-function getJSON(utf8) {
-  try {
-    return JSON.parse(utf8);
-  } catch (err) {
-    console.warn({ utf8 });
-
-    return {};
-  }
-}
 
 module.exports = bouncerJs;
