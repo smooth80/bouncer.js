@@ -93,6 +93,7 @@ module.exports = (rooms, config) => {
     switch (typeof message) {
       case "string":
         ws.send(message);
+        break;
       default:
         ws.send(JSON.stringify(message, null, 2));
     }
