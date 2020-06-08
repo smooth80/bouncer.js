@@ -39,7 +39,6 @@ const bouncerJs = (configuration = {}) => {
       message: (ws, message) => {
         const utf8 = Buffer.from(message).toString();
         const { id: optionalId, event, data } = getJSON(utf8);
-        const id = optionalId || ws.id;
         const run = config.plugins[ws.topic] || broadcast;
 
         if (event === config.leave) {
@@ -50,7 +49,7 @@ const bouncerJs = (configuration = {}) => {
           join(ws, data);
         }
 
-        run(ws.topic, { id, event, data });
+        run(ws.topic, { id: optionalId || ws.id, event, data });
       },
     })
     .listen(config.port, (listenSocket) => {
