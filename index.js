@@ -44,11 +44,13 @@ const bouncerJs = (configuration = {}) => {
 
         if (event === config.leave) {
           leave(ws);
-        } else if (event === config.join) {
-          join(ws, data);
-        } else {
-          run(ws.topic, { id, event, data });
         }
+
+        if (event === config.join) {
+          join(ws, data);
+        }
+
+        run(ws.topic, { id, event, data });
       },
     })
     .listen(config.port, (listenSocket) => {
