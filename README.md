@@ -91,9 +91,9 @@ Call to `bouncerJs()`
 
 1. Expects the following object as argument:
 
-```
+```javascript
 {
-  config,
+  ...config,
   plugins,
 }
 ```
