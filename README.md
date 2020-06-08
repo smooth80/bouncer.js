@@ -1,4 +1,6 @@
-# Bouncer🚀
+# bouncer 🤵
+
+[![CircleCI](https://circleci.com/gh/Prozi/bouncer.js.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
 
 A simple multiple room manager for micro-WebSockets.
 
@@ -28,7 +30,7 @@ yarn add @jacekpietal/bouncer.js --save
 ### Node.js part:
 
 ```javascript
-const bouncerJs = require("@jacekpietal/bouncer");
+const bouncerJs = require("@jacekpietal/bouncer.js");
 
 const { broadcast } = bouncerJs({
   debug: true,
@@ -48,8 +50,8 @@ function chat(ws, { id, event, data }) {
   }
 }
 
-// "bouncer🚀 started"
-// "bouncer🚀 listens @ 1337"
+// "bouncer 🤵 started"
+// "bouncer 🤵 listens @ 1337"
 ```
 
 ### Frontend part:
@@ -95,6 +97,19 @@ see [index.html](https://github.com/Prozi/bouncer.js/blob/master/index.html)
 For the few users to have somewhat of a bridge between the [socket-starter](https://github.com/Prozi/socket-starter) library that this library deprecates:
 
 see [socket-starter.shim.js](https://github.com/Prozi/bouncer.js/blob/master/socket-starter.shim.js)
+
+---
+
+## Tests
+
+| Name         | Count               |
+| ------------ | ------------------- |
+| Test Suites: | 2 passed, 2 total   |
+| Tests:       | 10 passed, 10 total |
+| Snapshots:   | 0 total             |
+| Time:        | 1.005 s             |
+
+to test run `yarn test` (automatic) or `yarn test:chat` (manual)
 
 ---
 
