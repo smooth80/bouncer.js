@@ -21,6 +21,8 @@ It's hosted as an `npm` package so installation is of course as simple as:
 yarn add @jacekpietal/bouncer.js --save
 ```
 
+---
+
 ## Chat [full working app] example:
 
 ### Node.js part:
@@ -66,7 +68,7 @@ socket.onmessage = ({ data: string }) => {
 };
 ```
 
-### To above example you can run:
+### To run above example you can run:
 
 ```bash
 yarn test:chat
@@ -76,13 +78,23 @@ And visit `http://localhost:8080` in your favourite Chrome browser or other.
 
 ## Configuration
 
+Configuration is default, being extended with provided by user.
+
 see [config.js](https://github.com/Prozi/bouncer.js/blob/master/config.js)
 
 ---
 
-To see complimentary RAW frontend of above chat (`index.html` - working)
+To see complimentary RAW frontend of above chat:
 
 see [index.html](https://github.com/Prozi/bouncer.js/blob/master/index.html)
+
+---
+
+## Backwards compatibility
+
+For the few users to have somewhat of a bridge between the [socket-starter](https://github.com/Prozi/socket-starter) library that this library deprecates:
+
+see [socket-starter.shim.js](https://github.com/Prozi/bouncer.js/blob/master/socket-starter.shim.js)
 
 ---
 
