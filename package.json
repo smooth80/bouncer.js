@@ -20,5 +20,15 @@
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "ws": "^7.3.0"
-  }
+  },
+  "keywords": [
+    "bouncer",
+    "rooms",
+    "frontend",
+    "websockets",
+    "chat",
+    "uwebsockets",
+    "prozi",
+    "jacekpietal"
+  ]
 }
