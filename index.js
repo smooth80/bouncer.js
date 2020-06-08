@@ -63,9 +63,11 @@ const bouncerJs = (configuration = {}) => {
     leave,
     broadcast,
     send,
-    // reference to bouncer.rooms object
+    // reference to bouncer object
+    bouncer,
+    // reference to rooms Map
     rooms,
-    // reference to resulting config
+    // reference to resulting config JSON
     config,
   });
 };

@@ -29,7 +29,7 @@ describe("GIVEN bouncer is provided", () => {
   describe("WHEN bouncer is initialized on specified port", () => {
     it("THEN it should start without error", () => {
       const bouncerJs = require(".");
-      const bouncer = bouncerJs({ port: 8080 });
+      const { bouncer } = bouncerJs({ port: 8080 });
 
       expect(bouncer).toBeTruthy();
     });
