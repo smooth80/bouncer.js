@@ -9,13 +9,14 @@
   "private": false,
   "scripts": {
     "test": "jest",
-    "test:chat": "node chat.js &>/dev/null; http-server .",
+    "test:chat": "node ./demo/chat.js &>/dev/null; http-server ./demo",
     "lint": "yarn eslint . --fix",
     "prettier": "prettier . --write",
     "docsify": "docsify init ./docs && docsify serve docs &>/dev/null",
     "jsdoc": "./node_modules/.bin/jsdoc index.js api.js *.md -d ./docs/api",
     "docs": "yarn docsify && yarn jsdoc",
-    "precommit": "yarn lint && yarn prettier && yarn docs"
+    "precommit": "yarn lint && yarn prettier",
+    "gh-pages": "yarn docs"
   },
   "dependencies": {
     "uwebsockets.js": "git://github.com/uNetWorking/uWebSockets.js.git#v17.6.0"
