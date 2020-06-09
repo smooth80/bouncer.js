@@ -1,14 +1,35 @@
 const uWebSockets = require("uwebsockets.js");
-const defaultConfig = require("./config.js");
+const baseConfig = require("./config.js");
 const api = require("./api.js");
 
 /**
- * @param {[key: string]: any} configuration
- * @returns {uWebSockets.SSLApp | uWebSockets.App}
+ * @typedef {Object} BouncerConfig
+ * @property {string} LOGO :)
+ * @property {number} port 1337
+ * @property {string} join /join
+ * @property {string} leave /leave
+ * @property {function} createSocketId () => string
+ * @property {Object} plugins { function chat() {} }
  */
-const bouncerJs = (configuration = {}) => {
+
+/**
+ * @typedef {Object} BouncerAPI
+ * @property {function} join (ws, topic)
+ * @property {function} leave (ws)
+ * @property {function} broadcast ({ topic }, { id, event, data })
+ * @property {function} send (ws, { id, event, data })
+ * @property {uWebSockets.SSLApp|uWebSockets.App} bouncer
+ * @property {Map} rooms
+ * @property {Object} config
+ */
+
+/**
+ * @param {BouncerConfig} userConfig
+ * @returns {BouncerAPI}
+ */
+const bouncerJs = (userConfig = {}) => {
   const rooms = new Map();
-  const config = Object.assign(defaultConfig, configuration);
+  const config = Object.assign(baseConfig, userConfig);
   const ssl = config.ssl || {};
 
   // bind utils context (this) to bouncer instance
@@ -27,6 +48,7 @@ const bouncerJs = (configuration = {}) => {
   bouncer
     .ws("/*", {
       /**
+       * @description Leave room and broadcast leave event
        * @param {WebSocket} ws
        */
       close: (ws) => {
@@ -41,6 +63,7 @@ const bouncerJs = (configuration = {}) => {
         }
       },
       /**
+       * @description Join + run plugins + leave
        * @param {WebSocket} ws
        * @param {ArrayBuffer} message
        */
@@ -65,6 +88,9 @@ const bouncerJs = (configuration = {}) => {
         }
       },
     })
+    /**
+     * @param {number} config.port
+     */
     .listen(config.port, (listenSocket) => {
       if (listenSocket) {
         console.log(`${config.LOGO} Listens on port ${config.port}`);
@@ -77,7 +103,7 @@ const bouncerJs = (configuration = {}) => {
     leave,
     broadcast,
     send,
-    // Reference to bouncer object
+    // Reference to bouncer Object
     bouncer,
     // Reference to rooms Map
     rooms,

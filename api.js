@@ -1,8 +1,8 @@
-module.exports = (rooms, config) => {
+const api = (rooms, config) => {
   /**
    * @param {WebSocket} ws
    * @param {string} event
-   * @param {object} data
+   * @param {Object} data
    * @returns {boolean}
    */
   function run(ws, event, data) {
@@ -71,8 +71,8 @@ module.exports = (rooms, config) => {
   }
 
   /**
-   * @param {object} containingTopic
-   * @param {object} message
+   * @param {Object} containingTopic
+   * @param {Object} message
    */
   function broadcast({ topic }, { id, event, data }) {
     if (rooms.has(topic)) {
@@ -107,3 +107,5 @@ module.exports = (rooms, config) => {
     broadcast,
   };
 };
+
+module.exports = api;

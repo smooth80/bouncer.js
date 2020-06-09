@@ -1,10 +1,15 @@
 module.exports = {
+  parserOptions: {
+    ecmaVersion: 2020,
+  },
+  env: { es6: true },
   root: true,
   env: {
     node: true,
   },
-  extends: "standard",
-  plugins: [],
-  rules: {},
-  globals: {},
+  extends: ["prettier"],
+  plugins: ["prettier"],
+  rules: {
+    "prettier/prettier": ["error"],
+  },
 };

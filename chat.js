@@ -7,7 +7,7 @@ const { config, broadcast } = bouncerJs({
 
 /**
  * @param {WebSocket} ws
- * @param {object} message
+ * @param {Object} message
  */
 function chat(ws, { id, event, data }) {
   switch (event) {

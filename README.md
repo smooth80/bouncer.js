@@ -41,7 +41,7 @@ const { config, broadcast } = bouncerJs({
 
 /**
  * @param {WebSocket} ws
- * @param {object} message
+ * @param {Object} message
  */
 function chat(ws, { id, event, data }) {
   switch (event) {
@@ -89,7 +89,7 @@ And visit `http://localhost:8080` in your favourite Chrome browser or other.
 
 Call to `bouncerJs()`
 
-1. Expects the following object as argument:
+1. Expects the following Object as argument:
 
 ```javascript
 {
@@ -98,7 +98,7 @@ Call to `bouncerJs()`
 }
 ```
 
-2. Returns following api:
+2. Returns following API:
 
 ```javascript
 {
@@ -107,7 +107,7 @@ Call to `bouncerJs()`
   leave,
   broadcast,
   send,
-  // Reference to bouncer object
+  // Reference to bouncer Object
   bouncer,
   // Reference to rooms Map
   rooms,
@@ -115,6 +115,10 @@ Call to `bouncerJs()`
   config,
 }
 ```
+
+### Read more (with types and parameters)
+
+In [The API Documentation](api/index.js.html)
 
 ---
 

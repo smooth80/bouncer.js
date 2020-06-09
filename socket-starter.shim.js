@@ -1,4 +1,4 @@
-const bouncerJs = require(".");
+const bouncerJs = require("./index");
 
 async function start(params) {
   return new Promise((resolve) => {
@@ -18,14 +18,14 @@ async function start(params) {
           ...mappedPlugins,
         };
       },
-      {}
+      {},
     );
 
     resolve(
       bouncerJs({
         config,
         plugins,
-      })
+      }),
     );
   });
 }

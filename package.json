@@ -1,7 +1,7 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.3.12",
-  "description": "1 bouncer 🤵 + 1 server = infinite micro-websockets rooms",
+  "version": "2.3.14",
+  "description": "1 bouncer 🤵 + 1 server = infinite micro-websockets rooms manager",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
   "author": "Jacek Pietal <prozi85@gmail.com>",
@@ -12,20 +12,23 @@
     "test:chat": "node chat.js &>/dev/null; http-server .",
     "lint": "yarn eslint . --fix",
     "prettier": "prettier . --write",
-    "precommit": "yarn lint; yarn prettier"
+    "docsify": "docsify init ./docs && docsify serve docs &>/dev/null",
+    "jsdoc": "./node_modules/.bin/jsdoc index.js api.js *.md -d ./docs/api",
+    "docs": "yarn docsify && yarn jsdoc",
+    "precommit": "yarn lint && yarn prettier && yarn docs"
   },
   "dependencies": {
     "uwebsockets.js": "git://github.com/uNetWorking/uWebSockets.js.git#v17.6.0"
   },
   "devDependencies": {
+    "docsify-cli": "^4.4.1",
+    "esdoc": "^1.1.0",
     "eslint": "^7.2.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.21.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
     "http-server": "*",
     "jest": "^26.0.1",
+    "jsdoc": "^3.6.4",
     "prettier": "^2.0.5",
     "ws": "^7.3.0"
   },
@@ -36,7 +39,13 @@
     "websockets",
     "chat",
     "uwebsockets",
+    "socket-io",
+    "socket-io-client",
+    "socket-io-server",
+    "backend",
+    "nodejs",
     "prozi",
-    "jacekpietal"
+    "jacekpietal",
+    "socket-starter"
   ]
 }
