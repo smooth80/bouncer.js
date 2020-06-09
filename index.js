@@ -4,6 +4,7 @@ const api = require("./api.js");
 
 /**
  * @typedef {Object} BouncerConfig
+ * @property {boolean} debug false
  * @property {string} LOGO :)
  * @property {number} port 1337
  * @property {string} join /join
@@ -20,7 +21,7 @@ const api = require("./api.js");
  * @property {function} send (ws, { id, event, data })
  * @property {uWebSockets.SSLApp|uWebSockets.App} bouncer
  * @property {Map} rooms
- * @property {Object} config
+ * @property {BouncerConfig} config
  */
 
 /**

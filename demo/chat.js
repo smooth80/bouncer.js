@@ -1,4 +1,4 @@
-const bouncerJs = require(".");
+const bouncerJs = require("../index.js");
 
 const { config, broadcast } = bouncerJs({
   debug: true,
