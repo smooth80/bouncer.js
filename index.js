@@ -4,6 +4,7 @@ const api = require("./api.js");
 
 /**
  * @typedef {Object} BouncerConfig
+ * @desc This is what the export eats
  * @property {boolean} debug false
  * @property {string} LOGO :)
  * @property {number} port 1337
@@ -15,6 +16,7 @@ const api = require("./api.js");
 
 /**
  * @typedef {Object} BouncerAPI
+ * @desc This is what the export returns (api)
  * @property {function} join (ws, topic)
  * @property {function} leave (ws)
  * @property {function} broadcast ({ topic }, { id, event, data })
@@ -25,6 +27,7 @@ const api = require("./api.js");
  */
 
 /**
+ * @desc this is the default export
  * @param {BouncerConfig} userConfig
  * @returns {BouncerAPI}
  */
@@ -49,7 +52,7 @@ const bouncerJs = (userConfig = {}) => {
   bouncer
     .ws("/*", {
       /**
-       * @description Leave room and broadcast leave event
+       * @desc this is Leave room and broadcast leave event
        * @param {WebSocket} ws
        */
       close: (ws) => {
@@ -64,7 +67,7 @@ const bouncerJs = (userConfig = {}) => {
         }
       },
       /**
-       * @description Join + run plugins + leave
+       * @desc this is Join + run plugins + leave
        * @param {WebSocket} ws
        * @param {ArrayBuffer} message
        */

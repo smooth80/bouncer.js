@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "1 bouncer 🤵 + 1 server = infinite micro-websockets rooms manager",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -12,9 +12,9 @@
     "test:chat": "node ./demo/chat.js &>/dev/null; http-server ./demo",
     "lint": "yarn eslint . --fix",
     "prettier": "prettier . --write",
-    "docsify": "docsify init ./docs && docsify serve docs &>/dev/null",
-    "jsdoc": "./node_modules/.bin/jsdoc index.js api.js *.md -d ./docs/api",
-    "docs": "yarn docsify && yarn jsdoc",
+    "jsdoc": "./node_modules/.bin/jsdoc index.js README.md -d ./docs",
+    "docs": "yarn jsdoc",
+    "docs:dev": "killall http-server; yarn docs && http-server docs",
     "precommit": "yarn lint && yarn prettier",
     "gh-pages": "yarn docs"
   },
@@ -22,7 +22,6 @@
     "uwebsockets.js": "git://github.com/uNetWorking/uWebSockets.js.git#v17.6.0"
   },
   "devDependencies": {
-    "docsify-cli": "^4.4.1",
     "esdoc": "^1.1.0",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",

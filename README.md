@@ -118,7 +118,7 @@ Call to `bouncerJs()`
 
 ### Read more (with types and parameters)
 
-In [The API Documentation](api/index.js.html)
+In [The API Documentation](index.js.html)
 
 ---
 
