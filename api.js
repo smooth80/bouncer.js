@@ -1,4 +1,9 @@
-const api = (rooms, config) => {
+/**
+ * A module for bouncerJs API helper functions.
+ * @module BouncerAPI
+ */
+
+function api(rooms, config) {
   /**
    * @param {WebSocket} ws
    * @param {string} event
@@ -106,6 +111,6 @@ const api = (rooms, config) => {
     leave,
     broadcast,
   };
-};
+}
 
 module.exports = api;

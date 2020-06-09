@@ -1,3 +1,8 @@
+/**
+ * A module for bouncerJs micro-WebSocket starter.
+ * @module BouncerJS
+ */
+
 const uWebSockets = require("uwebsockets.js");
 const baseConfig = require("./config.js");
 const api = require("./api.js");

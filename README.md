@@ -27,6 +27,43 @@ yarn add @jacekpietal/bouncer.js --save
 
 ---
 
+## API:
+
+Call to `bouncerJs()`
+
+1. Expects the following Object as argument:
+
+```javascript
+{
+  ...config,
+  plugins,
+}
+```
+
+2. Returns following API:
+
+```javascript
+{
+  // Helper functions
+  join,
+  leave,
+  broadcast,
+  send,
+  // Reference to bouncer Object
+  bouncer,
+  // Reference to rooms Map
+  rooms,
+  // Reference to resulting config JSON
+  config,
+}
+```
+
+### Read more (with types and parameters)
+
+In [The API Documentation](https://prozi.github.io/bouncer.js/docs/index.html)
+
+---
+
 ## Chat [full working app] example:
 
 ### Node.js part:
@@ -82,43 +119,6 @@ yarn test:chat
 ```
 
 And visit `http://localhost:8080` in your favourite Chrome browser or other.
-
----
-
-## API:
-
-Call to `bouncerJs()`
-
-1. Expects the following Object as argument:
-
-```javascript
-{
-  ...config,
-  plugins,
-}
-```
-
-2. Returns following API:
-
-```javascript
-{
-  // Helper functions
-  join,
-  leave,
-  broadcast,
-  send,
-  // Reference to bouncer Object
-  bouncer,
-  // Reference to rooms Map
-  rooms,
-  // Reference to resulting config JSON
-  config,
-}
-```
-
-### Read more (with types and parameters)
-
-In [The API Documentation](index.js.html)
 
 ---
 
