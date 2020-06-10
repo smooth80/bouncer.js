@@ -1,17 +1,36 @@
 version: 2.1
-orbs:
-  node: circleci/node@1.1.6
+
+executors:
+  my:
+    docker:
+      - image: circleci/buildpack-deps:bionic
+
 jobs:
-  build-and-test:
-    executor:
-      name: node/default
+  build:
+    executor: my
     steps:
+      # apt prepare
+      - run: sudo apt install -y nodejs npm node-gyp nodejs-dev libssl1.0-dev clang gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+      # verify
+      - run: clang --version
+      - run: clang++ --version
+      - run: aarch64-linux-gnu-gcc --version
+      - run: aarch64-linux-gnu-g++ --version
+      - run: node --version
+      - run: npm --version
+      # make cache folder (if missing) and take ownership
+      - run: sudo mkdir -p /usr/local/n
+      - run: sudo chown -R $(whoami) /usr/local/n
+      # take ownership of node install destination folders
+      - run: sudo chown -R $(whoami) /usr/local/bin /usr/local/lib /usr/local/include /usr/local/share
+      # upgrade node + add yarn
+      - run: npm i -g n
+      - run: n 12
+      - run: npm i -g yarn
+      - run: node --version
+      - run: npm --version
+      - run: yarn --version
+      # test
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test
-workflows:
-  build-and-test:
-    jobs:
-      - build-and-test
+      - run: yarn
+      - run: yarn test
