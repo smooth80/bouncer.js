@@ -4534,10 +4534,10 @@ uuid@^7.0.3:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
   integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
 
-uwebsockets.js@^18.1.7:
-  version "18.1.7"
-  resolved "https://registry.yarnpkg.com/uwebsockets.js/-/uwebsockets.js-18.1.7.tgz#f6bcb8a75834f01baa04a1d4d28d60c3b69c8348"
-  integrity sha512-xnveHU6hqOchA6RoBv30JQ0x5wzpZabHfzPIxsofiVMGnXD6SdvbjjtLH+nYfdds+KoBcSQZepc6gBaDNEXDyw==
+uwebsockets.js@latest:
+  version "18.1.8"
+  resolved "https://registry.yarnpkg.com/uwebsockets.js/-/uwebsockets.js-18.1.8.tgz#6ab607ba069dab102b8649cd05976ef22ca34cf6"
+  integrity sha512-YZ0KQ9+ihiWy5N4HWHIVhYnpuo0KirawPV9hwQh5OkaMH11mJ/CSwvDyne+XygEnnvDELx0IL9wiJvsnBSKRLA==
 
 v8-compile-cache@^2.0.3:
   version "2.1.1"
