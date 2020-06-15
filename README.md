@@ -60,7 +60,7 @@ Call to `bouncerJs()`
 
 ### Read more (with types and parameters)
 
-In [The API Documentation](https://prozi.github.io/bouncer.js/docs/index.html)
+In [The API Documentation](https://prozi.github.io/bouncer.js/docs/module-BouncerJS.html)
 
 ---
 
