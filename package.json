@@ -12,7 +12,7 @@
     "test:chat": "node ./demo/chat.js &>/dev/null; http-server ./demo",
     "lint": "yarn eslint . --fix",
     "prettier": "prettier . --write",
-    "docs": "yarn docma",
+    "docs": "mkdir -p ./node_modules/docma/lib/web/assets/ && echo '' > ./node_modules/docma/lib/web/assets/docma.less && yarn docma",
     "docs:dev": "killall http-server; yarn docs && http-server docs",
     "precommit": "yarn lint && yarn prettier",
     "gh-pages": "yarn docs"
