@@ -12,8 +12,7 @@
     "test:chat": "node ./demo/chat.js &>/dev/null; http-server ./demo",
     "lint": "yarn eslint . --fix",
     "prettier": "prettier . --write",
-    "jsdoc": "./node_modules/.bin/jsdoc index.js README.md -d ./docs",
-    "docs": "yarn jsdoc",
+    "docs": "yarn docma",
     "docs:dev": "killall http-server; yarn docs && http-server docs",
     "precommit": "yarn lint && yarn prettier",
     "gh-pages": "yarn docs"
@@ -22,13 +21,12 @@
     "uwebsockets.js": "latest"
   },
   "devDependencies": {
-    "esdoc": "^1.1.0",
+    "docma": "^3.2.2",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "http-server": "*",
+    "http-server": "^0.12.3",
     "jest": "^26.0.1",
-    "jsdoc": "^3.6.4",
     "prettier": "^2.0.5",
     "ws": "^7.3.0"
   },
