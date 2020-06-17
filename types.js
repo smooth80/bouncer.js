@@ -22,11 +22,11 @@
 /**
  * @typedef {BouncerCallResult} Object 
  * @desc This is what the export returns (api)
- * @property {function} join (ws, topic)
- * @property {function} leave (ws)
- * @property {function({ topic }, BouncerMessageObject)} broadcast 
- * @property {function(ws, BouncerMessageObject)} send
- * @property {uWebSockets.SSLApp|uWebSockets.App} bouncer
+ * @property {function} join (WebSocket, string) => boolean
+ * @property {function} leave (WebSocket) => boolean
+ * @property {function} ({ topic: string }, BouncerMessageObject) => void 
+ * @property {function} send (WebSocket, BouncerMessageObject) => void
+ * @property {uWebSockets.App|uWebSockets.SSLApp} router
  * @property {BouncerConfig} config
  * @property {Map} rooms
  */

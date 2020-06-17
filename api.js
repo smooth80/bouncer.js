@@ -1,8 +1,13 @@
 /**
  * A module for bouncerJs API helper functions.
- * @module BouncerAPIFactory
+ * @module BouncerJSAPIFactory
  */
 
+/**
+ * @param {Map} rooms
+ * @param {BouncerConfig} config
+ * @returns {BouncerCallResult}
+ */
 function api(rooms, config) {
   /**
    * @param {WebSocket} ws
@@ -104,6 +109,9 @@ function api(rooms, config) {
     }
   }
 
+  /**
+   * @returns {Partial<BouncerCallResult>}
+   */
   return {
     run,
     send,

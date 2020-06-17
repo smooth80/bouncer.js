@@ -12,8 +12,11 @@
     "test:chat": "node ./demo/chat.js",
     "lint": "yarn eslint . --fix",
     "prettier": "prettier . --write",
-    "docs": "mkdir -p ./node_modules/docma/lib/web/assets/ && echo '' > ./node_modules/docma/lib/web/assets/docma.less && yarn docma",
-    "docs:dev": "killall http-server; yarn docs && http-server docs",
+    "docs:prepare:folder": "mkdir -p \"./node_modules/docma/lib/web/assets\" || echo ok",
+    "docs:prepare:file": "touch ./node_modules/docma/lib/web/assets/docma.less",
+    "docs:prepare": "yarn docs:prepare:folder && yarn docs:prepare:file",
+    "docs": "yarn docs:prepare && yarn docma",
+    "docs:dev": "yarn docs && yarn http-server docs",
     "precommit": "yarn lint && yarn prettier",
     "gh-pages": "yarn docs"
   },
