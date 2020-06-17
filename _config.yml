@@ -1,2 +1,2 @@
 theme: jekyll-theme-cayman
-include: ["./docs"]
+include: ["./README.md", "./types.js", "./api.js", "./index.js"]

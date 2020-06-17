@@ -1,10 +1,4 @@
 {
-    "src": [
-        "./README.md",
-        "./types.js",
-        "./api.js",
-        "./index.js"
-    ],
-    "dest": "./docs"
+  "src": ["./README.md", "./types.js", "./api.js", "./index.js"],
+  "dest": "./docs"
 }
-
