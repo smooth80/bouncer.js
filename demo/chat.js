@@ -1,25 +1,29 @@
 const bouncerJs = require("../index.js");
+const fs = require("fs");
+const path = require("path");
 
-const { config, broadcast } = bouncerJs({
+const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
+  encoding: "utf8",
+});
+
+const { router, config, broadcast } = bouncerJs({
   debug: true,
   plugins: { chat },
 });
 
+router.get("/*", (res, req) => {
+  res.end(indexFile);
+});
+
 /**
  * @param {WebSocket} ws
- * @param {Object} message
+ * @param {BouncerMessageObject} message
  */
 function chat(ws, { id, event, data }) {
-  switch (event) {
-    case config.join:
-    case config.leave:
-    case "say":
-      // Broadcast to all sockets inside chat topic
-      broadcast({ topic: "chat" }, { id, event, data });
+  // Broadcast to all sockets inside chat topic
+  broadcast({ topic: "chat" }, { id, event, data });
 
-      if (config.debug) {
-        console.log({ id, event, data });
-      }
-      break;
+  if (config.debug) {
+    console.log({ id, event, data });
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.5.5",
+  "version": "2.6.0",
   "description": "1 bouncer 🤵 + 1 server = infinite micro-websockets rooms manager",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -9,7 +9,7 @@
   "private": false,
   "scripts": {
     "test": "jest",
-    "test:chat": "node ./demo/chat.js &>/dev/null; http-server ./demo",
+    "test:chat": "node ./demo/chat.js",
     "lint": "yarn eslint . --fix",
     "prettier": "prettier . --write",
     "docs": "mkdir -p ./node_modules/docma/lib/web/assets/ && echo '' > ./node_modules/docma/lib/web/assets/docma.less && yarn docma",

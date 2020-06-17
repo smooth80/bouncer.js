@@ -29,33 +29,37 @@
     <p><strong>Messages:</strong></p>
     <div id="messages"></div>
 
-    <script>
-      (function () {
-        const socket = new WebSocket("ws://localhost:1337");
-        const username = document.getElementById("username");
+    <script type="text/javascript">
+      const socket = new WebSocket("ws://localhost:1337");
+      const refs = ["username", "messages", "message", "chat"].reduce(
+        (obj, id) => ({
+          ...obj,
+          [id]: document.querySelector(`#${id}`),
+        }),
+        {},
+      );
 
-        socket.onopen = (value) => {
-          socket.send(JSON.stringify({ event: "/join", data: "chat" }));
-        };
+      socket.onopen = (value) => {
+        socket.send(JSON.stringify({ event: "/join", data: "chat" }));
+      };
 
-        socket.onmessage = ({ data: string }) => {
-          const { id, event, data } = JSON.parse(string);
+      socket.onmessage = ({ data: string }) => {
+        const { id, event, data } = JSON.parse(string);
 
-          username.innerText = username.innerText || id;
+        if (!refs.username.innerText) {
+          refs.username.innerText = id;
+        }
 
-          document.getElementById("messages").innerHTML +=
-            "<div>" + id + " &gt; " + event + " &gt; " + data + "</div>\n";
-        };
+        refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
+      };
 
-        document.getElementById("chat").addEventListener("submit", (event) => {
-          event.preventDefault();
+      refs.chat.addEventListener("submit", (event) => {
+        event.preventDefault();
 
-          const input = document.getElementById("message");
-
-          socket.send(JSON.stringify({ event: "say", data: input.value }));
-          input.value = "";
-        });
-      })();
+        const { value: data } = refs.message;
+        refs.message.value = "";
+        socket.send(JSON.stringify({ event: "say", data }));
+      });
     </script>
   </body>
 </html>

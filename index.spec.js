@@ -20,18 +20,18 @@ describe("GIVEN bouncer is provided", () => {
   describe("WHEN bouncer is initialized in debug mode", () => {
     it("THEN it should not throw error", () => {
       const bouncerJs = require(".");
-      const bouncer = bouncerJs({ debug: true });
+      const api = bouncerJs({ debug: true });
 
-      expect(bouncer).toBeTruthy();
+      expect(api).toBeTruthy();
     });
   });
 
   describe("WHEN bouncer is initialized on specified port", () => {
     it("THEN it should start without error", () => {
       const bouncerJs = require(".");
-      const { bouncer } = bouncerJs({ port: 8080 });
+      const { router } = bouncerJs({ port: 8080 });
 
-      expect(bouncer).toBeTruthy();
+      expect(router).toBeTruthy();
     });
   });
 

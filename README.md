@@ -49,8 +49,8 @@ Call to `bouncerJs()`
   leave,
   broadcast,
   send,
-  // Reference to bouncer Object
-  bouncer,
+  // Reference to uWebSockets[SSLApp|App]
+  router,
   // Reference to rooms Map
   rooms,
   // Reference to resulting config JSON
@@ -69,11 +69,21 @@ In [The API Documentation](https://prozi.github.io/bouncer.js/docs/module-Bounce
 ### Node.js part:
 
 ```javascript
-const bouncerJs = require("@jacekpietal/bouncer.js");
+const bouncerJs = require("../index.js");
+const fs = require("fs");
+const path = require("path");
 
-const { config, broadcast } = bouncerJs({
+const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
+  encoding: "utf8",
+});
+
+const { router, config, broadcast } = bouncerJs({
   debug: true,
   plugins: { chat },
+});
+
+router.get("/*", (res, req) => {
+  res.end(indexFile);
 });
 
 /**
@@ -81,17 +91,11 @@ const { config, broadcast } = bouncerJs({
  * @param {Object} message
  */
 function chat(ws, { id, event, data }) {
-  switch (event) {
-    case config.join:
-    case config.leave:
-    case "say":
-      // Broadcast to all sockets inside chat topic
-      broadcast({ topic: "chat" }, { id, event, data });
+  // Broadcast to all sockets inside chat topic
+  broadcast({ topic: "chat" }, { id, event, data });
 
-      if (config.debug) {
-        console.log({ id, event, data });
-      }
-      break;
+  if (config.debug) {
+    console.log({ id, event, data });
   }
 }
 ```
@@ -100,6 +104,13 @@ function chat(ws, { id, event, data }) {
 
 ```javascript
 const socket = new WebSocket("ws://localhost:1337");
+const refs = ["username", "messages", "message", "chat"].reduce(
+  (obj, id) => ({
+    ...obj,
+    [id]: document.querySelector(`#${id}`),
+  }),
+  {},
+);
 
 socket.onopen = (value) => {
   socket.send(JSON.stringify({ event: "/join", data: "chat" }));
@@ -108,8 +119,20 @@ socket.onopen = (value) => {
 socket.onmessage = ({ data: string }) => {
   const { id, event, data } = JSON.parse(string);
 
-  console.log({ id, event, data });
+  if (!refs.username.innerText) {
+    refs.username.innerText = id;
+  }
+
+  refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
 };
+
+refs.chat.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const { value: data } = refs.message;
+  refs.message.value = "";
+  socket.send(JSON.stringify({ event: "say", data }));
+});
 ```
 
 ### To run above example you can run:

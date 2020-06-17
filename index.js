@@ -8,33 +8,9 @@ const baseConfig = require("./config.js");
 const api = require("./api.js");
 
 /**
- * @typedef {Object} BouncerConfig
- * @desc This is what the export eats
- * @property {boolean} debug false
- * @property {string} LOGO :)
- * @property {number} port 1337
- * @property {string} join /join
- * @property {string} leave /leave
- * @property {function} createSocketId () => string
- * @property {Object} plugins { function chat() {} }
- */
-
-/**
- * @typedef {Object} BouncerAPI
- * @desc This is what the export returns (api)
- * @property {function} join (ws, topic)
- * @property {function} leave (ws)
- * @property {function} broadcast ({ topic }, { id, event, data })
- * @property {function} send (ws, { id, event, data })
- * @property {uWebSockets.SSLApp|uWebSockets.App} bouncer
- * @property {Map} rooms
- * @property {BouncerConfig} config
- */
-
-/**
  * @desc this is the default export
  * @param {BouncerConfig} userConfig
- * @returns {BouncerAPI}
+ * @returns {BouncerCallResult}
  */
 const bouncerJs = (userConfig = {}) => {
   const rooms = new Map();
@@ -113,7 +89,7 @@ const bouncerJs = (userConfig = {}) => {
     broadcast,
     send,
     // Reference to bouncer Object
-    bouncer,
+    router: bouncer,
     // Reference to rooms Map
     rooms,
     // Reference to resulting config JSON

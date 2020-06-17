@@ -1,6 +1,6 @@
 /**
  * A module for bouncerJs API helper functions.
- * @module BouncerAPI
+ * @module BouncerAPIFactory
  */
 
 function api(rooms, config) {
@@ -76,8 +76,8 @@ function api(rooms, config) {
   }
 
   /**
-   * @param {Object} containingTopic
-   * @param {Object} message
+   * @param {{ topic }} containingTopic
+   * @param {BouncerMessageObject} message
    */
   function broadcast({ topic }, { id, event, data }) {
     if (rooms.has(topic)) {
@@ -92,7 +92,7 @@ function api(rooms, config) {
   }
 
   /**
-   * @param {string} message
+   * @param {string|object} message
    */
   function send(ws, message) {
     switch (typeof message) {
