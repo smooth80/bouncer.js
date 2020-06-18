@@ -1,0 +1,177 @@
+
+<html><head></head><body><h1 id="bouncer---">bouncer 🤵</h1>
+<hr />
+<p><a href="https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js"><img src="https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js.svg" alt="npm version" style="max-width: 100%;"></a> 
+<a href="https://circleci.com/gh/Prozi/bouncer.js"><img src="https://circleci.com/gh/Prozi/bouncer.js.svg?style=shield" alt="CircleCI" style="max-width: 100%;"></a></p>
+<p>A simple multiple room manager for micro-WebSockets.</p>
+<h2 id="general-use-case">General use case</h2>
+<hr />
+<ul>
+<li>You're only able to spawn one process and you'd like to have an app with rooms.</li>
+<li>At the same time spawn X number of scalable microservices that can connect as websockets.</li>
+</ul>
+<h2 id="common-use-case">Common use case</h2>
+<hr />
+<ul>
+<li>Single process app server like a free <code>heroku.com</code> account or similar</li>
+<li>Building a chat</li>
+<li>Making node + javascript games</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<hr />
+<p>It's hosted as an <code>npm</code> package so installation is of course as simple as:</p>
+<pre><code class="bash">yarn add @jacekpietal/bouncer.js --save</code></pre>
+<hr>
+<h2 id="api-">API:</h2>
+<hr />
+<p>Call to <code>bouncerJs()</code></p>
+<ol>
+<li>Expects the following Object as argument:</li>
+</ol>
+<pre><code class="javascript">{
+  ...config,
+  plugins,
+}</code></pre>
+<ol start="2">
+<li>Returns following API:</li>
+</ol>
+<pre><code class="javascript">{
+  // Helper functions
+  join,
+  leave,
+  broadcast,
+  send,
+  // Reference to uWebSockets[SSLApp|App]
+  router,
+  // Reference to rooms Map
+  rooms,
+  // Reference to resulting config JSON
+  config,
+}</code></pre>
+<h3 id="read-more--with-types-and-parameters-">Read more (with types and parameters)</h3>
+<p>In <a href="https://prozi.github.io/bouncer.js/docs/module-BouncerJS.html">The API Documentation</a></p>
+<hr>
+<h2 id="chat--full-working-app--example-">Chat [full working app] example:</h2>
+<hr />
+<h3 id="nodejs-part-">Node.js part:</h3>
+<pre><code class="javascript">const bouncerJs = require("../index.js");
+const fs = require("fs");
+const path = require("path");
+
+const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
+  encoding: "utf8",
+});
+
+const { router, config, broadcast } = bouncerJs({
+  debug: true,
+  plugins: { chat },
+});
+
+router.get("/*", (res, req) =&gt; {
+  res.end(indexFile);
+});
+
+/**
+ * @param {WebSocket} ws
+ * @param {Object} message
+ */
+function chat(ws, { id, event, data }) {
+  // Broadcast to all sockets inside chat topic
+  broadcast({ topic: "chat" }, { id, event, data });
+
+  if (config.debug) {
+    console.log({ id, event, data });
+  }
+}</code></pre>
+<h3 id="frontend-part-">Frontend part:</h3>
+<pre><code class="javascript">const socket = new WebSocket("ws://localhost:1337");
+const refs = ["username", "messages", "message", "chat"].reduce(
+  (obj, id) =&gt; ({
+    ...obj,
+    [id]: document.querySelector(`#${id}`),
+  }),
+  {},
+);
+
+socket.onopen = (value) =&gt; {
+  socket.send(JSON.stringify({ event: "/join", data: "chat" }));
+};
+
+socket.onmessage = ({ data: string }) =&gt; {
+  const { id, event, data } = JSON.parse(string);
+
+  if (!refs.username.innerText) {
+    refs.username.innerText = id;
+  }
+
+  refs.messages.innerHTML += `&lt;div&gt;${id} &amp;gt; ${event} &amp;gt; ${data}&lt;/div&gt;\n`;
+};
+
+refs.chat.addEventListener("submit", (event) =&gt; {
+  event.preventDefault();
+
+  const { value: data } = refs.message;
+  refs.message.value = "";
+  socket.send(JSON.stringify({ event: "say", data }));
+});</code></pre>
+<h3 id="to-run-above-example-you-can-run-">To run above example you can run:</h3>
+<pre><code class="bash">yarn test:chat</code></pre>
+<p>And visit <code>http://localhost:8080</code> in your favourite Chrome browser or other.</p>
+<hr>
+<h2 id="configuration">Configuration</h2>
+<hr />
+<p>Configuration is default, being extended with provided by user.</p>
+<p>see <a href="https://github.com/Prozi/bouncer.js/blob/master/config.js">config.js</a></p>
+<hr>
+<p>To see complimentary RAW frontend of above chat:</p>
+<p>see <a href="https://github.com/Prozi/bouncer.js/blob/master/index.html">index.html</a></p>
+<hr>
+<h2 id="backwards-compatibility">Backwards compatibility</h2>
+<hr />
+<p>For the few users to have somewhat of a bridge between the <a href="https://github.com/Prozi/socket-starter">socket-starter</a> library that this library deprecates:</p>
+<p>see <a href="https://github.com/Prozi/bouncer.js/blob/master/socket-starter.shim.js">socket-starter.shim.js</a></p>
+<hr>
+<h2 id="tests">Tests</h2>
+<hr />
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Test Suites:</td>
+<td>2 passed, 2 total</td>
+</tr>
+<tr>
+<td>Tests:</td>
+<td>10 passed, 10 total</td>
+</tr>
+<tr>
+<td>Snapshots:</td>
+<td>0 total</td>
+</tr>
+<tr>
+<td>Time:</td>
+<td>1.15 s</td>
+</tr>
+</tbody></table>
+<p>To test run:</p>
+<ul>
+<li><code>yarn test</code> (automatic)</li>
+<li><code>yarn test:chat</code> (manual)</li>
+</ul>
+<hr>
+<h2 id="license">License</h2>
+<hr />
+<p>MIT</p>
+<ul>
+<li>Do what you want, fork, etc.</li>
+<li>I am not responsible for any problem this free application causes :P</li>
+</ul>
+<p>have fun, please open any issues, etc.</p>
+<ul>
+<li>Jacek Pietal</li>
+</ul>
+</body></html>

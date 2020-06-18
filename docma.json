@@ -1,4 +1,132 @@
 {
-  "src": ["./README.md", "./types.js", "./api.js", "./index.js"],
-  "dest": "./docs"
+  "debug": 13,
+  "jsdoc": {
+    "encoding": "utf8",
+    "recurse": false,
+    "pedantic": false,
+    "access": null,
+    "package": null,
+    "module": true,
+    "undocumented": false,
+    "undescribed": false,
+    "ignored": false,
+    "hierarchy": true,
+    "sort": "alphabetic",
+    "relativePath": null,
+    "filter": null,
+    "allowUnknownTags": true,
+    "plugins": []
+  },
+  "markdown": {
+    "gfm": true,
+    "tables": true,
+    "breaks": false,
+    "pedantic": false,
+    "sanitize": false,
+    "smartLists": true,
+    "smartypants": false,
+    "xhtml": false,
+    "tasks": true,
+    "emoji": true
+  },
+  "app": {
+    "title": "🤵 Bouncer.js Documentation",
+    "meta": null,
+    "base": ".",
+    "entrance": "content:home",
+    "routing": "path",
+    "server": "github"
+  },
+  "template": {
+    "options": {
+      "title": {
+        "label": null
+      },
+      "logo": {
+        "dark": null,
+        "light": null
+      },
+      "sidebar": {
+        "enabled": true,
+        "outline": "flat", // "flat" | "tree"
+        "collapsed": false,
+        "toolbar": true,
+        "itemsFolded": false,
+        "itemsOverflow": "shrink", // "crop" | "shrink"
+        "badges": true, // true | false | <string-value>
+        "search": true,
+        "animations": true
+      },
+      "symbols": {
+        "autoLink": true, // "internal" | "external" | true (both)
+        "params": "list", // "list" | "table"
+        "enums": "list", // "list" | "table"
+        "props": "list", // "list" | "table"
+        "meta": false
+      },
+      "contentView": {
+        "bookmarks": "h1,h2,h3",
+        "faLibs": "all" // "all" or "solid"|"regular"|"brands" or comma-separated or null
+      },
+      "navbar": {
+        "enabled": true,
+        "fixed": true,
+        "dark": false,
+        "animations": true,
+        "menu": [
+          {
+            "label": "🤵 Bouncer.js",
+            "href": "home"
+          },
+          {
+            "label": "🤵 Bouncer.js API",
+            "href": "api"
+          },
+          {
+            "iconClass": "fas fa-cloud-download-alt",
+            "label": "Download",
+            "items": [
+              {
+                "label": "<code>yarn add bouncer.js -D</code>",
+                "href": "https://www.npmjs.com/package/@jacekpietal/bouncer.js",
+                "target": "_blank"
+              },
+              {
+                "label": "Bouncer.js Releases",
+                "href": "https://github.com/Prozi/bouncer.js/releases",
+                "target": "_blank"
+              },
+              {
+                "separator": true
+              },
+              {
+                "label": "License",
+                "href": "license"
+              }
+            ]
+          },
+          {
+            "iconClass": "fab fa-lg fa-github",
+            "label": "",
+            "href": "https://github.com/Prozi/bouncer.js",
+            "target": "_blank"
+          }
+        ]
+      }
+    }
+  },
+  "src": [
+    "./types.js",
+    "./index.js",
+    "./api.js",
+    {
+      "license": "./LICENSE:md"
+    },
+    {
+      "home": "./README.md"
+    }
+  ],
+  "assets": {},
+  "dest": "./docs",
+  "clean": true
 }
