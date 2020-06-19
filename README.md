@@ -1,22 +1,26 @@
-# bouncer 🤵
+<h1 align="center">bouncer 🤵</h1>
 
-[![npm version](https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js.svg)](https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js)
-[![CircleCI](https://circleci.com/gh/Prozi/bouncer.js.svg?style=shield)](https://circleci.com/gh/Prozi/bouncer.js)
+<p align="center">
+  <a href="https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js"><img src="https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js.svg" alt="shield" /></a>
+  <a href="https://circleci.com/gh/Prozi/bouncer.js"><img src="https://circleci.com/gh/Prozi/bouncer.js.svg?style=shield" alt="shield" /></a>
+</p>
 
-A simple multiple room manager for micro-WebSockets.
+<p align="center">
+  A simple multiple room manager for micro-WebSockets.
+</p>
 
-## General use case
+## 1. General use case
 
 - You're only able to spawn one process and you'd like to have an app with rooms.
 - At the same time spawn X number of scalable microservices that can connect as websockets.
 
-## Common use case
+## 1.1 Common use case
 
 - Single process app server like a free `heroku.com` account or similar
 - Building a chat
 - Making node + javascript games
 
-## Installation
+## 2. Installation
 
 It's hosted as an `npm` package so installation is of course as simple as:
 
@@ -26,7 +30,7 @@ yarn add @jacekpietal/bouncer.js --save
 
 ---
 
-## API:
+## 3. API:
 
 Call to `bouncerJs()`
 
@@ -57,15 +61,15 @@ Call to `bouncerJs()`
 }
 ```
 
-### Read more (with types and parameters)
+### 3.1 Read more (with types and parameters)
 
 In [The API Documentation](https://prozi.github.io/bouncer.js/api/)
 
 ---
 
-## Chat [full working app] example:
+## 4. Chat [full working app] example:
 
-### Node.js part:
+### 4.1 Node.js part:
 
 ```javascript
 const bouncerJs = require("../index.js");
@@ -99,7 +103,7 @@ function chat(ws, { id, event, data }) {
 }
 ```
 
-### Frontend part:
+### 4.2. Frontend part:
 
 ```javascript
 const socket = new WebSocket("ws://localhost:1337");
@@ -134,7 +138,7 @@ refs.chat.addEventListener("submit", (event) => {
 });
 ```
 
-### To run above example you can run:
+### 4.3. To run above example you can run:
 
 ```bash
 yarn test:chat
@@ -144,7 +148,7 @@ And visit `http://localhost:8080` in your favourite Chrome browser or other.
 
 ---
 
-## Configuration
+## 5. Configuration
 
 Configuration is default, being extended with provided by user.
 
@@ -158,7 +162,7 @@ see [index.html](https://github.com/Prozi/bouncer.js/blob/master/index.html)
 
 ---
 
-## Backwards compatibility
+## 6. Backwards compatibility
 
 For the few users to have somewhat of a bridge between the [socket-starter](https://github.com/Prozi/socket-starter) library that this library deprecates:
 
@@ -166,7 +170,7 @@ see [socket-starter.shim.js](https://github.com/Prozi/bouncer.js/blob/master/soc
 
 ---
 
-## Tests
+## 7. Tests
 
 | Name         | Count               |
 | ------------ | ------------------- |
@@ -182,7 +186,7 @@ To test run:
 
 ---
 
-## License
+## 7. License
 
 MIT
 
