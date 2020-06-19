@@ -53,24 +53,27 @@ describe("GIVEN bouncer is provided", () => {
       const WebSocket = require("ws");
       const socket = new WebSocket("ws://localhost:8090");
 
-      socket.id = createSocketId();
-
       socket.on("open", () => {
-        socket.emit(config.join, {
-          id: socket.id,
-          event: config.join,
-          data: "chat",
-        });
+        socket.send(
+          JSON.stringify({
+            event: config.join,
+            data: "chat",
+          }),
+        );
       });
 
-      socket.on(config.join, ({ id, event, data }) => {
-        expect(id).toBeTruthy();
-        expect(event).toBe(config.join);
-        expect(data).toBe("chat");
+      socket.on("message", (message) => {
+        const { id, event, data: json } = JSON.parse(message);
+        const { data } = json;
 
-        done();
+        if (event === "joined") {
+          expect(id).toBeTruthy();
+          expect(data).toBe("chat");
 
-        socket.close();
+          socket.close();
+
+          done();
+        }
       });
     });
   });
