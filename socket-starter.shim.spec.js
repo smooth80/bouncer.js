@@ -1,3 +1,5 @@
+const { createSocketId } = require("./config");
+
 describe("GIVEN bouncer is provided", () => {
   const socketStarterFormat = {
     config: {
@@ -5,54 +7,90 @@ describe("GIVEN bouncer is provided", () => {
     },
     plugins: {
       chat: {
-        handshake: (...args) => console.log("handshake works", args),
-        initilize: (...args) => console.log("initialize works", args),
+        handshake: () => null,
+        initialize: () => null,
       },
     },
   };
 
   it("THEN requiring the library-shim does not throw an error", () => {
-    const starter = require("./socket-starter.shim");
+    const shim = require("./socket-starter.shim");
 
-    expect(starter).not.toThrow();
+    expect(shim).not.toThrow();
   });
 
-  it("THEN running the library-shim does not throw an error", (done) => {
-    const starter = require("./socket-starter.shim");
+  it("THEN running the library-shim does not throw an error", () => {
+    const shim = require("./socket-starter.shim");
 
-    starter()
-      .then((api) => {
-        expect(api).toBeTruthy();
+    const api = shim();
 
-        done();
-      })
-      .catch(done);
+    expect(api).toBeTruthy();
   });
 
-  it("THEN running the library-shim with config in old format does not throw an error", (done) => {
-    const starter = require("./socket-starter.shim");
+  describe("AND old style format plugin is provided", () => {
+    it("THEN running the library-shim does not throw an error", () => {
+      const shim = require("./socket-starter.shim");
 
-    starter(socketStarterFormat)
-      .then((api) => {
-        expect(api).toBeTruthy();
+      const { router } = shim({
+        plugins: {
+          chat: require("socket-starter/example/chat"),
+        },
+      });
+
+      expect(router).toBeTruthy();
+    });
+
+    it("THEN it should start without error", (done) => {
+      const shim = require("./socket-starter.shim");
+
+      const { config } = shim({
+        port: 8090,
+        plugins: {
+          chat: require("socket-starter/example/chat"),
+        },
+      });
+
+      const WebSocket = require("ws");
+      const socket = new WebSocket("ws://localhost:8090");
+
+      socket.id = createSocketId();
+
+      socket.on("open", () => {
+        socket.emit(config.join, {
+          id: socket.id,
+          event: config.join,
+          data: "chat",
+        });
+      });
+
+      socket.on(config.join, ({ id, event, data }) => {
+        expect(id).toBeTruthy();
+        expect(event).toBe(config.join);
+        expect(data).toBe("chat");
 
         done();
-      })
-      .catch(done);
+
+        socket.close();
+      });
+    });
   });
 
-  it("THEN running the library-shim with config in old format does not throw an error", (done) => {
-    const starter = require("./socket-starter.shim");
+  it("THEN running the library-shim with config in old format does not throw an error", () => {
+    const shim = require("./socket-starter.shim");
 
-    starter(Object.assign(socketStarterFormat, { port: 8100 }))
-      .then((api) => {
-        expect(api.join).toBeTruthy();
-        expect(api.leave).toBeTruthy();
-        expect(api.broadcast).toBeTruthy();
-        expect(api.send).toBeTruthy();
+    const api = shim(socketStarterFormat);
 
-        done();
-      })
-      .catch(done);
+    expect(api).toBeTruthy();
+  });
+
+  it("THEN running the library-shim with config in old format on port: 8100 does not throw an error", () => {
+    const shim = require("./socket-starter.shim");
+
+    const api = shim(Object.assign(socketStarterFormat, { port: 8100 }));
+
+    expect(api.join).toBeTruthy();
+    expect(api.leave).toBeTruthy();
+    expect(api.broadcast).toBeTruthy();
+    expect(api.send).toBeTruthy();
   });
 });

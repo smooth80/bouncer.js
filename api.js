@@ -100,13 +100,9 @@ function api(rooms, config) {
    * @param {string|object} message
    */
   function send(ws, message) {
-    switch (typeof message) {
-      case "string":
-        ws.send(message);
-        break;
-      default:
-        ws.send(JSON.stringify(message, null, 2));
-    }
+    ws.send(
+      typeof message === "string" ? message : JSON.stringify(message, null, 2),
+    );
   }
 
   /**

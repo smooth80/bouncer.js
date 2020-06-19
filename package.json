@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.6.3",
+  "version": "2.6.4",
   "description": "1 bouncer 🤵 + 1 server = infinite micro-websockets rooms manager",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -20,13 +20,16 @@
     "uwebsockets.js": "^18.1.19"
   },
   "devDependencies": {
-    "@jacekpietal/docma": "^3.2.9",
+    "@jacekpietal/docma": "^3.2.11",
     "eslint": "^7.3.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "http-server": "^0.12.3",
     "jest": "^26.0.1",
+    "jest-dot-reporter": "^1.0.14",
     "prettier": "^2.0.5",
+    "sillyname": "^0.1.0",
+    "socket-starter": "^1.22.7",
     "ws": "^7.3.0"
   },
   "keywords": [

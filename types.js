@@ -1,5 +1,5 @@
 /**
- * @typedef {BouncerMessageObject} Object
+ * @typedef {BouncerMessageObject} BouncerMessageObject
  * @desc each message in backend will have this as a parameter
  * @property {string} id origin socket id
  * @property {string} event event name
@@ -7,7 +7,7 @@
  */
 
 /**
- * @typedef {BouncerConfig} Object
+ * @typedef {BouncerConfig} BouncerConfig
  * @desc This is what the export eats
  * @property {boolean} debug false
  * @property {string} LOGO :)
@@ -20,7 +20,7 @@
  */
 
 /**
- * @typedef {BouncerCallResult} Object
+ * @typedef {BouncerCallResult} BouncerCallResult
  * @desc This is what the export returns (api)
  * @property {function} join (WebSocket, string) => boolean
  * @property {function} leave (WebSocket) => boolean
