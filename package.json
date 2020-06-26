@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.6.4",
+  "version": "2.6.5",
   "description": "1 bouncer 🤵 + 1 server = infinite micro-websockets rooms manager",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -10,22 +10,21 @@
   "scripts": {
     "test": "jest",
     "test:chat": "node ./demo/chat.js",
+    "docs": "yarn docma",
     "lint": "yarn eslint . --fix",
     "prettier": "prettier . --write",
-    "docs": "yarn docma",
-    "precommit": "yarn lint && yarn prettier",
-    "start": "yarn docs && yarn docma serve $PWD/docs"
+    "precommit": "yarn docs && yarn lint && yarn prettier"
   },
   "dependencies": {
-    "uwebsockets.js": "^18.1.19"
+    "uwebsockets.js": "^18.3.0"
   },
   "devDependencies": {
     "@jacekpietal/docma": "^3.2.11",
-    "eslint": "^7.3.0",
+    "eslint": "^7.3.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "http-server": "^0.12.3",
-    "jest": "^26.0.1",
+    "jest": "^26.1.0",
     "jest-dot-reporter": "^1.0.14",
     "prettier": "^2.0.5",
     "sillyname": "^0.1.0",
