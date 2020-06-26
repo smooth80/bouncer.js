@@ -2,20 +2,20 @@
   "debug": 13,
   "jsdoc": {
     "encoding": "utf8",
-    "recurse": false,
     "pedantic": false,
-    "access": null,
+    "access": "public",
     "package": null,
     "module": true,
     "undocumented": false,
     "undescribed": false,
     "ignored": false,
     "hierarchy": true,
-    "sort": "alphabetic",
     "relativePath": null,
     "filter": null,
     "allowUnknownTags": true,
-    "plugins": []
+    "plugins": [],
+    "sort": "group",
+    "recurse": true
   },
   "markdown": {
     "gfm": true,

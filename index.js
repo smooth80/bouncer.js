@@ -3,7 +3,7 @@
  * @module BouncerJS
  */
 
-const uWebSockets = require("uwebsockets.js");
+const uWebSockets = require("uws.js");
 const baseConfig = require("./config.js");
 const api = require("./api.js");
 

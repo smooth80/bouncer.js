@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.6.6",
+  "version": "2.6.7",
   "description": "1 bouncer 🤵 + 1 server = infinite micro-websockets rooms manager",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -16,7 +16,7 @@
     "precommit": "yarn docs && yarn lint && yarn prettier"
   },
   "dependencies": {
-    "uwebsockets.js": "^v18.3.1"
+    "uws.js": "git+https://git@github.com/unetworking/uwebsockets.js.git#v18.3.0"
   },
   "devDependencies": {
     "@jacekpietal/docma": "^3.2.11",

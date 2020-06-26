@@ -72,7 +72,7 @@ In [The API Documentation](https://prozi.github.io/bouncer.js/api/)
 ### 4.1 Node.js part:
 
 ```javascript
-const bouncerJs = require("../index.js");
+const bouncerJs = require("uwebsockets.js");
 const fs = require("fs");
 const path = require("path");
 
