@@ -288,10 +288,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@jacekpietal/docma@^3.2.11":
-  version "3.2.11"
-  resolved "https://registry.yarnpkg.com/@jacekpietal/docma/-/docma-3.2.11.tgz#4e3ea05935bd31c8e38f2417c11156e30723b1c4"
-  integrity sha512-emOdl6fM0DOX0BGZuaDJjpRwuty61u06Ov6bl0PjnMmYwUg5pLyMsaqLnbtzctojP2bCd/j8OB9Zaubp4uBuCw==
+"@jacekpietal/docma@^3.2.12":
+  version "3.2.12"
+  resolved "https://registry.yarnpkg.com/@jacekpietal/docma/-/docma-3.2.12.tgz#6e3b570bdf2f0cc9062bf4a35b30c873dcfa717a"
+  integrity sha512-r2GMthS1tMIFCUVpL73mDmqG12l9AWCW2y7vTgXnTcBTL98RiYRXo5Yd/by63YkMSjhqHx6eim+KnnStSeElwg==
   dependencies:
     bluebird "^3.7.2"
     chalk "^4.1.0"
@@ -309,10 +309,10 @@
     less-plugin-clean-css "^1.5.1"
     lodash "^4.17.15"
     marked "^1.1.0"
-    npm-name "^6.0.0"
+    npm-name "^6.0.1"
     semver "^7.3.2"
     strip-json-comments "^3.1.0"
-    uglify-js "^3.9.4"
+    uglify-js "^3.10.0"
     yargs "^15.3.1"
 
 "@jest/console@^26.1.0":
@@ -4289,7 +4289,7 @@ normalize-url@^4.1.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-4.5.0.tgz#453354087e6ca96957bd8f5baf753f5982142129"
   integrity sha512-2s47yzUxdexf1OhyRi4Em83iQk0aPvwTddtFz4hnSSw9dCEsLEGf6SwIO8ss/19S9iBb5sJaOuTvTGDeZI00BQ==
 
-npm-name@^6.0.0:
+npm-name@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/npm-name/-/npm-name-6.0.1.tgz#73e05b4cb6332766a6727b2635e247bb4107255b"
   integrity sha512-fhKRvUAxaYzMEUZim4mXWyfFbVS+M1CbrCLdAo3txWzrctxKka/h+KaBW0O9Cz5uOM00Nldn2JLWhuwnyW3SUw==
@@ -5896,7 +5896,7 @@ uc.micro@^1.0.1, uc.micro@^1.0.5:
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
   integrity sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==
 
-uglify-js@^3.9.4:
+uglify-js@^3.10.0:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.10.0.tgz#397a7e6e31ce820bfd1cb55b804ee140c587a9e7"
   integrity sha512-Esj5HG5WAyrLIdYU74Z3JdG2PxdIusvj6IWHMtlyESxc7kcDz7zYlYjpnSokn1UbpV0d/QX9fan7gkCNd/9BQA==
