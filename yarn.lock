@@ -5995,9 +5995,16 @@ uuid@^7.0.3:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
   integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
 
-"uws.js@git+https://git@github.com/unetworking/uwebsockets.js.git#v18.3.0":
+uwebsockets.js@*:
+  version "18.3.3"
+  resolved "https://registry.yarnpkg.com/uwebsockets.js/-/uwebsockets.js-18.3.3.tgz#5095a0afffc9e29c7e72e7a040845655465f4a49"
+  integrity sha512-6a5tlxxSapfLECQTVBIqzm7VkX+qR09/UrGDx3MmrAqFq0B3cqRpw4pUu0ewjnJhdoY6Cu9tlTZUnErP/7Ukqw==
+  dependencies:
+    uws.js "https://github.com/uNetworking/uWebSockets.js#v18.3.0"
+
+"uws.js@git+https://github.com/uNetworking/uWebSockets.js.git#v18.3.0":
   version "18.3.0"
-  resolved "git+https://git@github.com/unetworking/uwebsockets.js.git#63c610cefde1ef71c27cba6dd1072495977ee34d"
+  resolved "git+https://github.com/uNetworking/uWebSockets.js.git#63c610cefde1ef71c27cba6dd1072495977ee34d"
 
 v8-compile-cache@^2.0.3:
   version "2.1.1"
