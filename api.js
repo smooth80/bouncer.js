@@ -1,5 +1,5 @@
 /**
- * A module for bouncerJs API helper functions.
+ * A module for BouncerJs API helper functions.
  * @module BouncerJSAPIFactory
  */
 

@@ -1,4 +1,4 @@
-const bouncerJs = require("./index");
+const BouncerJs = require("./index");
 
 let instance;
 
@@ -12,7 +12,7 @@ function shim(params = {}) {
   const { plugins: old } = params;
   const plugins = Object.entries(old || {}).reduce(reducer, {});
 
-  instance = bouncerJs({
+  instance = new BouncerJs({
     ...params,
     plugins,
   });

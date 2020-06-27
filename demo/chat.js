@@ -1,4 +1,4 @@
-const bouncerJs = require("../index.js");
+const BouncerJs = require("../index.js");
 const fs = require("fs");
 const path = require("path");
 
@@ -6,7 +6,7 @@ const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
   encoding: "utf8",
 });
 
-const { router, config, broadcast } = bouncerJs({
+const { router, config, broadcast } = new BouncerJs({
   debug: true,
   plugins: { chat },
 });

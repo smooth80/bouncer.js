@@ -55,7 +55,7 @@
     <hr />
     <h2 id="3-api-">3. API:</h2>
     <hr />
-    <p>Call to <code>bouncerJs()</code></p>
+    <p>Call to <code>new BouncerJs()</code></p>
     <ol>
       <li>Expects the following Object as argument:</li>
     </ol>
@@ -94,7 +94,7 @@
     </h2>
     <hr />
     <h3 id="41-nodejs-part-">4.1 Node.js part:</h3>
-    <pre><code class="javascript">const bouncerJs = require("uwebsockets.js");
+    <pre><code class="javascript">const BouncerJs = require("uwebsockets.js");
 const fs = require("fs");
 const path = require("path");
 
@@ -102,7 +102,7 @@ const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
   encoding: "utf8",
 });
 
-const { router, config, broadcast } = bouncerJs({
+const { router, config, broadcast } = new BouncerJs({
   debug: true,
   plugins: { chat },
 });

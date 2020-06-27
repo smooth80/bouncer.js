@@ -32,7 +32,7 @@ yarn add @jacekpietal/bouncer.js --save
 
 ## 3. API:
 
-Call to `bouncerJs()`
+Call to `new BouncerJs()`
 
 1. Expects the following Object as argument:
 
@@ -72,7 +72,7 @@ In [The API Documentation](https://prozi.github.io/bouncer.js/api/)
 ### 4.1 Node.js part:
 
 ```javascript
-const bouncerJs = require("uwebsockets.js");
+const BouncerJs = require("uwebsockets.js");
 const fs = require("fs");
 const path = require("path");
 
@@ -80,7 +80,7 @@ const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
   encoding: "utf8",
 });
 
-const { router, config, broadcast } = bouncerJs({
+const { router, config, broadcast } = new BouncerJs({
   debug: true,
   plugins: { chat },
 });

@@ -8031,7 +8031,7 @@ var docma = Object.freeze(
         documentation: [
           {
             comment:
-              "/**\n * A module for bouncerJs micro-WebSocket starter.\n * @module BouncerJS\n */",
+              "/**\n * A module for BouncerJs micro-WebSocket starter.\n * @module BouncerJS\n */",
             meta: {
               filename: "index.js",
               lineno: 1,
@@ -8039,7 +8039,7 @@ var docma = Object.freeze(
               path: "/home/jpietal/projects/bouncer",
               code: {},
             },
-            description: "A module for bouncerJs micro-WebSocket starter.",
+            description: "A module for BouncerJs micro-WebSocket starter.",
             kind: "module",
             name: "BouncerJS",
             longname: "module:BouncerJS",
@@ -8049,53 +8049,15 @@ var docma = Object.freeze(
             $members: [
               {
                 comment:
-                  "/**\n * @desc this is the default export\n * @param {BouncerConfig} userConfig\n * @returns {BouncerCallResult}\n */",
+                  "/**\n         * @desc this is Leave room and broadcast leave event\n         * @param {WebSocket} ws\n         */",
                 meta: {
-                  range: [316, 2323],
+                  range: [1011, 1275],
                   filename: "index.js",
-                  lineno: 15,
-                  columnno: 6,
+                  lineno: 40,
+                  columnno: 8,
                   path: "/home/jpietal/projects/bouncer",
                   code: {
-                    id: "astnode100000023",
-                    name: "bouncerJs",
-                    type: "ArrowFunctionExpression",
-                  },
-                  vars: {
-                    rooms: "module:BouncerJS~bouncerJs~rooms",
-                    config: "module:BouncerJS~bouncerJs~config",
-                    ssl: "module:BouncerJS~bouncerJs~ssl",
-                    undefined: null,
-                    start: "module:BouncerJS~bouncerJs~start",
-                    bouncer: "module:BouncerJS~bouncerJs~bouncer",
-                    "": null,
-                  },
-                },
-                description: "this is the default export",
-                params: [
-                  { type: { names: ["BouncerConfig"] }, name: "userConfig" },
-                ],
-                returns: [{ type: { names: ["BouncerCallResult"] } }],
-                name: "bouncerJs",
-                longname: "module:BouncerJS~bouncerJs",
-                kind: "function",
-                scope: "inner",
-                memberof: "module:BouncerJS",
-                $longname: "BouncerJS~bouncerJs",
-                $kind: "method",
-                $docmaLink: "api/#BouncerJS~bouncerJs",
-              },
-              {
-                comment:
-                  "/**\n       * @desc this is Leave room and broadcast leave event\n       * @param {WebSocket} ws\n       */",
-                meta: {
-                  range: [961, 1209],
-                  filename: "index.js",
-                  lineno: 39,
-                  columnno: 6,
-                  path: "/home/jpietal/projects/bouncer",
-                  code: {
-                    id: "astnode100000117",
+                    id: "astnode100000119",
                     name: "close",
                     type: "ArrowFunctionExpression",
                   },
@@ -8114,15 +8076,15 @@ var docma = Object.freeze(
               },
               {
                 comment:
-                  "/**\n       * @desc this is Join + run plugins + leave\n       * @param {WebSocket} ws\n       * @param {ArrayBuffer} message\n       */",
+                  "/**\n         * @desc this is Join + run plugins + leave\n         * @param {WebSocket} ws\n         * @param {ArrayBuffer} message\n         */",
                 meta: {
-                  range: [1356, 1867],
+                  range: [1434, 1977],
                   filename: "index.js",
-                  lineno: 55,
-                  columnno: 6,
+                  lineno: 56,
+                  columnno: 8,
                   path: "/home/jpietal/projects/bouncer",
                   code: {
-                    id: "astnode100000161",
+                    id: "astnode100000163",
                     name: "message",
                     type: "ArrowFunctionExpression",
                   },
@@ -8149,7 +8111,7 @@ var docma = Object.freeze(
           },
           {
             comment:
-              "/**\n * A module for bouncerJs API helper functions.\n * @module BouncerJSAPIFactory\n */",
+              "/**\n * A module for BouncerJs API helper functions.\n * @module BouncerJSAPIFactory\n */",
             meta: {
               filename: "api.js",
               lineno: 1,
@@ -8157,7 +8119,7 @@ var docma = Object.freeze(
               path: "/home/jpietal/projects/bouncer",
               code: {},
             },
-            description: "A module for bouncerJs API helper functions.",
+            description: "A module for BouncerJs API helper functions.",
             kind: "module",
             name: "BouncerJSAPIFactory",
             longname: "module:BouncerJSAPIFactory",
@@ -8309,12 +8271,69 @@ var docma = Object.freeze(
             $kind: "typedef",
             $docmaLink: "api/#BouncerMessageObject",
           },
+          {
+            comment: "",
+            meta: {
+              range: [330, 2479],
+              filename: "index.js",
+              lineno: 16,
+              columnno: 2,
+              path: "/home/jpietal/projects/bouncer",
+              code: {
+                id: "astnode100000025",
+                name: "BouncerJs",
+                type: "MethodDefinition",
+                paramnames: ["userConfig"],
+              },
+              vars: { "": null },
+            },
+            undocumented: true,
+            name: "BouncerJs",
+            longname: "module:BouncerJS~BouncerJs",
+            kind: "class",
+            memberof: "module:BouncerJS",
+            scope: "inner",
+            params: [],
+            $longname: "BouncerJS~BouncerJs",
+            $kind: "constructor",
+            $docmaLink: "api/#BouncerJS~BouncerJs",
+          },
+          {
+            comment: "",
+            meta: {
+              range: [330, 2479],
+              filename: "index.js",
+              lineno: 16,
+              columnno: 2,
+              path: "/home/jpietal/projects/bouncer",
+              code: {
+                id: "astnode100000025",
+                name: "BouncerJs",
+                type: "MethodDefinition",
+                paramnames: ["userConfig"],
+              },
+            },
+            name: "BouncerJs",
+            longname: "module:BouncerJS~BouncerJs",
+            kind: "class",
+            memberof: "module:BouncerJS",
+            scope: "inner",
+            description: "this is the default export",
+            returns: [{ type: { names: ["BouncerCallResult"] } }],
+            params: [
+              { type: { names: ["BouncerConfig"] }, name: "userConfig" },
+            ],
+            $longname: "BouncerJS~BouncerJs",
+            $kind: "constructor",
+            $docmaLink: "api/#BouncerJS~BouncerJs",
+          },
         ],
         symbols: [
           "BouncerCallResult",
           "BouncerConfig",
           "BouncerJS",
-          "BouncerJS~bouncerJs",
+          "BouncerJS~BouncerJs",
+          "BouncerJS~BouncerJs",
           "BouncerJS~close",
           "BouncerJS~message",
           "BouncerJSAPIFactory",

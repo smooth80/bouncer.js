@@ -1,26 +1,26 @@
 describe("GIVEN bouncer is provided", () => {
   it("THEN requiring the library does not throw an error", () => {
-    expect(require(".")).not.toThrow();
+    require(".");
   });
 
   describe("WHEN it is instantiated", () => {
     it("THEN it should initialize without throwing error", () => {
-      const bouncerJs = require(".");
+      const BouncerJs = require(".");
 
-      expect(bouncerJs).not.toThrow();
+      expect(() => new BouncerJs()).not.toThrow();
     });
 
     it("THEN initialization should return a truthy instance", () => {
-      const bouncerJs = require(".");
+      const BouncerJs = require(".");
 
-      expect(bouncerJs()).toBeTruthy();
+      expect(new BouncerJs()).toBeTruthy();
     });
   });
 
   describe("WHEN bouncer is initialized in debug mode", () => {
     it("THEN it should not throw error", () => {
-      const bouncerJs = require(".");
-      const api = bouncerJs({ debug: true });
+      const BouncerJs = require(".");
+      const api = new BouncerJs({ debug: true });
 
       expect(api).toBeTruthy();
     });
@@ -28,8 +28,8 @@ describe("GIVEN bouncer is provided", () => {
 
   describe("WHEN bouncer is initialized on specified port", () => {
     it("THEN it should start without error", () => {
-      const bouncerJs = require(".");
-      const { router } = bouncerJs({ port: 8080 });
+      const BouncerJs = require(".");
+      const { router } = new BouncerJs({ port: 8080 });
 
       expect(router).toBeTruthy();
     });
@@ -37,8 +37,8 @@ describe("GIVEN bouncer is provided", () => {
 
   describe("WHEN bouncer is initialized with plugin", () => {
     it("THEN it should start without error", (done) => {
-      const bouncerJs = require(".");
-      const { config, send } = bouncerJs({
+      const BouncerJs = require(".");
+      const { config, send } = new BouncerJs({
         debug: false,
         port: 8081,
         plugins: {
