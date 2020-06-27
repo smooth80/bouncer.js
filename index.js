@@ -83,19 +83,14 @@ class BouncerJs {
         }
       });
 
-    return {
-      // Helper functions
-      join,
-      leave,
-      broadcast,
-      send,
-      // Reference to bouncer Object
-      router: bouncer,
-      // Reference to rooms Map
-      rooms,
-      // Reference to resulting config JSON
-      config,
-    };
+    this.join = join;
+    this.leave = leave;
+    this.broadcast = broadcast;
+    this.send = send;
+
+    this.router = bouncer;
+    this.rooms = rooms;
+    this.config = config;
   }
 }
 
