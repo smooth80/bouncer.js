@@ -1,4 +1,4 @@
-<h2 align="center">bouncer 🤵</h2>
+<h2 align="center">bouncer 🧙‍♂️</h2>
 
 <p align="center">
   <a href="https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js"><img src="https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js.svg" alt="shield" /></a>

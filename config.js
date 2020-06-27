@@ -1,4 +1,4 @@
-module.exports.LOGO = "bouncer 🤵";
+module.exports.LOGO = "bouncer 🧙‍♂️";
 
 module.exports.port = process.env.PORT || 1337;
 
