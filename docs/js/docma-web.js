@@ -8274,7 +8274,7 @@ var docma = Object.freeze(
           {
             comment: "",
             meta: {
-              range: [330, 2479],
+              range: [330, 2394],
               filename: "index.js",
               lineno: 16,
               columnno: 2,
@@ -8301,7 +8301,7 @@ var docma = Object.freeze(
           {
             comment: "",
             meta: {
-              range: [330, 2479],
+              range: [330, 2394],
               filename: "index.js",
               lineno: 16,
               columnno: 2,
