@@ -35,8 +35,8 @@ const io = {
     instance.broadcast(this.socket, { id: this.socket.id, event, data });
   },
   ws: {
-    on: function (event, data) {
-      console.log({ id: this.socket.id, event, data });
+    on: function (event, callback) {
+      callback({ id: this.socket.id, event });
     },
     emit: function (event, data) {
       this.socket.send(JSON.stringify({ id: this.socket.id, event, data }));

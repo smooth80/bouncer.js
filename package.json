@@ -1,7 +1,7 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.8.5",
-  "description": "1 bouncer 🧙‍ + 1 server = infinite micro-websockets rooms manager",
+  "version": "2.8.6",
+  "description": "1 bouncer  🐻‍ + 1 server = infinite micro-websockets rooms manager",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
   "author": "Jacek Pietal <prozi85@gmail.com>",
