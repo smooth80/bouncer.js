@@ -8342,7 +8342,7 @@ var docma = Object.freeze(
       },
     },
     app: {
-      title: "🧙‍♂️ Bouncer.js Documentation",
+      title: "🧙‍️ Bouncer.js Documentation",
       meta: null,
       base: "./",
       entrance: "content:home",
@@ -8391,8 +8391,8 @@ var docma = Object.freeze(
           dark: false,
           animations: true,
           menu: [
-            { label: "🧙‍♂️ Bouncer.js", href: "home" },
-            { label: "🧙‍♂️ Bouncer.js API", href: "api" },
+            { label: "🧙‍️ Bouncer.js", href: "home" },
+            { label: "🧙‍️ Bouncer.js API", href: "api" },
             {
               iconClass: "fas fa-cloud-download-alt",
               label: "Download",
