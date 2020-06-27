@@ -1,7 +1,4 @@
-/**
- * A module for BouncerJs micro-WebSocket starter.
- * @module BouncerJS
- */
+"use strict";
 
 const uWebSockets = require("uws.js");
 const baseConfig = require("./config.js");
@@ -15,7 +12,7 @@ const api = require("./api.js");
 class BouncerJs {
   constructor(userConfig = {}) {
     const rooms = new Map();
-    const config = Object.assign(baseConfig, userConfig);
+    const config = { ...baseConfig, ...userConfig };
     const ssl = config.ssl || {};
 
     // bind utils context (this) to bouncer instance

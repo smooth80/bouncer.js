@@ -6002,9 +6002,9 @@ uwebsockets.js@*:
   dependencies:
     uws.js "https://github.com/uNetworking/uWebSockets.js#v18.3.0"
 
-"uws.js@git+https://github.com/uNetworking/uWebSockets.js.git#v18.3.0":
+"uws.js@https://github.com/uNetworking/uWebSockets.js#v18.3.0":
   version "18.3.0"
-  resolved "git+https://github.com/uNetworking/uWebSockets.js.git#63c610cefde1ef71c27cba6dd1072495977ee34d"
+  resolved "https://github.com/uNetworking/uWebSockets.js#63c610cefde1ef71c27cba6dd1072495977ee34d"
 
 v8-compile-cache@^2.0.3:
   version "2.1.1"

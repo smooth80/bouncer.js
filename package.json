@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.8.3",
+  "version": "2.8.4",
   "description": "1 bouncer 🧙‍ + 1 server = infinite micro-websockets rooms manager",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -13,6 +13,9 @@
     "docs": "yarn docma",
     "lint": "yarn eslint ./docs ./demo ./*.js --fix",
     "prettier": "prettier ./docs ./demo ./*.js --write",
+    "prepare:npm": "rm -rf node_modules && npm i && npm audit fix",
+    "prepare:yarn": "rm -rf node_modules && yarn",
+    "groom": "yarn prepare:npm && yarn prepare:yarn",
     "precommit": "yarn docs && yarn lint && yarn prettier"
   },
   "dependencies": {

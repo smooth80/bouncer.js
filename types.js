@@ -20,8 +20,8 @@
  */
 
 /**
- * @typedef {BouncerCallResult} BouncerCallResult
- * @desc This is what the export returns (api)
+ * @typedef {class} BouncerJS
+ * @desc BouncerJS class
  * @property {function} join (WebSocket, string) => boolean
  * @property {function} leave (WebSocket) => boolean
  * @property {function} broadcast ({ topic: string }, BouncerMessageObject) => void

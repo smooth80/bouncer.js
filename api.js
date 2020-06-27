@@ -1,12 +1,9 @@
-/**
- * A module for BouncerJs API helper functions.
- * @module BouncerJSAPIFactory
- */
+"use strict";
 
 /**
  * @param {Map} rooms
  * @param {BouncerConfig} config
- * @returns {BouncerCallResult}
+ * @returns {Partial<BouncerJS>}
  */
 function api(rooms, config) {
   /**
@@ -106,7 +103,7 @@ function api(rooms, config) {
   }
 
   /**
-   * @returns {Partial<BouncerCallResult>}
+   * @returns {Partial<BouncerAPI>}
    */
   return {
     run,
