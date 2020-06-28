@@ -1,16 +1,6 @@
 "use strict";
 
 const io = {
-  on: function (ws, plugin, event) {
-    switch (event) {
-      case "connect":
-      case "connection":
-        if (!plugin.initialized) {
-          plugin.initialized = true;
-          plugin.initialize.call({ socket: ws }, this);
-        }
-    }
-  },
   emit: function (event, data) {
     this.io.broadcast(this.socket, { id: this.socket.id, event, data });
   },
@@ -33,11 +23,15 @@ function shim(plugin) {
     const context = { socket: ws, io: this };
 
     // context = broadcaster instance
-    this.on = this.on || io.on.bind(this, ws, plugin);
     this.emit = this.emit || io.emit.bind(context);
 
     ws.on = ws.on || io.ws.on.bind(context);
     ws.emit = ws.emit || io.ws.emit.bind(context);
+
+    if (!plugin.initialized) {
+      plugin.initialized = true;
+      plugin.initialize.call({ socket: ws }, this);
+    }
 
     if (!ws.handshaken) {
       ws.handshaken = true;
