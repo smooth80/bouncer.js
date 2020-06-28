@@ -23,7 +23,7 @@ const io = {
  * @param {any[]} entry
  */
 function shim(plugin) {
-  return function shimPlugin(ws, { data }) {
+  return function shimPlugin(ws, { id, event, data }) {
     const context = { socket: ws, io: this, data };
 
     // context = broadcaster instance
