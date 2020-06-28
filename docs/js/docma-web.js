@@ -8138,7 +8138,7 @@ var docma = Object.freeze(
           {
             comment: "",
             meta: {
-              range: [264, 2323],
+              range: [264, 2362],
               filename: "index.js",
               lineno: 13,
               columnno: 2,
@@ -8164,7 +8164,7 @@ var docma = Object.freeze(
           {
             comment: "",
             meta: {
-              range: [264, 2323],
+              range: [264, 2362],
               filename: "index.js",
               lineno: 13,
               columnno: 2,
@@ -8231,13 +8231,13 @@ var docma = Object.freeze(
             comment:
               "/**\n         * @desc this is Leave room and broadcast leave event\n         * @param {WebSocket} ws\n         */",
             meta: {
-              range: [940, 1204],
+              range: [979, 1243],
               filename: "index.js",
-              lineno: 37,
+              lineno: 41,
               columnno: 8,
               path: "/home/jpietal/projects/bouncer",
               code: {
-                id: "astnode100000120",
+                id: "astnode100000123",
                 name: "close",
                 type: "ArrowFunctionExpression",
               },
@@ -8257,13 +8257,13 @@ var docma = Object.freeze(
             comment:
               "/**\n         * @desc this is Join + run plugins + leave\n         * @param {WebSocket} ws\n         * @param {ArrayBuffer} message\n         */",
             meta: {
-              range: [1363, 1906],
+              range: [1402, 1945],
               filename: "index.js",
-              lineno: 53,
+              lineno: 57,
               columnno: 8,
               path: "/home/jpietal/projects/bouncer",
               code: {
-                id: "astnode100000164",
+                id: "astnode100000167",
                 name: "message",
                 type: "ArrowFunctionExpression",
               },

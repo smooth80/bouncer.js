@@ -11,24 +11,24 @@ const api = require("./api.js");
  */
 class BouncerJs {
   constructor(userConfig = {}) {
-    const rooms = new Map();
-    const config = { ...baseConfig, ...userConfig };
-    const ssl = config.ssl || {};
+    this.rooms = new Map();
+    this.config = { ...baseConfig, ...userConfig };
 
-    // bind utils context (this) to bouncer instance
-    const { join, leave, broadcast, send, run } = api(rooms, config);
+    const ssl = this.config.ssl || {};
 
-    if (config.debug) {
-      console.log("Start with config", config);
+    if (this.config.debug) {
+      console.log("Start with this.config", this.config);
     }
 
-    const start = config.ssl ? uWebSockets.SSLApp : uWebSockets.App;
-    const bouncer = start({
+    const { join, leave, broadcast, send, run } = api(this);
+    const start = this.config.ssl ? uWebSockets.SSLApp : uWebSockets.App;
+
+    this.router = start({
       key_file_name: ssl.key,
       cert_file_name: ssl.cert,
     });
 
-    bouncer
+    this.router
       .ws("/*", {
         /**
          * @desc this is Leave room and broadcast leave event
@@ -40,7 +40,7 @@ class BouncerJs {
 
             leave(ws);
 
-            broadcast({ topic }, { id, event: config.leave, data: topic });
+            broadcast({ topic }, { id, event: this.config.leave, data: topic });
           } catch (err) {
             console.error(err.stack || err);
           }
@@ -56,14 +56,14 @@ class BouncerJs {
             const { event, data } = JSON.parse(utf8);
 
             // Optional join: sets ws.topic
-            if (event === config.join) {
+            if (event === this.config.join) {
               join(ws, data);
             }
 
             run(ws, event, data);
 
             // Optional leave: removes ws.topic
-            if (event === config.leave) {
+            if (event === this.config.leave) {
               leave(ws);
             }
           } catch (err) {
@@ -72,11 +72,13 @@ class BouncerJs {
         },
       })
       /**
-       * @param {number} config.port
+       * @param {number} port
        */
-      .listen(config.port, (listenSocket) => {
+      .listen(this.config.port, (listenSocket) => {
         if (listenSocket) {
-          console.log(`${config.LOGO} Listens on port ${config.port}`);
+          console.log(
+            `${this.config.LOGO} Listens on port ${this.config.port}`,
+          );
         }
       });
 
@@ -84,10 +86,6 @@ class BouncerJs {
     this.leave = leave;
     this.broadcast = broadcast;
     this.send = send;
-
-    this.router = bouncer;
-    this.rooms = rooms;
-    this.config = config;
   }
 }
 
