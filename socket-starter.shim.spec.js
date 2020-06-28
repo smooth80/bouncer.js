@@ -1,4 +1,6 @@
-const { createSocketId } = require("./config");
+"use strict";
+
+const BouncerJs = require(".");
 
 describe("GIVEN bouncer is provided", () => {
   const socketStarterFormat = {
@@ -22,18 +24,18 @@ describe("GIVEN bouncer is provided", () => {
   it("THEN running the library-shim does not throw an error", () => {
     const shim = require("./socket-starter.shim");
 
-    const api = shim();
+    const plugin = shim({ handshake: () => {}, initialize: () => {} });
 
-    expect(api).toBeTruthy();
+    expect(plugin).toBeTruthy();
   });
 
   describe("AND old style format plugin is provided", () => {
     it("THEN running the library-shim does not throw an error", () => {
       const shim = require("./socket-starter.shim");
 
-      const { router } = shim({
+      const { router } = new BouncerJs({
         plugins: {
-          chat: require("socket-starter/example/chat"),
+          chat: shim(require("socket-starter/example/chat")),
         },
       });
 
@@ -43,10 +45,10 @@ describe("GIVEN bouncer is provided", () => {
     it("THEN it should start without error", (done) => {
       const shim = require("./socket-starter.shim");
 
-      const { config } = shim({
+      const { config } = new BouncerJs({
         port: 8090,
         plugins: {
-          chat: require("socket-starter/example/chat"),
+          chat: shim(require("socket-starter/example/chat")),
         },
       });
 
@@ -81,15 +83,21 @@ describe("GIVEN bouncer is provided", () => {
   it("THEN running the library-shim with config in old format does not throw an error", () => {
     const shim = require("./socket-starter.shim");
 
-    const api = shim(socketStarterFormat);
+    const plugin = shim(socketStarterFormat.plugins.chat);
 
-    expect(api).toBeTruthy();
+    expect(plugin).toBeTruthy();
   });
 
   it("THEN running the library-shim with config in old format on port: 8100 does not throw an error", () => {
     const shim = require("./socket-starter.shim");
 
-    const api = shim(Object.assign(socketStarterFormat, { port: 8100 }));
+    const plugin = shim(socketStarterFormat.plugins.chat);
+    const api = new BouncerJs(
+      Object.assign(socketStarterFormat, {
+        plugins: { chat: plugin },
+        port: 8100,
+      }),
+    );
 
     expect(api.join).toBeTruthy();
     expect(api.leave).toBeTruthy();

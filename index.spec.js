@@ -1,3 +1,5 @@
+"use strict";
+
 describe("GIVEN bouncer is provided", () => {
   it("THEN requiring the library does not throw an error", () => {
     require(".");
