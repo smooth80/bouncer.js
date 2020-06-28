@@ -5,8 +5,12 @@ const io = {
     this.io.broadcast(this.socket, { id: this.socket.id, event, data });
   },
   ws: {
-    on: function (event, callback) {
-      callback({ id: this.socket.id, event });
+    on: function (trigger, callback) {
+      this.socket.eventList.push(({ id, event, data }) => {
+        if (event === trigger) {
+          callback({ id: id || this.socket.id, event, data });
+        }
+      });
     },
     emit: function (event, data) {
       this.socket.send(JSON.stringify({ id: this.socket.id, event, data }));
@@ -19,12 +23,13 @@ const io = {
  * @param {any[]} entry
  */
 function shim(plugin) {
-  return function (ws, { data }) {
-    const context = { socket: ws, io: this };
+  return function shimPlugin(ws, { data }) {
+    const context = { socket: ws, io: this, data };
 
     // context = broadcaster instance
     this.emit = this.emit || io.emit.bind(context);
 
+    ws.callbacks = ws.callbacks || [];
     ws.on = ws.on || io.ws.on.bind(context);
     ws.emit = ws.emit || io.ws.emit.bind(context);
 
@@ -37,6 +42,10 @@ function shim(plugin) {
       ws.handshaken = true;
       plugin.handshake.call(context, ws, data);
     }
+
+    ws.callbacks.forEach((callback) =>
+      callback.call(context, { id, event, data }),
+    );
   };
 }
 
