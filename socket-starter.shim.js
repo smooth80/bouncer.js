@@ -6,7 +6,7 @@ const io = {
   },
   ws: {
     on: function (trigger, callback) {
-      this.socket.eventList.push(({ id, event, data }) => {
+      this.socket.callbacks.push(({ id, event, data }) => {
         if (event === trigger) {
           callback({ id: id || this.socket.id, event, data });
         }
