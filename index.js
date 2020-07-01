@@ -74,7 +74,7 @@ class BouncerJs {
       /**
        * @param {number} port
        */
-      .listen(this.config.port, (listenSocket) => {
+      .listen(parseInt(this.config.port), (listenSocket) => {
         if (listenSocket) {
           console.log(
             `${this.config.LOGO} Listens on port ${this.config.port}`,
