@@ -175,8 +175,8 @@ For the few users to have somewhat of a bridge between the [socket-starter](http
 
 | Name         | Count               |
 | ------------ | ------------------- |
-| Test Suites: | 2 passed, 2 total   |
-| Tests:       | 12 passed, 12 total |
+| Test Suites: | 3 passed, 3 total   |
+| Tests:       | 14 passed, 14 total |
 | Snapshots:   | 0 total             |
 | Time:        | 1.009 s             |
 
@@ -187,7 +187,13 @@ To test run:
 
 ---
 
-## 7. License
+## 8. Front End Client (beta)
+
+- see [client.js](https://github.com/Prozi/bouncer.js/blob/master/client.js)
+
+---
+
+## 9. License
 
 MIT
 
@@ -195,5 +201,7 @@ MIT
 - I am not responsible for any problem this free application causes :P
 
 have fun, please open any issues, etc.
+
+## 10. Author
 
 - Jacek Pietal

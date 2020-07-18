@@ -29,6 +29,13 @@ class UWebSocket {
   }
 
   /**
+   * Gets ws id
+   */
+  get id() {
+    return this.ws.id;
+  }
+
+  /**
    * Sets onopen ws callback
    * @param {function} callback
    */
@@ -103,6 +110,15 @@ class UWebSocket {
         ? objectOrString
         : JSON.stringify(objectOrString),
     );
+  }
+
+  /**
+   *
+   * @param {string} event
+   * @param {any} data
+   */
+  emitEvent(event, data) {
+    this.emit({ event, data, id: this.id });
   }
 
   /**
