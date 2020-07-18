@@ -24,7 +24,7 @@
   "homepage": "https://prozi.github.io/bouncer.js/api/",
   "devDependencies": {
     "@jacekpietal/docma": "^3.2.12",
-    "eslint": "^7.3.1",
+    "eslint": "^7.4.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "http-server": "^0.12.3",
@@ -33,7 +33,7 @@
     "prettier": "^2.0.5",
     "sillyname": "^0.1.0",
     "socket-starter": "^1.22.7",
-    "ws": "^7.3.0"
+    "ws": "^7.3.1"
   },
   "keywords": [
     "bouncer",
