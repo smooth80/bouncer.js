@@ -48,7 +48,7 @@
       },
       "sidebar": {
         "enabled": true,
-        "outline": "flat", // "flat" | "tree"
+        "outline": "tree", // "flat" | "tree"
         "collapsed": false,
         "toolbar": true,
         "itemsFolded": false,
@@ -119,6 +119,7 @@
     "./types.js",
     "./index.js",
     "./api.js",
+    "./client.js",
     {
       "license": "./LICENSE:md"
     },
