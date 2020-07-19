@@ -9,7 +9,10 @@ class UWebSocket {
    * @returns {WebSocket | SocketIOClient}
    */
   constructor(serverUrl) {
-    this.events = [];
+    this.allKey = "*";
+    this.events = {
+      [this.allKey]: [],
+    };
 
     this.ws = new WebSocket(serverUrl);
 
@@ -64,7 +67,7 @@ class UWebSocket {
    * @param {function} callback
    */
   set onmessage(callback) {
-    this.on("*", callback);
+    this.on(this.allKey, callback);
   }
 
   /**
@@ -82,9 +85,12 @@ class UWebSocket {
     const { id, event, data } =
       typeof message === "string" ? JSON.parse(message) : message;
 
-    this.events.forEach((action) =>
-      action({ id: id || this.ws.id, event, data }),
-    );
+    const events = [
+      ...(this.events[event] || []),
+      ...(this.events[this.allKey] || []),
+    ];
+
+    events.forEach((action) => action({ id: id || this.ws.id, event, data }));
   }
 
   /**
@@ -92,12 +98,16 @@ class UWebSocket {
    * @param {string} target
    * @param {function} callback
    */
-  on(target, callback) {
-    this.events.push(({ id, event, data }) => {
-      if ([event, "*"].includes(target)) {
+  on(name, callback) {
+    const allKey = this.allKey;
+    const done = ({ id, event, data }) => {
+      if ([event, allKey].includes(name)) {
         callback({ id, event, data });
       }
-    });
+    };
+
+    this.events[name] = this.events[name] || [];
+    this.events[name].push(done);
   }
 
   /**
