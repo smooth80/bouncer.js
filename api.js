@@ -84,11 +84,11 @@ module.exports = function api(bouncer) {
      * @param {{ topic }} containingTopic
      * @param {BouncerMessageObject} message
      */
-    broadcast: ({ topic }, { id, event, data }) => {
+    broadcast: ({ topic }, data) => {
       if (rooms.has(topic)) {
         for (const [roomName, ws] of rooms.get(topic)) {
           try {
-            bouncer.send(ws, { id, event, data });
+            bouncer.send(ws, data);
           } catch (err) {
             console.error(roomName, err);
           }
