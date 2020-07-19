@@ -8340,13 +8340,13 @@ var docma = Object.freeze(
             comment:
               "/**\n   * Emits socket.io like object from ws\n   * @param {object|string} objectOrString\n   */",
             meta: {
-              range: [2186, 2342],
+              range: [2159, 2315],
               filename: "client.js",
-              lineno: 117,
+              lineno: 116,
               columnno: 2,
               path: "/home/jpietal/projects/bouncer",
               code: {
-                id: "astnode100000934",
+                id: "astnode100000930",
                 name: "UWebSocket#emit",
                 type: "MethodDefinition",
                 paramnames: ["objectOrString"],
@@ -8370,7 +8370,7 @@ var docma = Object.freeze(
             comment:
               '/**\n   * Adds one SocketIOLike.on("...", () => {}) callback\n   * @param {string} target\n   * @param {function} callback\n   */',
             meta: {
-              range: [1804, 2086],
+              range: [1804, 2059],
               filename: "client.js",
               lineno: 101,
               columnno: 2,
@@ -8401,13 +8401,13 @@ var docma = Object.freeze(
             comment:
               "/**\n   * Sends string from ws\n   * @param {string} string\n   */",
             meta: {
-              range: [2556, 2600],
+              range: [2529, 2573],
               filename: "client.js",
-              lineno: 138,
+              lineno: 137,
               columnno: 2,
               path: "/home/jpietal/projects/bouncer",
               code: {
-                id: "astnode100000975",
+                id: "astnode100000971",
                 name: "UWebSocket#send",
                 type: "MethodDefinition",
                 paramnames: ["string"],

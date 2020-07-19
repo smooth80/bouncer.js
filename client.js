@@ -99,9 +99,8 @@ class UWebSocket {
    * @param {function} callback
    */
   on(name, callback) {
-    const allKey = this.allKey;
     const done = ({ id, event, data }) => {
-      if ([event, allKey].includes(name)) {
+      if ([event, this.allKey].includes(name)) {
         callback({ id, event, data });
       }
     };
