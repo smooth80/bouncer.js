@@ -51,8 +51,8 @@ class BouncerJs {
          * @param {ArrayBuffer} message
          */
         message: (ws, message) => {
+          const utf8 = Buffer.from(message).toString();
           try {
-            const utf8 = Buffer.from(message).toString();
             const { event, data } = JSON.parse(utf8);
 
             // Optional join: sets ws.topic
@@ -67,7 +67,7 @@ class BouncerJs {
               leave(ws);
             }
           } catch (err) {
-            console.error(err.stack || err);
+            console.error(err.message.replace("position 0", utf8));
           }
         },
       })
