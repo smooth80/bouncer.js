@@ -15,7 +15,6 @@ class UWebSocket {
     };
 
     this.ws = new WebSocket(serverUrl);
-
     this.ws.onmessage = (message) => {
       this.uwsOnMessage(message);
     };

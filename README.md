@@ -25,7 +25,9 @@
 It's hosted as an `npm` package so installation is of course as simple as:
 
 ```bash
-yarn add @jacekpietal/bouncer.js --save
+npm i @jacekpietal/bouncer.js --registry https://registry.yarnpkg.com
+
+# or yarn add @jacekpietal/bouncer.js --save
 ```
 
 ---
@@ -38,26 +40,44 @@ Call to `new BouncerJs()`
 
 ```javascript
 {
-  ...config,
-  plugins,
+  plugins: {
+    [plugin]: (ws, { event, id, data }) => {
+      // user implementation
+    }
+  },
+  LOGO: 'bouncer 🐻',
+  port: process.env.PORT,
+  join: '/join',
+  leave: '/leave',
+  createSocketId: () => simpleId,
+  debug: false,
 }
 ```
 
-2. Returns following API:
+2. The plugins receive (and send) the data in the format of:
+
+```
+{
+  id,    // WebSocket id
+  event, // event name as string
+  data,  // any data accompanying the event
+}
+```
+
+3. Each plugin is a function handling the topic of the room a.k.a. microservice name.
+
+4. Creating instanceof BouncerJs returns following API:
 
 ```javascript
 {
-  // Helper functions
-  join,
-  leave,
-  broadcast,
-  send,
-  // Reference to uWebSockets[SSLApp|App]
-  router,
-  // Reference to rooms Map
-  rooms,
-  // Reference to resulting config JSON
-  config,
+  onEvent(ws, event, data),
+  join(ws, topic),
+  leave(ws),
+  broadcast({ topic }, data),
+  send(ws, message),
+  router: uws.SSLApp|uws.App,
+  rooms: Map(),
+  config: {},
 }
 ```
 
@@ -169,6 +189,19 @@ For the few users to have somewhat of a bridge between the [socket-starter](http
 - see [socket-starter.shim.js](https://github.com/Prozi/bouncer.js/blob/master/socket-starter.shim.js)
 - see [socket-starter.shim.spec.js](https://github.com/Prozi/bouncer.js/blob/master/socket-starter.shim.spec.js)
 
+### 6.1. What does this do?
+
+if you do `shim(plugin)` then your plugin may be in the format of:
+
+```javascript
+{
+  initialize(io)
+  handshake(socket, data),
+}
+```
+
+shim adds to your plugin
+
 ---
 
 ## 7. Tests
@@ -190,6 +223,15 @@ To test run:
 ## 8. Front End Client (beta)
 
 - see [client.js](https://github.com/Prozi/bouncer.js/blob/master/client.js)
+- see [client.spec.js](https://github.com/Prozi/bouncer.js/blob/master/client.spec.js)
+
+Standard frontend WebSocket extended with:
+
+```
+1. emit(objectOrString)
+2. on(eventName, callback)
+3. on("*", callback) // on any event
+```
 
 ---
 

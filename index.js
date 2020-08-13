@@ -1,91 +1,94 @@
 "use strict";
 
 const uWebSockets = require("uws.js");
-const baseConfig = require("./config.js");
-const api = require("./api.js");
+const UWSRoomManager = require("./api.js");
 
 /**
  * @desc this is the default export
  * @param {BouncerConfig} userConfig
  * @returns {BouncerCallResult}
  */
-class BouncerJs {
+class BouncerJs extends UWSRoomManager {
   constructor(userConfig = {}) {
-    this.rooms = new Map();
-    this.config = { ...baseConfig, ...userConfig };
-
-    const ssl = this.config.ssl || {};
+    super(userConfig);
 
     if (this.config.debug) {
-      console.log("Start with this.config", this.config);
+      console.log(`${this.config.LOGO} Starts with config:`, this.config);
     }
 
-    const { join, leave, broadcast, send, run } = api(this);
-    const start = this.config.ssl ? uWebSockets.SSLApp : uWebSockets.App;
+    this.router = this.createRouter();
+    this.router
+      .ws("/*", {
+        message: (ws, message) => this.onMessage(ws, message),
+        close: (ws) => this.onClose(ws),
+      })
+      .listen(parseInt(this.config.port), (listenSocket) =>
+        this.onListen(listenSocket),
+      );
+  }
 
-    this.router = start({
+  createRouter() {
+    // if user provides ssl in configuration
+    // SSLApp is started
+    // otherwise App is started
+    const startRouter = this.config.ssl ? uWebSockets.SSLApp : uWebSockets.App;
+    const ssl = this.config.ssl || {};
+
+    return startRouter({
       key_file_name: ssl.key,
       cert_file_name: ssl.cert,
     });
+  }
 
-    this.router
-      .ws("/*", {
-        /**
-         * @desc this is Leave room and broadcast leave event
-         * @param {WebSocket} ws
-         */
-        close: (ws) => {
-          try {
-            const { id, topic } = ws;
+  /**
+   * @param {number} port
+   */
+  onListen(listenSocket) {
+    if (listenSocket) {
+      console.log(`${this.config.LOGO} Listens on port: ${this.config.port}`);
+    }
+  }
 
-            leave(ws);
+  /**
+   * @desc this is Leave room and broadcast leave event
+   * @param {WebSocket} ws
+   */
+  onClose(ws) {
+    try {
+      this.leave(ws);
+      this.broadcast(
+        { topic: ws.topic },
+        { id: ws.id, event: this.config.leave, data: ws.topic },
+      );
+    } catch (err) {
+      console.error(err.stack || err);
+    }
+  }
 
-            broadcast({ topic }, { id, event: this.config.leave, data: topic });
-          } catch (err) {
-            console.error(err.stack || err);
-          }
-        },
-        /**
-         * @desc this is Join + run plugins + leave
-         * @param {WebSocket} ws
-         * @param {ArrayBuffer} message
-         */
-        message: (ws, message) => {
-          const utf8 = Buffer.from(message).toString();
-          try {
-            const { event, data } = JSON.parse(utf8);
+  /**
+   * @desc this is Join + run plugins + leave
+   * @param {WebSocket} ws
+   * @param {ArrayBuffer} message
+   */
+  onMessage(ws, message) {
+    const utf8 = Buffer.from(message).toString();
+    try {
+      const { event, data } = JSON.parse(utf8);
 
-            // Optional join: sets ws.topic
-            if (event === this.config.join) {
-              join(ws, data);
-            }
+      // Optional join: sets ws.topic
+      if (event === this.config.join) {
+        this.join(ws, data);
+      }
 
-            run(ws, event, data);
+      this.onEvent(ws, event, data);
 
-            // Optional leave: removes ws.topic
-            if (event === this.config.leave) {
-              leave(ws);
-            }
-          } catch (err) {
-            console.error(err.message.replace("position 0", utf8));
-          }
-        },
-      })
-      /**
-       * @param {number} port
-       */
-      .listen(parseInt(this.config.port), (listenSocket) => {
-        if (listenSocket) {
-          console.log(
-            `${this.config.LOGO} Listens on port ${this.config.port}`,
-          );
-        }
-      });
-
-    this.join = join;
-    this.leave = leave;
-    this.broadcast = broadcast;
-    this.send = send;
+      // Optional leave: removes ws.topic
+      if (event === this.config.leave) {
+        this.leave(ws);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 

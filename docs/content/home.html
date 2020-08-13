@@ -27,7 +27,9 @@
 <h2 id="2-installation">2. Installation</h2>
 <hr />
 <p>It's hosted as an <code>npm</code> package so installation is of course as simple as:</p>
-<pre><code class="bash">yarn add @jacekpietal/bouncer.js --save</code></pre>
+<pre><code class="bash">npm i @jacekpietal/bouncer.js --registry https://registry.yarnpkg.com
+
+# or yarn add @jacekpietal/bouncer.js --save</code></pre>
 <hr>
 <h2 id="3-api-">3. API:</h2>
 <hr />
@@ -36,24 +38,33 @@
 <li>Expects the following Object as argument:</li>
 </ol>
 <pre><code class="javascript">{
-  ...config,
-  plugins,
+  plugins: {
+    [plugin]: (ws, { event, id, data }) =&gt; {
+      // user implementation
+    }
+  },
+  LOGO: 'bouncer 🐻',
+  port: process.env.PORT,
+  join: '/join',
+  leave: '/leave',
+  createSocketId: () =&gt; simpleId,
+  debug: false,
 }</code></pre>
 <ol start="2">
-<li>Returns following API:</li>
+<li><p>Where each plugin is a function handling the topic of the room a.k.a. microservice name.</p>
+</li>
+<li><p>Returns following API:</p>
+</li>
 </ol>
 <pre><code class="javascript">{
-  // Helper functions
-  join,
-  leave,
-  broadcast,
-  send,
-  // Reference to uWebSockets[SSLApp|App]
-  router,
-  // Reference to rooms Map
-  rooms,
-  // Reference to resulting config JSON
-  config,
+  onEvent(ws, event, data),
+  join(ws, topic),
+  leave(ws),
+  broadcast({ topic }, data),
+  send(ws, message),
+  router: uws.SSLApp|uws.App,
+  rooms: Map(),
+  config: {},
 }</code></pre>
 <h3 id="31-read-more--with-types-and-parameters-">3.1 Read more (with types and parameters)</h3>
 <p>In <a href="https://prozi.github.io/bouncer.js/api/">The API Documentation</a></p>

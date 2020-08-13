@@ -35,7 +35,9 @@ describe("GIVEN bouncer is provided", () => {
 
       const { router } = new BouncerJs({
         plugins: {
-          chat: shim(require("socket-starter/example/chat")),
+          chat: shim({
+            handshake: require("./chat"),
+          }),
         },
       });
 
@@ -48,7 +50,9 @@ describe("GIVEN bouncer is provided", () => {
       const { config } = new BouncerJs({
         port: 8090,
         plugins: {
-          chat: shim(require("socket-starter/example/chat")),
+          chat: shim({
+            handshake: require("./chat")
+          }),
         },
       });
 
@@ -65,8 +69,7 @@ describe("GIVEN bouncer is provided", () => {
       });
 
       socket.on("message", (message) => {
-        const { id, event, data: json } = JSON.parse(message);
-        const { data } = json;
+        const { id, event, data } = JSON.parse(message);
 
         if (event === "joined") {
           expect(id).toBeTruthy();

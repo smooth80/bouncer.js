@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.16.0",
+  "version": "2.16.1",
   "description": "1 bouncer 🐻‍ + 1 server = infinite micro-websockets rooms manager",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -31,6 +31,7 @@
     "jest": "^26.1.0",
     "jest-dot-reporter": "^1.0.14",
     "prettier": "^2.0.5",
+    "request": "^2.88.2",
     "sillyname": "^0.1.0",
     "socket-starter": "^1.22.7",
     "ws": "^7.3.1"

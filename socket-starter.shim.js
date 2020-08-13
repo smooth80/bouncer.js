@@ -35,12 +35,12 @@ function shim(plugin) {
 
     if (!plugin.initialized) {
       plugin.initialized = true;
-      plugin.initialize.call({ socket: ws }, this);
+      plugin.initialize && plugin.initialize.call({ socket: ws }, this);
     }
 
     if (!ws.handshaken) {
       ws.handshaken = true;
-      plugin.handshake.call(context, ws, data);
+      plugin.handshake && plugin.handshake.call(context, ws, data);
     }
 
     ws.callbacks.forEach((callback) =>
