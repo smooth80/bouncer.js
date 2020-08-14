@@ -1,7 +1,5 @@
 "use strict";
 
-const { broadcast } = require(".").prototype;
-
 /**
  * @param {WebSocket} ws
  * @param {BouncerMessageObject} message
