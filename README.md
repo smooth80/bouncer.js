@@ -6,37 +6,31 @@
 </p>
 
 <p align="center">
-  A simple multiple room manager for micro-WebSockets.
+  A `bouncer` is a guy who works outside the night club checking did you pay for the entrance to that particular club. This is a simple but extendable multiple room manager for uWebSockets aka micro web sockets.
 </p>
 
-## 1. General use case
+<br/><br/>
+
+### Common use cases when you might need the bouncer.js:
 
 - You're only able to spawn one process and you'd like to have an app with rooms.
 - At the same time spawn X number of scalable microservices that can connect as websockets.
-
-## 1.1 Common use case
-
 - Single process app server like a free `heroku.com` account or similar
 - Building a chat
 - Making node + javascript games
 
-## 2. Installation
+## 1. The Flow
 
-It's hosted as an `npm` package so installation is of course as simple as:
+- client -> connects websocket to bouncer server
+- server -> waits for handshake event (which is defined in config.join)
+- client -> sends join event with topic aka room name aka plugin name
+- server -> initializes a plugin associated with that room and joins wsock to it
 
-```bash
-npm i @jacekpietal/bouncer.js --registry https://registry.yarnpkg.com
+### Call to `new BouncerJs()`
 
-# or yarn add @jacekpietal/bouncer.js --save
-```
-
----
-
-## 3. API:
-
-Call to `new BouncerJs()`
-
-1. Expects the following Object as argument:
+<p>
+  It is ready to receive any of the following props as constructor parameters:
+</p>
 
 ```javascript
 {
@@ -54,19 +48,12 @@ Call to `new BouncerJs()`
 }
 ```
 
-2. The plugins receive (and send) the data in the format of:
+### Examples:
 
-```
-{
-  id,    // WebSocket id
-  event, // event name as string
-  data,  // any data accompanying the event
-}
-```
+- `const { config, router } = new BouncerJs()`
+- `const bouncer = new BouncerJs({ debug: true, plugins: { chat } })`
 
-3. Each plugin is a function handling the topic of the room a.k.a. microservice name.
-
-4. Creating instanceof BouncerJs returns following API:
+### Instance of bouncer has the following API exposed:
 
 ```javascript
 {
@@ -81,10 +68,51 @@ Call to `new BouncerJs()`
 }
 ```
 
-### 3.1 Read more (with types and parameters)
+### Example files that this library includes ToC:
 
-In [The API Documentation](https://prozi.github.io/bouncer.js/api/)
+```javascript
+// the heart of the library
+const BouncerJs = require("@jacekpietal/bouncer.js");
 
+// chat plugin ready to be used with bouncer
+const chat = require("@jacekpietal/bouncer.js/chat.js");
+
+// for frontend use this is a websocket enchanced,
+// but you can still use normal websocket on frontend
+const client = require("@jacekpietal/bouncer.js/client.js");
+
+// allows to use older plugins with 2 functions
+// deprecated, backwards compatibility to older versions
+const shim = require("@jacekpietal/bouncer.js/shim.js");
+```
+
+## 2. The plugins
+
+1. A plugin is a function (ws, { id, event, data }) that is called each time the frontend websocket emits something to the server. context (this) of each plugin is bouncer instance.
+
+2. The plugins receive (and send) the data in the format of:
+
+```
+{
+  id,    // WebSocket id
+  event, // event name as string
+  data,  // any data accompanying the event
+}
+```
+
+3. Read more (with types and parameters) in the [API Documentation](https://prozi.github.io/bouncer.js/api/)
+
+---
+
+## 3. Installation
+
+It's hosted as an `npm` package so installation is of course as simple as:
+
+```bash
+npm i @jacekpietal/bouncer.js --registry https://registry.yarnpkg.com
+
+# or yarn add @jacekpietal/bouncer.js --save
+```
 ---
 
 ## 4. Chat [full working app] example:
@@ -92,10 +120,10 @@ In [The API Documentation](https://prozi.github.io/bouncer.js/api/)
 ### 4.1 Node.js part:
 
 ```javascript
-const BouncerJs = require("../index.js");
 const fs = require("fs");
 const path = require("path");
-const chat = require("../chat.js");
+const BouncerJs = require("@jacekpietal/bouncer.js");
+const chat = require("@jacekpietal/bouncer.js/chat");
 
 const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
   encoding: "utf8",
@@ -156,26 +184,12 @@ And visit `http://localhost:8080` in your favourite Chrome browser or other.
 
 ---
 
-## 5. Configuration
-
-Configuration is default, being extended with provided by user.
-
-see [config.js](https://github.com/Prozi/bouncer.js/blob/master/config.js)
-
----
-
-To see complimentary RAW frontend of above chat:
-
-see [index.html](https://github.com/Prozi/bouncer.js/blob/master/index.html)
-
----
-
 ## 6. Backwards compatibility
 
 For the few users to have somewhat of a bridge between the [socket-starter](https://github.com/Prozi/socket-starter) library that this library deprecates:
 
-- see [socket-starter.shim.js](https://github.com/Prozi/bouncer.js/blob/master/socket-starter.shim.js)
-- see [socket-starter.shim.spec.js](https://github.com/Prozi/bouncer.js/blob/master/socket-starter.shim.spec.js)
+- see [shim.js](https://github.com/Prozi/bouncer.js/blob/master/shim.js)
+- see [shim.spec.js](https://github.com/Prozi/bouncer.js/blob/master/shim.spec.js)
 
 ### 6.1. What does this do?
 

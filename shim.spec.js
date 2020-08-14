@@ -16,13 +16,13 @@ describe("GIVEN bouncer is provided", () => {
   };
 
   it("THEN requiring the library-shim does not throw an error", () => {
-    const shim = require("./socket-starter.shim");
+    const shim = require("./shim");
 
     expect(shim).not.toThrow();
   });
 
   it("THEN running the library-shim does not throw an error", () => {
-    const shim = require("./socket-starter.shim");
+    const shim = require("./shim");
 
     const plugin = shim({ handshake: () => {}, initialize: () => {} });
 
@@ -31,7 +31,7 @@ describe("GIVEN bouncer is provided", () => {
 
   describe("AND old style format plugin is provided", () => {
     it("THEN running the library-shim does not throw an error", () => {
-      const shim = require("./socket-starter.shim");
+      const shim = require("./shim");
       const chat = shim(socketStarterFormat.plugins.chat);
       const { router } = new BouncerJs({
         plugins: {
@@ -45,7 +45,7 @@ describe("GIVEN bouncer is provided", () => {
     });
 
     it("THEN it should start without error", (done) => {
-      const shim = require("./socket-starter.shim");
+      const shim = require("./shim");
       const bouncer = new BouncerJs({
         port: 8090,
         debug: false,
@@ -94,7 +94,7 @@ describe("GIVEN bouncer is provided", () => {
   });
 
   it("THEN running the library-shim with config in old format does not throw an error", () => {
-    const shim = require("./socket-starter.shim");
+    const shim = require("./shim");
 
     const plugin = shim(socketStarterFormat.plugins.chat);
 
@@ -102,7 +102,7 @@ describe("GIVEN bouncer is provided", () => {
   });
 
   it("THEN running the library-shim with config in old format on port: 8100 does not throw an error", () => {
-    const shim = require("./socket-starter.shim");
+    const shim = require("./shim");
     const chat = shim(socketStarterFormat.plugins.chat);
     const api = new BouncerJs(
       Object.assign(socketStarterFormat, {

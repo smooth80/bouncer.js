@@ -8,35 +8,31 @@
 </p>
 
 <p align="center">
-  A simple multiple room manager for micro-WebSockets.
+  A `bouncer` is a guy who works outside the night club checking did you pay for the entrance to that particular club. This is a simple but extendable multiple room manager for uWebSockets aka micro web sockets.
 </p>
 
-<h2 id="1-general-use-case">1. General use case</h2>
-<hr />
+<p><br><br></p>
+<h3 id="common-use-cases-when-you-might-need-the-bouncerjs-">Common use cases when you might need the bouncer.js:</h3>
 <ul>
 <li>You're only able to spawn one process and you'd like to have an app with rooms.</li>
 <li>At the same time spawn X number of scalable microservices that can connect as websockets.</li>
-</ul>
-<h2 id="11-common-use-case">1.1 Common use case</h2>
-<hr />
-<ul>
 <li>Single process app server like a free <code>heroku.com</code> account or similar</li>
 <li>Building a chat</li>
 <li>Making node + javascript games</li>
 </ul>
-<h2 id="2-installation">2. Installation</h2>
+<h2 id="1-the-flow">1. The Flow</h2>
 <hr />
-<p>It's hosted as an <code>npm</code> package so installation is of course as simple as:</p>
-<pre><code class="bash">npm i @jacekpietal/bouncer.js --registry https://registry.yarnpkg.com
+<ul>
+<li>client -&gt; connects websocket to bouncer server</li>
+<li>server -&gt; waits for handshake event (which is defined in config.join)</li>
+<li>client -&gt; sends join event with topic aka room name aka plugin name</li>
+<li>server -&gt; initializes a plugin associated with that room and joins wsock to it</li>
+</ul>
+<h3 id="call-to-new-bouncerjs--">Call to <code>new BouncerJs()</code></h3>
+<p>
+  It is ready to receive any of the following props as constructor parameters:
+</p>
 
-# or yarn add @jacekpietal/bouncer.js --save</code></pre>
-<hr>
-<h2 id="3-api-">3. API:</h2>
-<hr />
-<p>Call to <code>new BouncerJs()</code></p>
-<ol>
-<li>Expects the following Object as argument:</li>
-</ol>
 <pre><code class="javascript">{
   plugins: {
     [plugin]: (ws, { event, id, data }) =&gt; {
@@ -50,20 +46,12 @@
   createSocketId: () =&gt; simpleId,
   debug: false,
 }</code></pre>
-<ol start="2">
-<li>The plugins receive (and send) the data in the format of:</li>
-</ol>
-<pre><code>{
-  id,    // WebSocket id
-  event, // event name as string
-  data,  // any data accompanying the event
-}</code></pre>
-<ol start="3">
-<li><p>Each plugin is a function handling the topic of the room a.k.a. microservice name.</p>
-</li>
-<li><p>Creating instanceof BouncerJs returns following API:</p>
-</li>
-</ol>
+<h3 id="examples-">Examples:</h3>
+<ul>
+<li><code>const { config, router } = new BouncerJs()</code></li>
+<li><code>const bouncer = new BouncerJs({ debug: true, plugins: { chat } })</code></li>
+</ul>
+<h3 id="instance-of-bouncer-has-the-following-api-exposed-">Instance of bouncer has the following API exposed:</h3>
 <pre><code class="javascript">{
   onEvent(ws, event, data),
   join(ws, topic),
@@ -74,16 +62,51 @@
   rooms: Map(),
   config: {},
 }</code></pre>
-<h3 id="31-read-more--with-types-and-parameters-">3.1 Read more (with types and parameters)</h3>
-<p>In <a href="https://prozi.github.io/bouncer.js/api/">The API Documentation</a></p>
+<h3 id="example-files-that-this-library-includes-toc-">Example files that this library includes ToC:</h3>
+<pre><code class="javascript">// the heart of the library
+const BouncerJs = require("@jacekpietal/bouncer.js");
+
+// chat plugin ready to be used with bouncer
+const chat = require("@jacekpietal/bouncer.js/chat.js");
+
+// for frontend use this is a websocket enchanced,
+// but you can still use normal websocket on frontend
+const client = require("@jacekpietal/bouncer.js/client.js");
+
+// allows to use older plugins with 2 functions
+// deprecated, backwards compatibility to older versions
+const shim = require("@jacekpietal/bouncer.js/shim.js");</code></pre>
+<h2 id="2-the-plugins">2. The plugins</h2>
+<hr />
+<ol>
+<li><p>A plugin is a function (ws, { id, event, data }) that is called each time the frontend websocket emits something to the server. context (this) of each plugin is bouncer instance.</p>
+</li>
+<li><p>The plugins receive (and send) the data in the format of:</p>
+</li>
+</ol>
+<pre><code>{
+  id,    // WebSocket id
+  event, // event name as string
+  data,  // any data accompanying the event
+}</code></pre>
+<ol start="3">
+<li>Read more (with types and parameters) in the <a href="https://prozi.github.io/bouncer.js/api/">API Documentation</a></li>
+</ol>
+<hr>
+<h2 id="3-installation">3. Installation</h2>
+<hr />
+<p>It's hosted as an <code>npm</code> package so installation is of course as simple as:</p>
+<pre><code class="bash">npm i @jacekpietal/bouncer.js --registry https://registry.yarnpkg.com
+
+# or yarn add @jacekpietal/bouncer.js --save</code></pre>
 <hr>
 <h2 id="4-chat--full-working-app--example-">4. Chat [full working app] example:</h2>
 <hr />
 <h3 id="41-nodejs-part-">4.1 Node.js part:</h3>
-<pre><code class="javascript">const BouncerJs = require("../index.js");
-const fs = require("fs");
+<pre><code class="javascript">const fs = require("fs");
 const path = require("path");
-const chat = require("../chat.js");
+const BouncerJs = require("@jacekpietal/bouncer.js");
+const chat = require("@jacekpietal/bouncer.js/chat");
 
 const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
   encoding: "utf8",
@@ -132,20 +155,12 @@ refs.chat.addEventListener("submit", (event) =&gt; {
 <pre><code class="bash">yarn test:chat</code></pre>
 <p>And visit <code>http://localhost:8080</code> in your favourite Chrome browser or other.</p>
 <hr>
-<h2 id="5-configuration">5. Configuration</h2>
-<hr />
-<p>Configuration is default, being extended with provided by user.</p>
-<p>see <a href="https://github.com/Prozi/bouncer.js/blob/master/config.js">config.js</a></p>
-<hr>
-<p>To see complimentary RAW frontend of above chat:</p>
-<p>see <a href="https://github.com/Prozi/bouncer.js/blob/master/index.html">index.html</a></p>
-<hr>
 <h2 id="6-backwards-compatibility">6. Backwards compatibility</h2>
 <hr />
 <p>For the few users to have somewhat of a bridge between the <a href="https://github.com/Prozi/socket-starter">socket-starter</a> library that this library deprecates:</p>
 <ul>
-<li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/socket-starter.shim.js">socket-starter.shim.js</a></li>
-<li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/socket-starter.shim.spec.js">socket-starter.shim.spec.js</a></li>
+<li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/shim.js">shim.js</a></li>
+<li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/shim.spec.js">shim.spec.js</a></li>
 </ul>
 <h3 id="61-what-does-this-do-">6.1. What does this do?</h3>
 <p>if you do <code>shim(plugin)</code> then your plugin may be in the format of:</p>

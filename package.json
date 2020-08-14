@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.17.1",
+  "version": "2.17.2",
   "description": "1 bouncer 🐻‍ + 1 server = infinite micro-websockets rooms manager",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -19,7 +19,9 @@
     "precommit": "yarn docs && yarn lint && yarn prettify"
   },
   "dependencies": {
-    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v18.4.0"
+    "sillyname": "^0.1.0",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v18.4.0",
+    "wanakana": "^4.0.2"
   },
   "homepage": "https://prozi.github.io/bouncer.js/",
   "devDependencies": {
@@ -33,7 +35,6 @@
     "jest-dot-reporter": "^1.0.14",
     "prettier": "^2.0.5",
     "request": "^2.88.2",
-    "sillyname": "^0.1.0",
     "socket-starter": "^1.22.7",
     "ws": "^7.3.1"
   },
