@@ -216,9 +216,11 @@ To test run:
 Standard frontend WebSocket extended with:
 
 ```
-1. emit(objectOrString)
-2. on(eventName, callback)
-3. on("*", callback) // on any event
+{
+  emit(objectOrString)
+  on(eventName, callback)
+  on("*", callback) // on any event
+}
 ```
 
 ---

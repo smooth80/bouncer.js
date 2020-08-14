@@ -51,9 +51,17 @@
   debug: false,
 }</code></pre>
 <ol start="2">
-<li><p>Where each plugin is a function handling the topic of the room a.k.a. microservice name.</p>
+<li>The plugins receive (and send) the data in the format of:</li>
+</ol>
+<pre><code>{
+  id,    // WebSocket id
+  event, // event name as string
+  data,  // any data accompanying the event
+}</code></pre>
+<ol start="3">
+<li><p>Each plugin is a function handling the topic of the room a.k.a. microservice name.</p>
 </li>
-<li><p>Returns following API:</p>
+<li><p>Creating instanceof BouncerJs returns following API:</p>
 </li>
 </ol>
 <pre><code class="javascript">{
@@ -72,35 +80,23 @@
 <h2 id="4-chat--full-working-app--example-">4. Chat [full working app] example:</h2>
 <hr />
 <h3 id="41-nodejs-part-">4.1 Node.js part:</h3>
-<pre><code class="javascript">const BouncerJs = require("@jacekpietal/bouncer.js");
+<pre><code class="javascript">const BouncerJs = require("../index.js");
 const fs = require("fs");
 const path = require("path");
+const chat = require("../chat.js");
 
 const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
   encoding: "utf8",
 });
 
-const { router, config, broadcast } = new BouncerJs({
+const { router } = new BouncerJs({
   debug: true,
   plugins: { chat },
 });
 
 router.get("/*", (res, req) =&gt; {
   res.end(indexFile);
-});
-
-/**
- * @param {WebSocket} ws
- * @param {Object} message
- */
-function chat(ws, { id, event, data }) {
-  // Broadcast to all sockets inside chat topic
-  broadcast({ topic: "chat" }, { id, event, data });
-
-  if (config.debug) {
-    console.log({ id, event, data });
-  }
-}</code></pre>
+});</code></pre>
 <h3 id="42-frontend-part-">4.2. Frontend part:</h3>
 <pre><code class="javascript">const socket = new WebSocket("ws://localhost:1337");
 const refs = ["username", "messages", "message", "chat"].reduce(
@@ -151,6 +147,13 @@ refs.chat.addEventListener("submit", (event) =&gt; {
 <li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/socket-starter.shim.js">socket-starter.shim.js</a></li>
 <li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/socket-starter.shim.spec.js">socket-starter.shim.spec.js</a></li>
 </ul>
+<h3 id="61-what-does-this-do-">6.1. What does this do?</h3>
+<p>if you do <code>shim(plugin)</code> then your plugin may be in the format of:</p>
+<pre><code class="javascript">{
+  initialize(io)
+  handshake(socket, data),
+}</code></pre>
+<p>shim adds to your plugin</p>
 <hr>
 <h2 id="7-tests">7. Tests</h2>
 <hr />
@@ -188,7 +191,14 @@ refs.chat.addEventListener("submit", (event) =&gt; {
 <hr />
 <ul>
 <li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/client.js">client.js</a></li>
+<li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/client.spec.js">client.spec.js</a></li>
 </ul>
+<p>Standard frontend WebSocket extended with:</p>
+<pre><code>{
+  emit(objectOrString)
+  on(eventName, callback)
+  on("*", callback) // on any event
+}</code></pre>
 <hr>
 <h2 id="9-license">9. License</h2>
 <hr />
