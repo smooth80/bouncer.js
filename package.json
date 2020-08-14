@@ -19,7 +19,7 @@
     "precommit": "yarn docs && yarn lint && yarn prettify"
   },
   "dependencies": {
-    "uwebsockets.js": "*"
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v18.4.0"
   },
   "homepage": "https://prozi.github.io/bouncer.js/",
   "devDependencies": {

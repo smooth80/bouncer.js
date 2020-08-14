@@ -1,6 +1,6 @@
 "use strict";
 
-const uWebSockets = require("uws.js");
+const uWebSockets = require("uWebSockets.js");
 const UWSRoomManager = require("./api.js");
 
 /**
