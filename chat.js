@@ -1,14 +1,16 @@
 "use strict";
 
+const { broadcast } = require(".").prototype;
+
 /**
  * @param {WebSocket} ws
  * @param {BouncerMessageObject} message
  */
 function chat(ws, { id, event, data }) {
   // Broadcast to all sockets inside chat topic
-  broadcast({ topic: "chat" }, { id, event, data });
+  this.broadcast({ topic: "chat" }, { id, event, data });
 
-  if (config.debug) {
+  if (this.config.debug) {
     console.log({ id, event, data });
   }
 }

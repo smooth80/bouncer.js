@@ -92,15 +92,16 @@ In [The API Documentation](https://prozi.github.io/bouncer.js/api/)
 ### 4.1 Node.js part:
 
 ```javascript
-const BouncerJs = require("@jacekpietal/bouncer.js");
+const BouncerJs = require("../index.js");
 const fs = require("fs");
 const path = require("path");
+const chat = require("../chat.js");
 
 const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
   encoding: "utf8",
 });
 
-const { router, config, broadcast } = new BouncerJs({
+const { router } = new BouncerJs({
   debug: true,
   plugins: { chat },
 });
@@ -108,19 +109,6 @@ const { router, config, broadcast } = new BouncerJs({
 router.get("/*", (res, req) => {
   res.end(indexFile);
 });
-
-/**
- * @param {WebSocket} ws
- * @param {Object} message
- */
-function chat(ws, { id, event, data }) {
-  // Broadcast to all sockets inside chat topic
-  broadcast({ topic: "chat" }, { id, event, data });
-
-  if (config.debug) {
-    console.log({ id, event, data });
-  }
-}
 ```
 
 ### 4.2. Frontend part:

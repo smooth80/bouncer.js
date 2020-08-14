@@ -7,7 +7,7 @@ const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
   encoding: "utf8",
 });
 
-const { router, config, broadcast } = new BouncerJs({
+const { router } = new BouncerJs({
   debug: true,
   plugins: { chat },
 });

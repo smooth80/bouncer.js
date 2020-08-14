@@ -1,9 +1,6 @@
 "use strict";
 
 const io = {
-  emit: function (event, data) {
-    this.io.broadcast(this.socket, { id: this.socket.id, event, data });
-  },
   ws: {
     on: function (trigger, callback) {
       this.socket.callbacks.push(({ id, event, data }) => {
@@ -24,27 +21,24 @@ const io = {
  */
 function shim(plugin) {
   return function shimPlugin(ws, { id, event, data }) {
-    const context = { socket: ws, io: this, data };
-
-    // context = broadcaster instance
-    this.emit = this.emit || io.emit.bind(context);
+    const wsContext = { ...this, socket: ws };
 
     ws.callbacks = ws.callbacks || [];
-    ws.on = ws.on || io.ws.on.bind(context);
-    ws.emit = ws.emit || io.ws.emit.bind(context);
+    ws.on = ws.on || io.ws.on.bind(wsContext);
+    ws.emit = ws.emit || io.ws.emit.bind(wsContext);
 
     if (!plugin.initialized) {
       plugin.initialized = true;
-      plugin.initialize && plugin.initialize.call({ socket: ws }, this);
+      plugin.initialize && plugin.initialize.call(this, this);
     }
 
     if (!ws.handshaken) {
       ws.handshaken = true;
-      plugin.handshake && plugin.handshake.call(context, ws, data);
+      plugin.handshake && plugin.handshake.call(this, ws, { id, event, data });
     }
 
     ws.callbacks.forEach((callback) =>
-      callback.call(context, { id, event, data }),
+      callback.call(wsContext, { id, event, data }),
     );
   };
 }
