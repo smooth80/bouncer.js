@@ -12,7 +12,7 @@
     "test:chat": "node ./demo/chat.js",
     "docs": "yarn docma",
     "lint": "yarn eslint ./*.js --fix",
-    "prettify": "yarn prettier `find ./ -name '*.js' | grep -v node_modules` --write",
+    "prettify": "cross-env yarn prettier './*.js' --write",
     "prepare:npm": "rm -rf node_modules && npm i && npm audit fix",
     "prepare:yarn": "rm -rf node_modules && yarn",
     "groom": "yarn prepare:npm && yarn prepare:yarn",
@@ -24,6 +24,7 @@
   "homepage": "https://prozi.github.io/bouncer.js/",
   "devDependencies": {
     "@jacekpietal/docma": "^3.2.12",
+    "cross-env": "^7.0.2",
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
