@@ -85,20 +85,20 @@ const UWebSocketClient = require("@jacekpietal/bouncer.js/client.js");
 const shim = require("@jacekpietal/bouncer.js/shim.js");</code></pre>
 <h2 id="2-the-plugins">2. The plugins</h2>
 <hr />
-<ol>
+<ul>
 <li><p>A plugin is a function (ws, { id, event, data }) that is called each time the frontend websocket emits something to the server. context (this) of each plugin is bouncer instance.</p>
 </li>
 <li><p>The plugins receive (and send) the data in the format of:</p>
 </li>
-</ol>
+</ul>
 <pre><code>{
   id,    // WebSocket id
   event, // event name as string
   data,  // any data accompanying the event
 }</code></pre>
-<ol start="3">
+<ul>
 <li>Read more (with types and parameters) in the <a href="https://prozi.github.io/bouncer.js/api/">API Documentation</a></li>
-</ol>
+</ul>
 <hr>
 <h2 id="3-installation">3. Installation</h2>
 <hr />
@@ -203,11 +203,10 @@ refs.chat.addEventListener("submit", (event) =&gt; {
 <td>1.009 s</td>
 </tr>
 </tbody></table>
-<p>To test run:</p>
-<ul>
-<li><code>yarn test</code> (automatic)</li>
-<li><code>yarn test:chat</code> (manual)</li>
-</ul>
+<pre><code>To test run:
+
+- `yarn test` (automatic)
+- `yarn test:chat` (manual)</code></pre>
 <hr>
 <h2 id="8-front-end-client--beta-">8. Front End Client (beta)</h2>
 <hr />

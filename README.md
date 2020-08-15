@@ -95,9 +95,9 @@ const shim = require("@jacekpietal/bouncer.js/shim.js");
 
 ## 2. The plugins
 
-1. A plugin is a function (ws, { id, event, data }) that is called each time the frontend websocket emits something to the server. context (this) of each plugin is bouncer instance.
+- A plugin is a function (ws, { id, event, data }) that is called each time the frontend websocket emits something to the server. context (this) of each plugin is bouncer instance.
 
-2. The plugins receive (and send) the data in the format of:
+- The plugins receive (and send) the data in the format of:
 
 ```
 {
@@ -107,7 +107,7 @@ const shim = require("@jacekpietal/bouncer.js/shim.js");
 }
 ```
 
-3. Read more (with types and parameters) in the [API Documentation](https://prozi.github.io/bouncer.js/api/)
+- Read more (with types and parameters) in the [API Documentation](https://prozi.github.io/bouncer.js/api/)
 
 ---
 
@@ -223,10 +223,12 @@ shim adds to your plugin
 | Snapshots:   | 0 total             |
 | Time:        | 1.009 s             |
 
+```
 To test run:
 
 - `yarn test` (automatic)
 - `yarn test:chat` (manual)
+```
 
 ---
 

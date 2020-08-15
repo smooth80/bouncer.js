@@ -4,8 +4,7 @@ const baseConfig = require("./config.js");
 const { takeId, freeId, generateId } = require("./ids.js");
 
 /**
- * @param {Map} rooms
- * @param {BouncerConfig} config
+ * @param {BouncerConfig} userConfig
  * @returns {Partial<BouncerJS>}
  */
 class UWSRoomManager {
