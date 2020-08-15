@@ -219,9 +219,9 @@ For the few users to have somewhat of a bridge between the [socket-starter](http
 - see [shim.js](https://github.com/Prozi/bouncer.js/blob/master/shim.js)
 - see [shim.spec.js](https://github.com/Prozi/bouncer.js/blob/master/shim.spec.js)
 
-### 6.1. What does this do?
+### What does this shim do?
 
-if you do `shim(plugin)` then your plugin may be in the format of:
+If you do `shim(plugin)` then your plugin may be in the format of:
 
 ```javascript
 {
@@ -229,8 +229,6 @@ if you do `shim(plugin)` then your plugin may be in the format of:
   handshake(socket, data),
 }
 ```
-
-shim adds to your plugin
 
 ---
 
