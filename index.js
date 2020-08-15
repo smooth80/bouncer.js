@@ -80,12 +80,12 @@ class BouncerJs extends UWSRoomManager {
         this.join(ws, data);
       }
 
-      this.onEvent(ws, event, data);
-
       // Optional leave: removes ws.topic
       if (event === this.config.leave) {
         this.leave(ws);
       }
+
+      this.onEvent(ws, event, data);
     } catch (err) {
       console.error(err);
     }

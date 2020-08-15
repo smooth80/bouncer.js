@@ -40,17 +40,29 @@ class UWSRoomManager {
   join(ws, topic) {
     if (ws.topic) return false;
 
-    const room = this.rooms.get(topic) || new Map();
+    // lazy create room
+    if (!this.rooms.has(topic)) {
+      this.rooms.set(topic, new Map());
+    }
 
+    // get reference to room
+    const room = this.rooms.get(topic);
+
+    // first of all create id if not already there
     ws.id = ws.id || this.generateId();
+
+    // occupy id
+    takeId(ws.id);
+
+    // set topic
     ws.topic = topic;
 
-    takeId(ws.id);
+    // occupy room
     room.set(ws.id, ws);
 
-    if (!this.rooms.get(ws.topic)) {
-      this.rooms.set(ws.topic, room);
-    }
+    // notify all including self of joining in room
+    // uses ws.topic
+    this.broadcast(ws, { event: this.config.join, id: ws.id, data: ws.topic });
 
     if (this.config.debug) {
       console.log({ [this.config.join]: { topic: ws.topic, id: ws.id } });
@@ -66,11 +78,20 @@ class UWSRoomManager {
   leave(ws) {
     if (!ws.topic) return false;
 
+    // get reference to room
     const room = this.rooms.get(ws.topic) || new Map();
 
+    // free id
     freeId(ws.id);
+
+    // remove sock from room
     room.delete(ws.id);
 
+    // notify others in this room (after leaving, without self)
+    // uses ws.topic
+    this.broadcast(ws, { event: this.config.leave, id: ws.id, data: ws.topic });
+
+    // possibly clear room
     if (room.size === 0) {
       this.rooms.delete(ws.topic);
     }

@@ -48,7 +48,7 @@ describe("GIVEN bouncer is provided", () => {
       const shim = require("./shim");
       const bouncer = new BouncerJs({
         port: 8090,
-        debug: false,
+        debug: true,
         plugins: {
           any: shim({
             handshake: (ws, { id, event, data }) => {
@@ -62,10 +62,10 @@ describe("GIVEN bouncer is provided", () => {
       });
 
       const { config } = bouncer;
-      const WebSocket = require("ws");
-      const socket = new WebSocket("ws://localhost:8090");
+      const UWebSocketClient = require("./client.js");
+      const socket = new UWebSocketClient("ws://localhost:8090");
 
-      socket.on("open", () => {
+      socket.onopen = () => {
         console.log("-- send handshake");
         socket.send(
           JSON.stringify({
@@ -74,19 +74,14 @@ describe("GIVEN bouncer is provided", () => {
             data: "any",
           }),
         );
-      });
+      };
 
-      socket.on("message", (message) => {
-        const { id, event, data } = JSON.parse(message);
-
-        if (event !== bouncer.config.leave) {
-          console.log("-- frontend receive message", { id, event, data });
-        }
+      socket.on("test", ({ id, event, data }) => {
+        socket.close();
 
         expect(id).toBeTruthy();
+        expect(event).toBe("test");
         expect(data).toBe("chat");
-
-        socket.close();
 
         done();
       });
