@@ -22,15 +22,29 @@
 
 ## 1. The Flow (!)
 
+STEP 1: Before Connection
 - client -> connects websocket to bouncer server on ws:// or wss:// protocol
 - server -> waits for handshake / join event (which is defined in config.join)
-- client -> sends handshake / join event with topic aka room name aka plugin name
-- server -> initializes a plugin associated with that room to that client's websocket
 
-### Call to `new BouncerJs()`
+STEP 2: Connection
+- client -> sends handshake / join event with topic aka room name aka plugin name
+- server -> plugin associated with that room joins client to room and starts to listen
+- server -> broadcasts to all the people of that room that mentioned client joined
+
+STEP 3: After Connection
+- client -> does some actions (emits, receives)
+- server -> plugin responds to the actions
+
+STEP 4: Finish Connection
+- client -> disconnects after some time
+- server -> broadcasts to all other people from the room that client left (config.leave)
+
+## 2. Configuration
+
+### A call to `new BouncerJs(userConfig)` creates a bouncer instance
 
 <p>
-  It is ready to receive any of the following props as constructor parameters:
+  It is ready to receive any number of the following props if any as constructor parameters:
 </p>
 
 ```javascript
@@ -39,6 +53,7 @@
     // any number of plugins with this format
     [plugin]: (ws, { event, id, data }) => {
       // user implementation
+      // here `this` === bouncer instance
     }
   },
   // logo for discriminating lib's messages
@@ -75,7 +90,7 @@
   config: {
     // read above section in readme, also:
     // after the client config is applied to default config
-    // the resulting startup config reference is here 
+    // the resulting startup config reference is here
   },
 }
 ```
@@ -98,7 +113,9 @@ const UWebSocketClient = require("@jacekpietal/bouncer.js/client.js");
 const shim = require("@jacekpietal/bouncer.js/shim.js");
 ```
 
-## 2. The plugins
+## 3. The plugins
+
+- To handshake a plugin in bouncer you need to send from your connected client something with similar payload: `{ "event": "/join", "data": "pluginName" }`.
 
 - A plugin is a function (ws, { id, event, data }) that is called each time the frontend websocket emits something to the server. context (this) of each plugin is bouncer instance.
 
@@ -106,7 +123,7 @@ const shim = require("@jacekpietal/bouncer.js/shim.js");
 
 ```
 {
-  id,    // WebSocket id
+  id,    // WebSocket id - this is automatically added
   event, // event name as string
   data,  // any data accompanying the event
 }
