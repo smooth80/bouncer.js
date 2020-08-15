@@ -35,16 +35,23 @@
 ```javascript
 {
   plugins: {
+    // any number of plugins with this format
     [plugin]: (ws, { event, id, data }) => {
       // user implementation
     }
   },
+  // logo for discriminating lib's messages
   LOGO: 'bouncer 🐻',
+  // default port is read from ENV
   port: process.env.PORT,
+  // this event joins a topic / room
   join: '/join',
+  // this event leaves a topic / room
   leave: '/leave',
-  createSocketId: () => simpleId,
+  // a lot more logs
   debug: false,
+  // for creating random unique socket id
+  idConfig: { lang: "english"|"japanese", len: 5 },
 }
 ```
 
@@ -79,7 +86,7 @@ const chat = require("@jacekpietal/bouncer.js/chat.js");
 
 // for frontend use this is a websocket enchanced,
 // but you can still use normal websocket on frontend
-const client = require("@jacekpietal/bouncer.js/client.js");
+const UWebSocketClient = require("@jacekpietal/bouncer.js/client.js");
 
 // allows to use older plugins with 2 functions
 // deprecated, backwards compatibility to older versions
@@ -113,6 +120,7 @@ npm i @jacekpietal/bouncer.js --registry https://registry.yarnpkg.com
 
 # or yarn add @jacekpietal/bouncer.js --save
 ```
+
 ---
 
 ## 4. Chat [full working app] example:

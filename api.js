@@ -1,6 +1,7 @@
 "use strict";
 
 const baseConfig = require("./config.js");
+const { takeId, freeId, generateId } = require("./ids.js");
 
 /**
  * @param {Map} rooms
@@ -42,9 +43,10 @@ class UWSRoomManager {
 
     const room = this.rooms.get(topic) || new Map();
 
-    ws.id = ws.id || this.config.createSocketId();
+    ws.id = ws.id || this.generateId();
     ws.topic = topic;
 
+    takeId(ws.id);
     room.set(ws.id, ws);
 
     if (!this.rooms.get(ws.topic)) {
@@ -67,10 +69,8 @@ class UWSRoomManager {
 
     const room = this.rooms.get(ws.topic) || new Map();
 
+    freeId(ws.id);
     room.delete(ws.id);
-    if (!this.rooms.get(ws.topic)) {
-      this.rooms.set(ws.topic, room);
-    }
 
     if (room.size === 0) {
       this.rooms.delete(ws.topic);
@@ -108,6 +108,14 @@ class UWSRoomManager {
     ws.send(
       typeof message === "string" ? message : JSON.stringify(message, null, 2),
     );
+  }
+
+  /**
+   * override to use your custom socket id generator
+   * you don't have to check for unique
+   */
+  generateId() {
+    return generateId(this.config.idConfig);
   }
 }
 
