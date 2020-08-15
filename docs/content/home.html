@@ -23,15 +23,32 @@
 </ul>
 <h2 id="1-the-flow----">1. The Flow (!)</h2>
 <hr />
+<p>STEP 1: Before Connection</p>
 <ul>
 <li>client -&gt; connects websocket to bouncer server on ws:// or wss:// protocol</li>
 <li>server -&gt; waits for handshake / join event (which is defined in config.join)</li>
-<li>client -&gt; sends handshake / join event with topic aka room name aka plugin name</li>
-<li>server -&gt; initializes a plugin associated with that room to that client's websocket</li>
 </ul>
-<h3 id="call-to-new-bouncerjs--">Call to <code>new BouncerJs()</code></h3>
+<p>STEP 2: Connection</p>
+<ul>
+<li>client -&gt; sends handshake / join event with topic aka room name aka plugin name</li>
+<li>server -&gt; plugin associated with that room joins client to room and starts to listen</li>
+<li>server -&gt; broadcasts to all the people of that room that mentioned client joined</li>
+</ul>
+<p>STEP 3: After Connection</p>
+<ul>
+<li>client -&gt; does some actions (emits, receives)</li>
+<li>server -&gt; plugin responds to the actions</li>
+</ul>
+<p>STEP 4: Finish Connection</p>
+<ul>
+<li>client -&gt; disconnects after some time</li>
+<li>server -&gt; broadcasts to all other people from the room that client left (config.leave)</li>
+</ul>
+<h2 id="2-configuration">2. Configuration</h2>
+<hr />
+<h3 id="a-call-to-new-bouncerjs-userconfig--creates-a-bouncer-instance">A call to <code>new BouncerJs(userConfig)</code> creates a bouncer instance</h3>
 <p>
-  It is ready to receive any of the following props as constructor parameters:
+  It is ready to receive any number of the following props if any as constructor parameters:
 </p>
 
 <pre><code class="javascript">{
@@ -39,6 +56,7 @@
     // any number of plugins with this format
     [plugin]: (ws, { event, id, data }) =&gt; {
       // user implementation
+      // here `this` === bouncer instance
     }
   },
   // logo for discriminating lib's messages
@@ -71,7 +89,7 @@
   config: {
     // read above section in readme, also:
     // after the client config is applied to default config
-    // the resulting startup config reference is here 
+    // the resulting startup config reference is here
   },
 }</code></pre>
 <h3 id="example-files-that-this-library-includes-toc-">Example files that this library includes ToC:</h3>
@@ -88,16 +106,17 @@ const UWebSocketClient = require("@jacekpietal/bouncer.js/client.js");
 // allows to use older plugins with 2 functions
 // deprecated, backwards compatibility to older versions
 const shim = require("@jacekpietal/bouncer.js/shim.js");</code></pre>
-<h2 id="2-the-plugins">2. The plugins</h2>
-<hr />
+<h3 id="the-plugins----">The Plugins (!)</h3>
 <ul>
+<li><p>To handshake a plugin in bouncer you need to send from your connected client something with similar payload: <code>{ "event": "/join", "data": "pluginName" }</code>.</p>
+</li>
 <li><p>A plugin is a function (ws, { id, event, data }) that is called each time the frontend websocket emits something to the server. context (this) of each plugin is bouncer instance.</p>
 </li>
 <li><p>The plugins receive (and send) the data in the format of:</p>
 </li>
 </ul>
 <pre><code>{
-  id,    // WebSocket id
+  id,    // WebSocket id - this is automatically added
   event, // event name as string
   data,  // any data accompanying the event
 }</code></pre>
@@ -112,9 +131,8 @@ const shim = require("@jacekpietal/bouncer.js/shim.js");</code></pre>
 
 # or yarn add @jacekpietal/bouncer.js --save</code></pre>
 <hr>
-<h2 id="4-chat--full-working-app--example-">4. Chat [full working app] example:</h2>
+<h2 id="4-chat---nodejs-part-">4. Chat - Node.js part:</h2>
 <hr />
-<h3 id="41-nodejs-part-">4.1 Node.js part:</h3>
 <pre><code class="javascript">const fs = require("fs");
 const path = require("path");
 const BouncerJs = require("@jacekpietal/bouncer.js");
@@ -132,7 +150,8 @@ const { router } = new BouncerJs({
 router.get("/*", (res, req) =&gt; {
   res.end(indexFile);
 });</code></pre>
-<h3 id="42-frontend-part-">4.2. Frontend part:</h3>
+<h2 id="5-chat---frontend-part-">5. Chat - Frontend part:</h2>
+<hr />
 <pre><code class="javascript">const socket = new WebSocket("ws://localhost:1337");
 const refs = ["username", "messages", "message", "chat"].reduce(
   (obj, id) =&gt; ({
@@ -163,7 +182,7 @@ refs.chat.addEventListener("submit", (event) =&gt; {
   refs.message.value = "";
   socket.send(JSON.stringify({ event: "say", data }));
 });</code></pre>
-<h3 id="43-to-run-above-example-you-can-run-">4.3. To run above example you can run:</h3>
+<h3 id="to-run-above-example-you-can-run-">To run above example you can run:</h3>
 <pre><code class="bash">yarn test:chat</code></pre>
 <p>And visit <code>http://localhost:8080</code> in your favourite Chrome browser or other.</p>
 <hr>
@@ -174,13 +193,12 @@ refs.chat.addEventListener("submit", (event) =&gt; {
 <li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/shim.js">shim.js</a></li>
 <li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/shim.spec.js">shim.spec.js</a></li>
 </ul>
-<h3 id="61-what-does-this-do-">6.1. What does this do?</h3>
-<p>if you do <code>shim(plugin)</code> then your plugin may be in the format of:</p>
+<h3 id="what-does-this-shim-do-">What does this shim do?</h3>
+<p>If you do <code>shim(plugin)</code> then your plugin may be in the format of:</p>
 <pre><code class="javascript">{
   initialize(io)
   handshake(socket, data),
 }</code></pre>
-<p>shim adds to your plugin</p>
 <hr>
 <h2 id="7-tests">7. Tests</h2>
 <hr />
