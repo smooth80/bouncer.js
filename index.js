@@ -50,18 +50,14 @@ class BouncerJs extends UWSRoomManager {
   }
 
   /**
-   * @desc this is Leave room and broadcast leave event
+   * @desc on disconnect leave socket ws.topic
    * @param {WebSocket} ws
    */
   onClose(ws) {
     try {
       this.leave(ws);
-      this.broadcast(
-        { topic: ws.topic },
-        { id: ws.id, event: this.config.leave, data: ws.topic },
-      );
     } catch (err) {
-      console.error(err.stack || err);
+      console.error(err);
     }
   }
 

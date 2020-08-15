@@ -121,7 +121,6 @@ class UWebSocket {
   }
 
   /**
-   *
    * @param {string} event
    * @param {any} data
    */

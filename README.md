@@ -223,6 +223,8 @@ shim adds to your plugin
 | Snapshots:   | 0 total             |
 | Time:        | 1.009 s             |
 
+<br/>
+
 ```
 To test run:
 
