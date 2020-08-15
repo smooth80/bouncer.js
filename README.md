@@ -113,7 +113,7 @@ const UWebSocketClient = require("@jacekpietal/bouncer.js/client.js");
 const shim = require("@jacekpietal/bouncer.js/shim.js");
 ```
 
-## 3. The plugins
+### The Plugins (!)
 
 - To handshake a plugin in bouncer you need to send from your connected client something with similar payload: `{ "event": "/join", "data": "pluginName" }`.
 
@@ -145,9 +145,7 @@ npm i @jacekpietal/bouncer.js --registry https://registry.yarnpkg.com
 
 ---
 
-## 4. Chat [full working app] example:
-
-### 4.1 Node.js part:
+## 4. Chat - Node.js part:
 
 ```javascript
 const fs = require("fs");
@@ -169,7 +167,7 @@ router.get("/*", (res, req) => {
 });
 ```
 
-### 4.2. Frontend part:
+## 5. Chat - Frontend part:
 
 ```javascript
 const socket = new WebSocket("ws://localhost:1337");
@@ -204,7 +202,7 @@ refs.chat.addEventListener("submit", (event) => {
 });
 ```
 
-### 4.3. To run above example you can run:
+### To run above example you can run:
 
 ```bash
 yarn test:chat
