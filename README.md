@@ -2,6 +2,7 @@
 
 <p align="center">
   <a href="https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js"><img src="https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js.svg" alt="shield" /></a>
+  <a href="https://www.npmjs.com/package/@jacekpietal/sync"><img src="https://img.shields.io/npm/dt/@jacekpietal/bouncer.js.svg?style=flat-square" alt="shield" /></a>
   <a href="https://circleci.com/gh/Prozi/bouncer.js"><img src="https://circleci.com/gh/Prozi/bouncer.js.svg?style=shield" alt="shield" /></a>
 </p>
 
@@ -19,12 +20,12 @@
 - Building a chat
 - Making node + javascript games
 
-## 1. The Flow
+## 1. The Flow (!)
 
-- client -> connects websocket to bouncer server
-- server -> waits for handshake event (which is defined in config.join)
-- client -> sends join event with topic aka room name aka plugin name
-- server -> initializes a plugin associated with that room and joins wsock to it
+- client -> connects websocket to bouncer server on ws:// or wss:// protocol
+- server -> waits for handshake / join event (which is defined in config.join)
+- client -> sends handshake / join event with topic aka room name aka plugin name
+- server -> initializes a plugin associated with that room to that client's websocket
 
 ### Call to `new BouncerJs()`
 
@@ -43,7 +44,7 @@
   // logo for discriminating lib's messages
   LOGO: 'bouncer 🐻',
   // default port is read from ENV
-  port: process.env.PORT,
+  port: process.env.PORT | 1337,
   // this event joins a topic / room
   join: '/join',
   // this event leaves a topic / room
@@ -71,7 +72,11 @@
   send(ws, message),
   router: uws.SSLApp|uws.App,
   rooms: Map(),
-  config: {},
+  config: {
+    // read above section in readme, also:
+    // after the client config is applied to default config
+    // the resulting startup config reference is here 
+  },
 }
 ```
 
