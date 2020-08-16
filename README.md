@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  A `bouncer` is a guy who works outside the night club checking did you pay for the entrance to that particular club. This is a simple but extendable multiple room manager for uWebSockets aka micro web sockets.
+  A `bouncer` is a guy who works outside the night club checking did you pay for the entrance to that particular club. This is a simple but extendable multiple room manager for uWebSockets aka micro web sockets. One person (socket) may be in many clubs (topics) at the same time (from v2.18.0).
 </p>
 
 <br/><br/>
@@ -23,19 +23,23 @@
 ## 1. The Flow (!)
 
 STEP 1: Before Connection
+
 - client -> connects websocket to bouncer server on ws:// or wss:// protocol
 - server -> waits for handshake / join event (which is defined in config.join)
 
 STEP 2: Connection
+
 - client -> sends handshake / join event with topic aka room name aka plugin name
 - server -> plugin associated with that room joins client to room and starts to listen
 - server -> broadcasts to all the people of that room that mentioned client joined
 
 STEP 3: After Connection
+
 - client -> does some actions (emits, receives)
 - server -> plugin responds to the actions
 
 STEP 4: Finish Connection
+
 - client -> disconnects after some time
 - server -> broadcasts to all other people from the room that client left (config.leave)
 
@@ -82,9 +86,9 @@ STEP 4: Finish Connection
 {
   onEvent(ws, event, data),
   join(ws, topic),
-  leave(ws),
-  broadcast({ topic }, data),
-  send(ws, message),
+  leave(ws, topic),
+  broadcast({ topic }, { id, event, data }),
+  send(ws, { id, event, data ),
   router: uws.SSLApp|uws.App,
   rooms: Map(),
   config: {
@@ -101,8 +105,14 @@ STEP 4: Finish Connection
 // the heart of the library
 const BouncerJs = require("@jacekpietal/bouncer.js");
 
+const { createEcho } = require("@jacekpietal/bouncer.js/echo.js");
+// this creates a simple plugin with echo broadcast back to others
+// with topic joystick
+const plugin = createEcho("joystick");
+
 // chat plugin ready to be used with bouncer
-const chat = require("@jacekpietal/bouncer.js/chat.js");
+// chat === createEcho("chat");
+const { chat } = require("@jacekpietal/bouncer.js/echo.js");
 
 // for frontend use this is a websocket enchanced,
 // but you can still use normal websocket on frontend
@@ -151,7 +161,7 @@ npm i @jacekpietal/bouncer.js --registry https://registry.yarnpkg.com
 const fs = require("fs");
 const path = require("path");
 const BouncerJs = require("@jacekpietal/bouncer.js");
-const chat = require("@jacekpietal/bouncer.js/chat");
+const { chat } = require("@jacekpietal/bouncer.js/echo.js");
 
 const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
   encoding: "utf8",
@@ -196,16 +206,21 @@ socket.onmessage = ({ data: string }) => {
 refs.chat.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const { value: data } = refs.message;
+  const data = refs.message.value.trim();
+  if (!data) return;
+
   refs.message.value = "";
   socket.send(JSON.stringify({ event: "say", data }));
 });
 ```
 
+- Above example can be even more cleaned up by using `@jacekpietal/bouncer.js/client.js` library
+
 ### To run above example you can run:
 
 ```bash
-yarn test:chat
+$ cd node_modules/@jacekpietal/bouncer.js
+$ yarn && yarn start
 ```
 
 And visit `http://localhost:8080` in your favourite Chrome browser or other.
@@ -246,8 +261,8 @@ If you do `shim(plugin)` then your plugin may be in the format of:
 ```
 To test run:
 
-- `yarn test` (automatic)
-- `yarn test:chat` (manual)
+- `yarn test` (automatic tests in jest)
+- `yarn start` (manual test: chat)
 ```
 
 ---
@@ -275,8 +290,7 @@ MIT
 
 - Do what you want, fork, etc.
 - I am not responsible for any problem this free application causes :P
-
-have fun, please open any issues, etc.
+- Have fun, please open any issues, etc.
 
 ## 10. Author
 

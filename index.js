@@ -55,7 +55,9 @@ class BouncerJs extends UWSRoomManager {
    */
   onClose(ws) {
     try {
-      this.leave(ws);
+      for (let topic of ws.topics) {
+        this.leave(ws, topic);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -78,7 +80,7 @@ class BouncerJs extends UWSRoomManager {
 
       // Optional leave: removes ws.topic
       if (event === this.config.leave) {
-        this.leave(ws);
+        this.leave(ws, data);
       }
 
       this.onEvent(ws, event, data);

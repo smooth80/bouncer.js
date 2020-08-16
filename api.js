@@ -19,9 +19,9 @@ class UWSRoomManager {
    * @param {Object} data
    * @returns {boolean}
    */
-  onEvent(ws, event, data) {
+  _onEvent(topic, ws, event, data) {
     // Optional call plugin if exists
-    const action = ws.topic && this.config.plugins[ws.topic];
+    const action = this.config.plugins[topic];
 
     if (typeof action !== "undefined") {
       action.call(this, ws, { id: ws.id, event, data });
@@ -33,12 +33,28 @@ class UWSRoomManager {
   }
 
   /**
+   * runs _onEvent on each topic of socket
+   * @param {WebSocket} ws
+   * @param {string} event
+   * @param {any} data
+   */
+  onEvent(ws, event, data) {
+    for (let topic of ws.topics) {
+      this._onEvent(topic, ws, event, data);
+    }
+  }
+
+  /**
    * @param {WebSocket} ws
    * @param {string} topic
    * @returns {boolean}
    */
   join(ws, topic) {
-    if (ws.topic) return false;
+    ws.topics = ws.topics || new Set();
+
+    if (ws.topics.has(topic)) {
+      return false;
+    }
 
     // lazy create room
     if (!this.rooms.has(topic)) {
@@ -55,17 +71,20 @@ class UWSRoomManager {
     takeId(ws.id);
 
     // set topic
-    ws.topic = topic;
+    ws.topics.add(topic);
 
     // occupy room
     room.set(ws.id, ws);
 
-    // notify all including self of joining in room
-    // uses ws.topic
-    this.broadcast(ws, { event: this.config.join, id: ws.id, data: ws.topic });
+    // notify all including self of joining in this room
+    // uses only joining topic
+    this.broadcast(
+      { topic },
+      { event: this.config.join, id: ws.id, data: topic },
+    );
 
     if (this.config.debug) {
-      console.log({ [this.config.join]: { topic: ws.topic, id: ws.id } });
+      console.log({ [this.config.join]: { topic, id: ws.id } });
     }
 
     return true;
@@ -75,11 +94,13 @@ class UWSRoomManager {
    * @param {WebSocket} ws
    * @returns {boolean}
    */
-  leave(ws) {
-    if (!ws.topic) return false;
+  leave(ws, topic) {
+    if (!ws.topics || !ws.topics.has(topic)) {
+      return false;
+    }
 
     // get reference to room
-    const room = this.rooms.get(ws.topic) || new Map();
+    const room = this.rooms.get(topic) || new Map();
 
     // free id
     freeId(ws.id);
@@ -88,19 +109,22 @@ class UWSRoomManager {
     room.delete(ws.id);
 
     // notify others in this room (after leaving, without self)
-    // uses ws.topic
-    this.broadcast(ws, { event: this.config.leave, id: ws.id, data: ws.topic });
+    // uses all ws former topics
+    this.broadcast(
+      { topic },
+      { event: this.config.leave, id: ws.id, data: topic },
+    );
 
     // possibly clear room
     if (room.size === 0) {
-      this.rooms.delete(ws.topic);
+      this.rooms.delete(topic);
     }
 
     if (this.config.debug) {
-      console.log({ [this.config.leave]: { topic: ws.topic, id: ws.id } });
+      console.log({ [this.config.leave]: { topic, id: ws.id } });
     }
 
-    delete ws.topic;
+    ws.topics.delete(topic);
 
     return true;
   }
@@ -122,6 +146,7 @@ class UWSRoomManager {
   }
 
   /**
+   * @param {WebSocket} ws
    * @param {string|object} message
    */
   send(ws, message) {

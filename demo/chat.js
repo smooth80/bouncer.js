@@ -1,7 +1,7 @@
 const BouncerJs = require("../index.js");
 const fs = require("fs");
 const path = require("path");
-const chat = require("../chat.js");
+const { chat } = require("../echo.js");
 
 const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
   encoding: "utf8",

@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  A `bouncer` is a guy who works outside the night club checking did you pay for the entrance to that particular club. This is a simple but extendable multiple room manager for uWebSockets aka micro web sockets.
+  A `bouncer` is a guy who works outside the night club checking did you pay for the entrance to that particular club. This is a simple but extendable multiple room manager for uWebSockets aka micro web sockets. One person (socket) may be in many clubs (topics) at the same time (from v2.18.0).
 </p>
 
 <p><br><br></p>
@@ -81,9 +81,9 @@
 <pre><code class="javascript">{
   onEvent(ws, event, data),
   join(ws, topic),
-  leave(ws),
-  broadcast({ topic }, data),
-  send(ws, message),
+  leave(ws, topic),
+  broadcast({ topic }, { id, event, data }),
+  send(ws, { id, event, data ),
   router: uws.SSLApp|uws.App,
   rooms: Map(),
   config: {
@@ -96,8 +96,14 @@
 <pre><code class="javascript">// the heart of the library
 const BouncerJs = require("@jacekpietal/bouncer.js");
 
+const { createEcho } = require("@jacekpietal/bouncer.js/echo.js");
+// this creates a simple plugin with echo broadcast back to others
+// with topic joystick
+const plugin = createEcho("joystick");
+
 // chat plugin ready to be used with bouncer
-const chat = require("@jacekpietal/bouncer.js/chat.js");
+// chat === createEcho("chat");
+const { chat } = require("@jacekpietal/bouncer.js/echo.js");
 
 // for frontend use this is a websocket enchanced,
 // but you can still use normal websocket on frontend
@@ -136,7 +142,7 @@ const shim = require("@jacekpietal/bouncer.js/shim.js");</code></pre>
 <pre><code class="javascript">const fs = require("fs");
 const path = require("path");
 const BouncerJs = require("@jacekpietal/bouncer.js");
-const chat = require("@jacekpietal/bouncer.js/chat");
+const { chat } = require("@jacekpietal/bouncer.js/echo.js");
 
 const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
   encoding: "utf8",
@@ -178,12 +184,18 @@ socket.onmessage = ({ data: string }) =&gt; {
 refs.chat.addEventListener("submit", (event) =&gt; {
   event.preventDefault();
 
-  const { value: data } = refs.message;
+  const data = refs.message.value.trim();
+  if (!data) return;
+
   refs.message.value = "";
   socket.send(JSON.stringify({ event: "say", data }));
 });</code></pre>
+<ul>
+<li>Above example can be even more cleaned up by using <code>@jacekpietal/bouncer.js/client.js</code> library</li>
+</ul>
 <h3 id="to-run-above-example-you-can-run-">To run above example you can run:</h3>
-<pre><code class="bash">yarn test:chat</code></pre>
+<pre><code class="bash">$ cd node_modules/@jacekpietal/bouncer.js
+$ yarn &amp;&amp; yarn start</code></pre>
 <p>And visit <code>http://localhost:8080</code> in your favourite Chrome browser or other.</p>
 <hr>
 <h2 id="6-backwards-compatibility">6. Backwards compatibility</h2>
@@ -230,8 +242,8 @@ refs.chat.addEventListener("submit", (event) =&gt; {
 
 <pre><code>To test run:
 
-- `yarn test` (automatic)
-- `yarn test:chat` (manual)</code></pre>
+- `yarn test` (automatic tests in jest)
+- `yarn start` (manual test: chat)</code></pre>
 <hr>
 <h2 id="8-front-end-client--beta-">8. Front End Client (beta)</h2>
 <hr />
@@ -252,8 +264,8 @@ refs.chat.addEventListener("submit", (event) =&gt; {
 <ul>
 <li>Do what you want, fork, etc.</li>
 <li>I am not responsible for any problem this free application causes :P</li>
+<li>Have fun, please open any issues, etc.</li>
 </ul>
-<p>have fun, please open any issues, etc.</p>
 <h2 id="10-author">10. Author</h2>
 <hr />
 <ul>

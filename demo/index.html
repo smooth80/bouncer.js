@@ -56,7 +56,9 @@
       refs.chat.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const { value: data } = refs.message;
+        const data = refs.message.value.trim();
+        if (!data) return;
+
         refs.message.value = "";
         socket.send(JSON.stringify({ event: "say", data }));
       });
