@@ -88,7 +88,7 @@ STEP 4: Finish Connection
   join(ws, topic),
   leave(ws, topic),
   broadcast({ topic }, { id, event, data }),
-  send(ws, { id, event, data ),
+  send(ws, { id, event, data }),
   router: uws.SSLApp|uws.App,
   rooms: Map(),
   config: {
