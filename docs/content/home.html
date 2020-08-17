@@ -83,7 +83,7 @@
   join(ws, topic),
   leave(ws, topic),
   broadcast({ topic }, { id, event, data }),
-  send(ws, { id, event, data ),
+  send(ws, { id, event, data }),
   router: uws.SSLApp|uws.App,
   rooms: Map(),
   config: {
@@ -133,9 +133,9 @@ const shim = require("@jacekpietal/bouncer.js/shim.js");</code></pre>
 <h2 id="3-installation">3. Installation</h2>
 <hr />
 <p>It's hosted as an <code>npm</code> package so installation is of course as simple as:</p>
-<pre><code class="bash">npm i @jacekpietal/bouncer.js --registry https://registry.yarnpkg.com
-
-# or yarn add @jacekpietal/bouncer.js --save</code></pre>
+<pre><code class="bash">$ yarn add @jacekpietal/bouncer.js --save
+# or
+$ npm i @jacekpietal/bouncer.js --save</code></pre>
 <hr>
 <h2 id="4-chat---nodejs-part-">4. Chat - Node.js part:</h2>
 <hr />

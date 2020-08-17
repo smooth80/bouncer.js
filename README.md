@@ -148,9 +148,9 @@ const shim = require("@jacekpietal/bouncer.js/shim.js");
 It's hosted as an `npm` package so installation is of course as simple as:
 
 ```bash
-npm i @jacekpietal/bouncer.js --registry https://registry.yarnpkg.com
-
-# or yarn add @jacekpietal/bouncer.js --save
+$ yarn add @jacekpietal/bouncer.js --save
+# or
+$ npm i @jacekpietal/bouncer.js --save
 ```
 
 ---
