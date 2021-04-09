@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 function createEcho(topic) {
   /**
@@ -7,19 +7,19 @@ function createEcho(topic) {
    */
   return function echo(ws, { id, event, data }) {
     if (this.config.debug) {
-      console.log({ id, event, data });
+      console.log({ id, event, data })
     }
 
     // those two cases are internally broadcast / handled
     if ([this.config.join, this.config.leave].includes(event)) {
-      return;
+      return
     }
 
     // Broadcast to all sockets inside chat topic
-    this.broadcast({ topic }, { id, event, data });
-  };
+    this.broadcast({ topic }, { id, event, data })
+  }
 }
 
-module.exports.createEcho = createEcho;
+module.exports.createEcho = createEcho
 
-module.exports.chat = createEcho("chat");
+module.exports.chat = createEcho('chat')

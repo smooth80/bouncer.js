@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const uWebSockets = require("uWebSockets.js");
-const UWSRoomManager = require("./api.js");
+const uWebSockets = require('uWebSockets.js')
+const UWSRoomManager = require('./api.js')
 
 /**
  * @desc this is the default export
@@ -10,34 +10,34 @@ const UWSRoomManager = require("./api.js");
  */
 class BouncerJs extends UWSRoomManager {
   constructor(userConfig = {}) {
-    super(userConfig);
+    super(userConfig)
 
     if (this.config.debug) {
-      console.log(`${this.config.LOGO} Starts with config:`, this.config);
+      console.log(`${this.config.LOGO} Starts with config:`, this.config)
     }
 
-    this.router = this.createRouter();
+    this.router = this.createRouter()
     this.router
-      .ws("/*", {
+      .ws('/*', {
         message: (ws, message) => this.onMessage(ws, message),
-        close: (ws) => this.onClose(ws),
+        close: (ws) => this.onClose(ws)
       })
       .listen(parseInt(this.config.port), (listenSocket) =>
-        this.onListen(listenSocket),
-      );
+        this.onListen(listenSocket)
+      )
   }
 
   createRouter() {
     // if user provides ssl in configuration
     // SSLApp is started
     // otherwise App is started
-    const startRouter = this.config.ssl ? uWebSockets.SSLApp : uWebSockets.App;
-    const ssl = this.config.ssl || {};
+    const startRouter = this.config.ssl ? uWebSockets.SSLApp : uWebSockets.App
+    const ssl = this.config.ssl || {}
 
     return startRouter({
       key_file_name: ssl.key,
-      cert_file_name: ssl.cert,
-    });
+      cert_file_name: ssl.cert
+    })
   }
 
   /**
@@ -45,7 +45,7 @@ class BouncerJs extends UWSRoomManager {
    */
   onListen(listenSocket) {
     if (listenSocket) {
-      console.log(`${this.config.LOGO} Listens on port: ${this.config.port}`);
+      console.log(`${this.config.LOGO} Listens on port: ${this.config.port}`)
     }
   }
 
@@ -56,10 +56,10 @@ class BouncerJs extends UWSRoomManager {
   onClose(ws) {
     try {
       for (let topic of ws.topics) {
-        this.leave(ws, topic);
+        this.leave(ws, topic)
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
   }
 
@@ -69,25 +69,25 @@ class BouncerJs extends UWSRoomManager {
    * @param {ArrayBuffer} message
    */
   onMessage(ws, message) {
-    const utf8 = Buffer.from(message).toString();
+    const utf8 = Buffer.from(message).toString()
     try {
-      const { event, data } = JSON.parse(utf8);
+      const { event, data } = JSON.parse(utf8)
 
       // Optional join: sets ws.topic
       if (event === this.config.join) {
-        this.join(ws, data);
+        this.join(ws, data)
       }
 
       // Optional leave: removes ws.topic
       if (event === this.config.leave) {
-        this.leave(ws, data);
+        this.leave(ws, data)
       }
 
-      this.onEvent(ws, event, data);
+      this.onEvent(ws, event, data)
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
   }
 }
 
-module.exports = BouncerJs;
+module.exports = BouncerJs

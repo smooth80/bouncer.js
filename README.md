@@ -55,9 +55,9 @@ STEP 4: Finish Connection
 {
   plugins: {
     // any number of plugins with this format
-    [plugin]: (ws, { event, id, data }) => {
+    [plugin]: function (ws, { event, id, data }) {
       // user implementation
-      // here `this` === bouncer instance
+      // `this` context is bound to the bouncer instance
     }
   },
   // logo for discriminating lib's messages
@@ -71,14 +71,25 @@ STEP 4: Finish Connection
   // a lot more logs
   debug: false,
   // for creating random unique socket id
-  idConfig: { lang: "english"|"japanese", len: 5 },
+  idConfig: { lang: "english"|"japanese", len: 5 }
 }
 ```
 
 ### Examples:
 
-- `const { config, router } = new BouncerJs()`
-- `const bouncer = new BouncerJs({ debug: true, plugins: { chat } })`
+```javascript
+const BouncerJs = require("@jacekpietal/bouncer.js");
+const { config, router } = new BouncerJs()
+```
+
+```javascript
+const BouncerJs = require("@jacekpietal/bouncer.js");
+const { chat } = require("@jacekpietal/bouncer.js/echo.js");
+const bouncer = new BouncerJs({
+  debug: true,
+  plugins: { chat }
+})
+```
 
 ### Instance of bouncer has the following API exposed:
 
@@ -95,7 +106,7 @@ STEP 4: Finish Connection
     // read above section in readme, also:
     // after the client config is applied to default config
     // the resulting startup config reference is here
-  },
+  }
 }
 ```
 
@@ -125,13 +136,16 @@ const shim = require("@jacekpietal/bouncer.js/shim.js");
 
 ### The Plugins (!)
 
-- To handshake a plugin in bouncer you need to send from your connected client something with similar payload: `{ "event": "/join", "data": "pluginName" }`.
+- To handshake a plugin in bouncer you need to send from your connected client something with similar payload:
+```javascript
+{ "event": "/join", "data": "pluginName" }
+```
 
 - A plugin is a function (ws, { id, event, data }) that is called each time the frontend websocket emits something to the server. context (this) of each plugin is bouncer instance.
 
 - The plugins receive (and send) the data in the format of:
 
-```
+```javascript
 {
   id,    // WebSocket id - this is automatically added
   event, // event name as string
@@ -169,7 +183,7 @@ const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
 
 const { router } = new BouncerJs({
   debug: true,
-  plugins: { chat },
+  plugins: { chat }
 });
 
 router.get("/*", (res, req) => {
@@ -186,7 +200,7 @@ const refs = ["username", "messages", "message", "chat"].reduce(
     ...obj,
     [id]: document.querySelector(`#${id}`),
   }),
-  {},
+  {}
 );
 
 socket.onopen = (value) => {
@@ -258,7 +272,7 @@ If you do `shim(plugin)` then your plugin may be in the format of:
 
 <br/>
 
-```
+```bash
 To test run:
 
 - `yarn test` (automatic tests in jest)
@@ -274,7 +288,7 @@ To test run:
 
 Standard frontend WebSocket extended with:
 
-```
+```javascript
 {
   emit(objectOrString)
   on(eventName, callback)

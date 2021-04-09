@@ -20,23 +20,23 @@
   },
   "dependencies": {
     "sillyname": "^0.1.0",
-    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v18.4.0",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v18.14.0",
     "wanakana": "^4.0.2"
   },
   "homepage": "https://prozi.github.io/bouncer.js/",
   "devDependencies": {
-    "@jacekpietal/docma": "^3.2.12",
-    "cross-env": "^7.0.2",
-    "eslint": "^7.5.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-prettier": "^3.1.4",
+    "@jacekpietal/docma": "^3.3.3",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "http-server": "^0.12.3",
-    "jest": "^26.1.0",
+    "jest": "^26.6.3",
     "jest-dot-reporter": "^1.0.14",
-    "prettier": "^2.0.5",
+    "prettier": "^2.2.1",
     "request": "^2.88.2",
     "socket-starter": "^1.22.7",
-    "ws": "^7.3.1"
+    "ws": "^7.4.4"
   },
   "keywords": [
     "bouncer",

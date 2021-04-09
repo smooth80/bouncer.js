@@ -1,73 +1,73 @@
-"use strict";
+'use strict'
 
-describe("GIVEN bouncer is provided", () => {
-  it("THEN requiring the library does not throw an error", () => {
-    require(".");
-  });
+describe('GIVEN bouncer is provided', () => {
+  it('THEN requiring the library does not throw an error', () => {
+    require('.')
+  })
 
-  describe("WHEN it is instantiated", () => {
-    it("THEN it should initialize without throwing error", () => {
-      const BouncerJs = require(".");
+  describe('WHEN it is instantiated', () => {
+    it('THEN it should initialize without throwing error', () => {
+      const BouncerJs = require('.')
 
-      expect(() => new BouncerJs()).not.toThrow();
-    });
+      expect(() => new BouncerJs()).not.toThrow()
+    })
 
-    it("THEN initialization should return a truthy instance", () => {
-      const BouncerJs = require(".");
+    it('THEN initialization should return a truthy instance', () => {
+      const BouncerJs = require('.')
 
-      expect(new BouncerJs()).toBeTruthy();
-    });
-  });
+      expect(new BouncerJs()).toBeTruthy()
+    })
+  })
 
-  describe("WHEN bouncer is initialized in debug mode", () => {
-    it("THEN it should not throw error", () => {
-      const BouncerJs = require(".");
-      const api = new BouncerJs({ debug: true });
+  describe('WHEN bouncer is initialized in debug mode', () => {
+    it('THEN it should not throw error', () => {
+      const BouncerJs = require('.')
+      const api = new BouncerJs({ debug: true })
 
-      expect(api).toBeTruthy();
-    });
-  });
+      expect(api).toBeTruthy()
+    })
+  })
 
-  describe("WHEN bouncer is initialized on specified port", () => {
-    it("THEN it should start without error", () => {
-      const BouncerJs = require(".");
-      const { router } = new BouncerJs({ port: 8080 });
+  describe('WHEN bouncer is initialized on specified port', () => {
+    it('THEN it should start without error', () => {
+      const BouncerJs = require('.')
+      const { router } = new BouncerJs({ port: 8080 })
 
-      expect(router).toBeTruthy();
-    });
-  });
+      expect(router).toBeTruthy()
+    })
+  })
 
-  describe("WHEN bouncer is initialized with plugin", () => {
-    it("THEN it should start without error", (done) => {
-      const BouncerJs = require(".");
+  describe('WHEN bouncer is initialized with plugin', () => {
+    it('THEN it should start without error', (done) => {
+      const BouncerJs = require('.')
       const { config, send } = new BouncerJs({
         debug: false,
         port: 8081,
         plugins: {
           chat: function (ws, message) {
-            send(ws, message);
-          },
-        },
-      });
+            send(ws, message)
+          }
+        }
+      })
 
-      const WebSocket = require("ws");
-      const socket = new WebSocket("ws://localhost:8081");
+      const WebSocket = require('ws')
+      const socket = new WebSocket('ws://localhost:8081')
 
       socket.onmessage = ({ data: string }) => {
-        const { id, event, data } = JSON.parse(string);
+        const { id, event, data } = JSON.parse(string)
 
-        expect(data).toBeTruthy();
-        expect(id).toBeTruthy();
-        expect(event).toBe(config.join);
+        expect(data).toBeTruthy()
+        expect(id).toBeTruthy()
+        expect(event).toBe(config.join)
 
-        socket.close();
+        socket.close()
 
-        done();
-      };
+        done()
+      }
 
       socket.onopen = () => {
-        send(socket, { event: config.join, data: "chat" });
-      };
-    });
-  });
-});
+        send(socket, { event: config.join, data: 'chat' })
+      }
+    })
+  })
+})
