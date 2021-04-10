@@ -21,7 +21,77 @@
 <li>Building a chat</li>
 <li>Making node + javascript games</li>
 </ul>
-<h2 id="1-the-flow----">1. The Flow (!)</h2>
+<hr>
+<h2 id="1-installation">1. Installation</h2>
+<hr />
+<p>It's hosted as an <code>npm</code> package so installation is of course as simple as:</p>
+<pre><code class="bash">$ yarn add @jacekpietal/bouncer.js --save
+# or
+$ npm i @jacekpietal/bouncer.js --save
+</code></pre>
+<hr>
+<h2 id="2-example--chat---nodejs-part-">2. Example: Chat - Node.js part:</h2>
+<hr />
+<pre><code class="javascript">// require static files server
+const serve = require('@jacekpietal/bouncer.js/server.js')
+
+// serve demo folder relative to script directory
+serve('demo')
+</code></pre>
+<h2 id="3-example--chat---frontend-part-">3. Example: Chat - Frontend part:</h2>
+<hr />
+<pre><code class="javascript">// conect
+const socket = new WebSocket('ws://localhost:1337')
+
+// convert above/below html ids list to html object references
+const ids = ['username', 'messages', 'message', 'chat']
+const refs = ids.reduce(
+  (obj, id) =&gt; ({
+    ...obj,
+    [id]: document.querySelector(`#${id}`)
+  }),
+  {}
+)
+
+// on socket available to send
+socket.onopen = (value) =&gt; {
+  // mandatory in this library
+  socket.send(JSON.stringify({ event: '/join', data: 'chat' }))
+}
+
+// on receive message from server
+socket.onmessage = ({ data: string }) =&gt; {
+  const { id, event, data } = JSON.parse(string)
+
+  // first message is always join message
+  if (!refs.username.innerText) {
+    // set own user id
+    refs.username.innerText = id
+  }
+
+  // append to list of messages
+  refs.messages.innerHTML += `&lt;div&gt;${id} &amp;gt; ${event} &amp;gt; ${data}&lt;/div&gt;\n`
+}
+
+// on demo form submit send message to server
+refs.chat.addEventListener('submit', (event) =&gt; {
+  // dont send form anywhere :)
+  event.preventDefault()
+
+  const data = refs.message.value.trim()
+
+  // dont send void data
+  if (!data) return
+
+  // after we get data value, empty chatbox
+  refs.message.value = ''
+
+  // send message to socket
+  socket.send(JSON.stringify({ event: 'say', data }))
+})
+</code></pre>
+<p>*) frontend part can be improved using <code>@jacekpietal/bouncer.js/client.js</code></p>
+<h2 id="4-what-happened----the-flow----">4. What happened? - The Flow (!)</h2>
 <hr />
 <p>STEP 1: Before Connection</p>
 <ul>
@@ -44,7 +114,7 @@
 <li>client -&gt; disconnects after some time</li>
 <li>server -&gt; broadcasts to all other people from the room that client left (config.leave)</li>
 </ul>
-<h2 id="2-configuration">2. Configuration</h2>
+<h2 id="5-configuration">5. Configuration</h2>
 <hr />
 <h3 id="a-call-to-new-bouncerjs-userconfig--creates-a-bouncer-instance">A call to <code>new BouncerJs(userConfig)</code> creates a bouncer instance</h3>
 <p>
@@ -73,17 +143,6 @@
   idConfig: { lang: "english"|"japanese", len: 5 }
 }
 </code></pre>
-<h3 id="examples-">Examples:</h3>
-<pre><code class="javascript">const BouncerJs = require("@jacekpietal/bouncer.js");
-const { config, router } = new BouncerJs()
-</code></pre>
-<pre><code class="javascript">const BouncerJs = require("@jacekpietal/bouncer.js");
-const { chat } = require("@jacekpietal/bouncer.js/echo.js");
-const bouncer = new BouncerJs({
-  debug: true,
-  plugins: { chat }
-})
-</code></pre>
 <h3 id="instance-of-bouncer-has-the-following-api-exposed-">Instance of bouncer has the following API exposed:</h3>
 <pre><code class="javascript">{
   onEvent(ws, event, data),
@@ -100,33 +159,34 @@ const bouncer = new BouncerJs({
   }
 }
 </code></pre>
-<h3 id="example-files-that-this-library-includes-toc-">Example files that this library includes ToC:</h3>
+<h3 id="example-includes-from-this-library-">Example includes from this library:</h3>
 <pre><code class="javascript">// the heart of the library
-const BouncerJs = require("@jacekpietal/bouncer.js");
-
-const { createEcho } = require("@jacekpietal/bouncer.js/echo.js");
+const BouncerJs = require('@jacekpietal/bouncer.js')
+</code></pre>
+<pre><code class="javascript">const { createEcho } = require('@jacekpietal/bouncer.js/echo.js')
 // this creates a simple plugin with echo broadcast back to others
-// with topic joystick
-const plugin = createEcho("joystick");
-
-// chat plugin ready to be used with bouncer
+// with topic named joystick
+const plugin = createEcho('joystick')
+</code></pre>
+<pre><code class="javascript">// chat plugin ready to be used with bouncer
 // chat === createEcho("chat");
-const { chat } = require("@jacekpietal/bouncer.js/echo.js");
-
-// for frontend use this is a websocket enchanced,
+const { chat } = require('@jacekpietal/bouncer.js/echo.js')
+</code></pre>
+<pre><code class="javascript">// for frontend use this is a websocket enchanced,
 // but you can still use normal websocket on frontend
-const UWebSocketClient = require("@jacekpietal/bouncer.js/client.js");
-
-// allows to use older plugins with 2 functions
+const UWebSocketClient = require('@jacekpietal/bouncer.js/client.js')
+</code></pre>
+<pre><code class="javascript">// allows to use older plugins with 2 functions
 // deprecated, backwards compatibility to older versions
-const shim = require("@jacekpietal/bouncer.js/shim.js");
+const shim = require('@jacekpietal/bouncer.js/shim.js')
 </code></pre>
 <h3 id="the-plugins----">The Plugins (!)</h3>
 <ul>
-<li><p>To handshake a plugin in bouncer you need to send from your connected client something with similar payload:</p>
+<li>To handshake a plugin in bouncer you need to send from your connected client something with similar payload:</li>
+</ul>
 <pre><code class="javascript">{ "event": "/join", "data": "pluginName" }
 </code></pre>
-</li>
+<ul>
 <li><p>A plugin is a function (ws, { id, event, data }) that is called each time the frontend websocket emits something to the server. context (this) of each plugin is bouncer instance.</p>
 </li>
 <li><p>The plugins receive (and send) the data in the format of:</p>
@@ -142,77 +202,12 @@ const shim = require("@jacekpietal/bouncer.js/shim.js");
 <li>Read more (with types and parameters) in the <a href="https://prozi.github.io/bouncer.js/api/">API Documentation</a></li>
 </ul>
 <hr>
-<h2 id="3-installation">3. Installation</h2>
-<hr />
-<p>It's hosted as an <code>npm</code> package so installation is of course as simple as:</p>
-<pre><code class="bash">$ yarn add @jacekpietal/bouncer.js --save
-# or
-$ npm i @jacekpietal/bouncer.js --save
-</code></pre>
-<hr>
-<h2 id="4-chat---nodejs-part-">4. Chat - Node.js part:</h2>
-<hr />
-<pre><code class="javascript">const fs = require("fs");
-const path = require("path");
-const BouncerJs = require("@jacekpietal/bouncer.js");
-const { chat } = require("@jacekpietal/bouncer.js/echo.js");
-
-const indexFile = fs.readFileSync(path.resolve(__dirname, "index.html"), {
-  encoding: "utf8",
-});
-
-const { router } = new BouncerJs({
-  debug: true,
-  plugins: { chat }
-});
-
-router.get("/*", (res, req) =&gt; {
-  res.end(indexFile);
-});
-</code></pre>
-<h2 id="5-chat---frontend-part-">5. Chat - Frontend part:</h2>
-<hr />
-<pre><code class="javascript">const socket = new WebSocket("ws://localhost:1337");
-const refs = ["username", "messages", "message", "chat"].reduce(
-  (obj, id) =&gt; ({
-    ...obj,
-    [id]: document.querySelector(`#${id}`),
-  }),
-  {}
-);
-
-socket.onopen = (value) =&gt; {
-  socket.send(JSON.stringify({ event: "/join", data: "chat" }));
-};
-
-socket.onmessage = ({ data: string }) =&gt; {
-  const { id, event, data } = JSON.parse(string);
-
-  if (!refs.username.innerText) {
-    refs.username.innerText = id;
-  }
-
-  refs.messages.innerHTML += `&lt;div&gt;${id} &amp;gt; ${event} &amp;gt; ${data}&lt;/div&gt;\n`;
-};
-
-refs.chat.addEventListener("submit", (event) =&gt; {
-  event.preventDefault();
-
-  const data = refs.message.value.trim();
-  if (!data) return;
-
-  refs.message.value = "";
-  socket.send(JSON.stringify({ event: "say", data }));
-});
-</code></pre>
-<ul>
-<li>Above example can be even more cleaned up by using <code>@jacekpietal/bouncer.js/client.js</code> library</li>
-</ul>
 <h3 id="to-run-above-example-you-can-run-">To run above example you can run:</h3>
 <pre><code class="bash">$ cd node_modules/@jacekpietal/bouncer.js
-$ yarn &amp;&amp; yarn start
+$ yarn # install deps
+$ yarn demo # start demo
 </code></pre>
-<p>And visit <code>http://localhost:8080</code> in your favourite Chrome browser or other.</p>
+<p>And visit <code>http://localhost:1337</code> in your favourite Chrome browser or other.</p>
 <hr>
 <h2 id="6-backwards-compatibility">6. Backwards compatibility</h2>
 <hr />
@@ -263,7 +258,7 @@ $ yarn &amp;&amp; yarn start
 - `yarn start` (manual test: chat)
 </code></pre>
 <hr>
-<h2 id="8-front-end-client--beta-">8. Front End Client (beta)</h2>
+<h2 id="8-front-end-client--socketio--ish-">8. Front End Client (socket.io -ish)</h2>
 <hr />
 <ul>
 <li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/client.js">client.js</a></li>
@@ -273,7 +268,7 @@ $ yarn &amp;&amp; yarn start
 <pre><code class="javascript">{
   emit(objectOrString)
   on(eventName, callback)
-  on("*", callback) // on any event
+  on('*', callback) // on any event
 }
 </code></pre>
 <hr>

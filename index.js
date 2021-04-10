@@ -6,7 +6,7 @@ const UWSRoomManager = require('./api.js')
 /**
  * @desc this is the default export
  * @param {BouncerConfig} userConfig
- * @returns {BouncerCallResult}
+ * @returns {BouncerJs}
  */
 class BouncerJs extends UWSRoomManager {
   constructor(userConfig = {}) {
