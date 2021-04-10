@@ -299,7 +299,7 @@ If you do `shim(plugin)` then your plugin may be in the format of:
 }
 ```
 
-### 9.b Angular CharService
+### 9.b Angular ChatService
 
 ```javascript
 // app.module.ts
