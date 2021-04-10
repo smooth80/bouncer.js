@@ -39,9 +39,11 @@ $ npm i @jacekpietal/bouncer.js --save
 ```javascript
 // require static files server
 const serve = require('@jacekpietal/bouncer.js/server.js')
+// require chat plugin
+const { chat } = require('@jacekpietal/bouncer.js/echo.js')
 
-// serve demo folder relative to script directory
-serve('demo')
+// serve demo folder with chat plugin
+serve('demo', { chat })
 ```
 
 ## 3. Example: Chat - Frontend part:
@@ -198,6 +200,11 @@ const { chat } = require('@jacekpietal/bouncer.js/echo.js')
 // for frontend use this is a websocket enchanced,
 // but you can still use normal websocket on frontend
 const UWebSocketClient = require('@jacekpietal/bouncer.js/client.js')
+```
+
+```javascript
+// require static files server
+const serve = require('@jacekpietal/bouncer.js/server.js')
 ```
 
 ```javascript
