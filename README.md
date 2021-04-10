@@ -12,7 +12,7 @@
 
 <br/><br/>
 
-### Common use cases when you might need the bouncer.js:
+## Common use cases when you might want to use this library:
 
 - You're only able to spawn one process and you'd like to have an app with rooms.
 - At the same time spawn X number of scalable microservices that can connect as websockets.
@@ -20,19 +20,15 @@
 - Building a chat
 - Making node + javascript games
 
----
-
 ## 1. Installation
 
 It's hosted as an `npm` package so installation is of course as simple as:
 
 ```bash
-$ yarn add @jacekpietal/bouncer.js --save
+$ yarn add @jacekpietal/bouncer.js
 # or
 $ npm i @jacekpietal/bouncer.js --save
 ```
-
----
 
 ## 2. Example: Chat - Node.js part:
 
@@ -100,13 +96,35 @@ refs.chat.addEventListener('submit', (event) => {
 })
 ```
 
-\*) frontend part can be improved using
+### 3.a To run above example you can run:
 
-```
-@jacekpietal/bouncer.js/client
+```bash
+$ cd node_modules/@jacekpietal/bouncer.js
+$ yarn # install deps
+$ yarn demo # start demo
 ```
 
-## 4. What happened? - The Flow (!)
+And visit `http://localhost:1337` in your favourite Chrome browser or other.
+
+### 3.b Front End Client (socket.io -ish)
+
+```javascript
+// uWebSocket api is extended in @jacekpietal/bouncer.js/client by
+{
+  emit(objectOrString)
+  on(eventName, callback)
+  on('*', callback) // on any event
+}
+```
+
+If you can use a bundler for frontend, see:
+
+- see [client.js](https://github.com/Prozi/bouncer.js/blob/master/client.js)
+- see [client.spec.js](https://github.com/Prozi/bouncer.js/blob/master/client.spec.js)
+
+to improve above frontend code yourself with it
+
+## 4. The Flow (!)
 
 STEP 1: Before Connection
 
@@ -129,13 +147,33 @@ STEP 4: Finish Connection
 - client -> disconnects after some time
 - server -> broadcasts to all other people from the room that client left (config.leave)
 
-## 5. Configuration
+## 5. The Plugins (!)
 
-### A call to `new BouncerJs(userConfig)` creates a bouncer instance
+- To handshake a plugin in bouncer you need to send from your connected client something with similar payload:
 
-<p>
-  It is ready to receive any number of the following props if any as constructor parameters:
-</p>
+```javascript
+{ "event": "/join", "data": "pluginName" }
+```
+
+- A plugin is a function (ws, { id, event, data }) that is called each time the frontend websocket emits something to the server. context (this) of each plugin is bouncer instance.
+
+- The plugins receive (and send) the data in the format of:
+
+```javascript
+{
+  id,    // WebSocket id - this is automatically added
+  event, // event name as string
+  data,  // any data accompanying the event
+}
+```
+
+- Read more (with types and parameters) in the [API Documentation](https://prozi.github.io/bouncer.js/api/)
+
+## 6. Configuration
+
+A call to `new BouncerJs(userConfig)` creates a bouncer instance
+
+It is ready to receive any number of the following props if any as constructor parameters:
 
 ```javascript
 {
@@ -161,7 +199,7 @@ STEP 4: Finish Connection
 }
 ```
 
-### Instance of bouncer has the following API exposed:
+### 6.a Instance of bouncer has the following API exposed:
 
 ```javascript
 {
@@ -180,24 +218,11 @@ STEP 4: Finish Connection
 }
 ```
 
-### Example includes from this library:
+## 7. Example includes from this library:
 
 ```javascript
-// the heart of the library
-const BouncerJs = require('@jacekpietal/bouncer')
-```
-
-```javascript
-const { createEcho } = require('@jacekpietal/bouncer.js/echo')
-// this creates a simple plugin with echo broadcast back to others
-// with topic named joystick
-const plugin = createEcho('joystick')
-```
-
-```javascript
-// chat plugin ready to be used with bouncer
-// chat === createEcho("chat");
-const chat = require('@jacekpietal/bouncer.js/plugins/chat')
+// require static files server
+const serve = require('@jacekpietal/bouncer.js/server')
 ```
 
 ```javascript
@@ -207,8 +232,21 @@ const UWebSocketClient = require('@jacekpietal/bouncer.js/client')
 ```
 
 ```javascript
-// require static files server
-const serve = require('@jacekpietal/bouncer.js/server')
+// chat plugin ready to be used with bouncer
+// chat === createEcho("chat");
+const chat = require('@jacekpietal/bouncer.js/plugins/chat')
+```
+
+```javascript
+const createEcho = require('@jacekpietal/bouncer.js/lib/echo')
+// this creates a simple plugin with echo broadcast back to others
+// with topic named joystick
+const joystick = createEcho('joystick')
+```
+
+```javascript
+// the heart of the library
+const BouncerJs = require('@jacekpietal/bouncer.js')
 ```
 
 ```javascript
@@ -217,63 +255,7 @@ const serve = require('@jacekpietal/bouncer.js/server')
 const shim = require('@jacekpietal/bouncer.js/lib/shim')
 ```
 
-### The Plugins (!)
-
-- To handshake a plugin in bouncer you need to send from your connected client something with similar payload:
-
-```javascript
-{ "event": "/join", "data": "pluginName" }
-```
-
-- A plugin is a function (ws, { id, event, data }) that is called each time the frontend websocket emits something to the server. context (this) of each plugin is bouncer instance.
-
-- The plugins receive (and send) the data in the format of:
-
-```javascript
-{
-  id,    // WebSocket id - this is automatically added
-  event, // event name as string
-  data,  // any data accompanying the event
-}
-```
-
-- Read more (with types and parameters) in the [API Documentation](https://prozi.github.io/bouncer.js/api/)
-
----
-
-### To run above example you can run:
-
-```bash
-$ cd node_modules/@jacekpietal/bouncer.js
-$ yarn # install deps
-$ yarn demo # start demo
-```
-
-And visit `http://localhost:1337` in your favourite Chrome browser or other.
-
----
-
-## 6. Backwards compatibility
-
-For the few users to have somewhat of a bridge between the [socket-starter](https://github.com/Prozi/socket-starter) library that this library deprecates:
-
-- see [shim.js](https://github.com/Prozi/bouncer.js/blob/master/shim.js)
-- see [shim.spec.js](https://github.com/Prozi/bouncer.js/blob/master/shim.spec.js)
-
-### What does this shim do?
-
-If you do `shim(plugin)` then your plugin may be in the format of:
-
-```javascript
-{
-  initialize(io)
-  handshake(socket, data),
-}
-```
-
----
-
-## 7. Tests
+## 8. Tests
 
 | Test Suites: | 5 passed, 5 total   |
 | ------------ | ------------------- |
@@ -290,33 +272,34 @@ To test run:
 - `yarn start` (manual test: chat)
 ```
 
----
+## 9. Backwards compatibility
 
-## 8. Front End Client (socket.io -ish)
+For the few users to have somewhat of a bridge between the [socket-starter](https://github.com/Prozi/socket-starter) library that this library deprecates:
 
-- see [client.js](https://github.com/Prozi/bouncer.js/blob/master/client.js)
-- see [client.spec.js](https://github.com/Prozi/bouncer.js/blob/master/client.spec.js)
+- see [shim.js](https://github.com/Prozi/bouncer.js/blob/master/lib/shim.js)
+- see [shim.spec.js](https://github.com/Prozi/bouncer.js/blob/master/lib/shim.spec.js)
 
-Standard frontend WebSocket extended with:
+### 9.a What does this shim do?
+
+If you do `shim(plugin)` then your plugin may be in the format of:
 
 ```javascript
 {
-  emit(objectOrString)
-  on(eventName, callback)
-  on('*', callback) // on any event
+  initialize(io)
+  handshake(socket, data),
 }
 ```
 
----
+## 19. License
 
-## 9. License
+[LICENSE](https://github.com/Prozi/bouncer.js/blob/master/LICENSE)
 
-MIT
+### MIT
 
 - Do what you want, fork, etc.
 - I am not responsible for any problem this free application causes :P
 - Have fun, please open any issues, etc.
 
-## 10. Author
+## 11. Author
 
-- Jacek Pietal
+- &copy; 2020-2021 Jacek Pietal
