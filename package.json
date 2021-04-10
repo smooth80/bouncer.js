@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.19.0",
+  "version": "2.19.1",
   "description": "1 bouncer 🐻‍ + 1 server = infinite micro-websockets rooms manager",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -51,5 +51,9 @@
     "jacekpietal",
     "uws",
     "sockets"
-  ]
+  ],
+  "resolutions": {
+    "ecstatic": "^4.1.4",
+    "clean-css": "^4.1.11"
+  }
 }
