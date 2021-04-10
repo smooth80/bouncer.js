@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.21.4",
+  "version": "2.21.5",
   "description": "static files server + plugins on same instance (🐻)",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -26,10 +26,10 @@
     "precommit": "npm run docs && npm run lint && npm run prettify"
   },
   "dependencies": {
-    "latermom": "^1.0.3",
+    "latermom": "^1.0.4",
     "mime-types": "^2.1.30",
     "sillyname": "^0.1.0",
-    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v18.14.0",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v19.0.0",
     "wanakana": "^4.0.2"
   },
   "homepage": "https://prozi.github.io/bouncer.js/",

@@ -26,19 +26,29 @@ It's hosted as an `npm` package so installation is of course as simple as:
 
 ```bash
 $ yarn add @jacekpietal/bouncer.js
+
 # or
+
 $ npm i @jacekpietal/bouncer.js --save
 ```
 
-### 1.a Cli Usage
+## 2. Usage
 
-to start static server of folder `public` with just `chat` plugin, and default options, on `process.env.PORT || 4200` run
+### 2.a Cli Usage
+
+to start static server of folder `dist/your-app` with `chat` plugin and default options run:
 
 ```bash
-$ yarn bouncer.js public
+$ yarn bouncer.js dist/your-app
 ```
 
-## 2. Example: Chat - Node.js part:
+port defaults to `4200` if `process.env.PORT` not set
+
+### 2. API Usage
+
+#### 2.a Serve folder with plugin (chat)
+
+port defaults to `4200` if `process.env.PORT` not set
 
 ```javascript
 // require static files server
@@ -46,26 +56,50 @@ const serve = require('@jacekpietal/bouncer.js/server')
 // require chat plugin
 const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 
-// serve demo folder with chat plugin
-// at process.env.PORT
-serve('demo', { chat })
+// serve public folder with chat plugin
+serve('dist/your-app', { chat })
 ```
 
-## 3. Example: Chat - Frontend part:
+#### 2.b Angular CharService
+
+frontend for above backend
+
+```javascript
+// app.module.ts
+
++ import { ChatService } from '@jacekpietal/bouncer.js/build/plugins/chat/ng/chat.service';
+
++ function chatFactory(window: Window) {
++   return new ChatService(window);
++ }
+
++ { provide: 'Window', useValue: window },
++ { provide: 'Chat', useFactory: chatFactory, deps: ['Window'] }
+```
+
+```javascript
+// your-component.ts
+
++ constructor(@Inject('Chat') chat: ChatService) {
++   console.log(chat)
++ }
+```
+
+```bash
+# add minimal typings
+
+$ mkdir -p src/types
+$ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
+```
+
+#### 2.c Vanilla JS Frontend
 
 ```javascript
 // concect to server at port 4200
 const socket = new WebSocket('ws://localhost:4200')
-
-// convert above/below html ids list to html object references
-const ids = ['username', 'messages', 'message', 'chat']
-const refs = ids.reduce(
-  (obj, id) => ({
-    ...obj,
-    [id]: document.querySelector(`#${id}`)
-  }),
-  {}
-)
+let username,
+  messages = [],
+  message = ''
 
 // on socket available to send
 socket.onopen = (value) => {
@@ -78,62 +112,34 @@ socket.onmessage = ({ data: string }) => {
   const { id, event, data } = JSON.parse(string)
 
   // first message is always join message
-  if (!refs.username.innerText) {
+  if (!username) {
     // set own user id
-    refs.username.innerText = id
+    username = id
   }
 
   // append to list of messages
-  refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`
+  messages.push(`<div>${id} &gt; ${event} &gt; ${data}</div>\n`)
 }
 
 // on demo form submit send message to server
-refs.chat.addEventListener('submit', (event) => {
+function sendMessage(event) {
   // dont send form anywhere :)
   event.preventDefault()
 
-  const data = refs.message.value.trim()
+  const data = message.value.trim()
 
   // dont send void data
   if (!data) return
 
   // after we get data value, empty chatbox
-  refs.message.value = ''
+  message.value = ''
 
   // send message to socket
   socket.send(JSON.stringify({ event: 'say', data }))
-})
-```
-
-### 3.a To run above example you can run:
-
-```bash
-$ cd node_modules/@jacekpietal/bouncer.js
-$ yarn # install deps
-$ yarn demo # start demo
-```
-
-And visit `http://localhost:4200` in your favourite Chrome browser or other.
-
-### 3.b Front End Client (socket.io -ish)
-
-```javascript
-// uWebSocket api is extended in @jacekpietal/bouncer.js/client by
-{
-  emit(objectOrString)
-  on(eventName, callback)
-  on('*', callback) // on any event
 }
 ```
 
-If you can use a bundler for frontend, see:
-
-- see [client.js](https://github.com/Prozi/bouncer.js/blob/master/client.js)
-- see [client.spec.js](https://github.com/Prozi/bouncer.js/blob/master/client.spec.js)
-
-to improve above frontend code yourself with it
-
-## 4. The Flow (!)
+## 3. The Flow (!)
 
 STEP 1: Before Connection
 
@@ -156,7 +162,7 @@ STEP 4: Finish Connection
 - client -> disconnects after some time
 - server -> broadcasts to all other people from the room that client left (config.leave)
 
-## 5. The Plugins (!)
+## 4. The Plugins (!)
 
 - To handshake a plugin in bouncer you need to send from your connected client something with similar payload:
 
@@ -178,7 +184,7 @@ STEP 4: Finish Connection
 
 - Read more (with types and parameters) in the [API Documentation](https://prozi.github.io/bouncer.js/api/)
 
-## 6. Configuration
+## 5. Configuration
 
 A call to `new BouncerJs(userConfig)` creates a bouncer instance
 
@@ -194,7 +200,7 @@ It is ready to receive any number of the following props if any as constructor p
     }
   },
   // logo for discriminating lib's messages
-  LOGO: 'bouncer 🐻',
+  LOGO: '>',
   // default port is read from ENV
   port: process.env.PORT | 4200,
   // this event joins a topic / room
@@ -208,7 +214,7 @@ It is ready to receive any number of the following props if any as constructor p
 }
 ```
 
-### 6.a Instance of bouncer has the following API exposed:
+### 5.a Instance of bouncer has the following API exposed:
 
 ```javascript
 {
@@ -227,7 +233,26 @@ It is ready to receive any number of the following props if any as constructor p
 }
 ```
 
-## 7. Example includes from this library:
+## 6. Front End Client (socket.io-ish) extension
+
+If you can use a bundler for frontend, see:
+
+- see [client.js](https://github.com/Prozi/bouncer.js/blob/master/client.js)
+- see [client.spec.js](https://github.com/Prozi/bouncer.js/blob/master/client.spec.js)
+
+to improve above frontend code yourself with it
+
+```javascript
+// uWebSocket api is extended in @jacekpietal/bouncer.js/client by
+{
+  emitEvent(eventName, objectOrString),
+  emit(objectOrString),
+  on(eventName, callback),
+  on('*', callback), // on any event
+}
+```
+
+## 7. Example imports from this library:
 
 ```javascript
 // require static files server
@@ -275,10 +300,10 @@ const shim = require('@jacekpietal/bouncer.js/lib/shim')
 <br/>
 
 ```bash
-To test run:
+# to test run:
 
-- `yarn test` (automatic tests in jest)
-- `yarn start` (manual test: chat)
+$ yarn test # automatic tests in jest
+$ yarn start # manual test/example: chat
 ```
 
 ## 9. Compatibility
@@ -297,38 +322,6 @@ If you do `shim(plugin)` then your plugin may be in the format of:
   initialize(io)
   handshake(socket, data),
 }
-```
-
-### 9.b Angular ChatService
-
-```javascript
-// app.module.ts
-
-+ import { ChatService } from '@jacekpietal/bouncer.js/build/plugins/chat/ng/chat.service';
-
-+ function chatFactory(window: Window) {
-+   return new ChatService(window);
-+ }
-
-+ { provide: 'Window', useValue: window },
-+ { provide: 'Chat', useFactory: chatFactory, deps: ['Window'] }
-```
-
-```javascript
-// your-component.ts
-
-+ import { ChatService } from '@jacekpietal/bouncer.js/build/plugins/chat/ng/chat.service';
-
-+ constructor(@Inject('Chat') chat: ChatService) {
-+   console.log(chat)
-+ }
-```
-
-```bash
-# add minimal typings
-
-$ mkdir -p src/types
-$ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 ```
 
 ## 10. License
