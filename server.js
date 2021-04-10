@@ -3,7 +3,7 @@
 // dependencies
 const Cache = require('latermom')
 const BouncerJs = require('.')
-const fileReader = require('./file-reader.js')
+const fileReader = require('./lib/file-reader')
 
 // return bouncer.js instance
 function server(

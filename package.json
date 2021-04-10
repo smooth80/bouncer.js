@@ -10,8 +10,9 @@
   "scripts": {
     "test": "jest",
     "start": "npm run demo",
-    "demo": "node ./demo.js",
+    "demo": "node ./lib/demo.js",
     "docs": "docma",
+    "docs:show": "docma serve",
     "lint": "eslint ./*.js --fix",
     "prettify": "prettier . --write",
     "prepare:npm": "rm -rf node_modules && npm i && npm audit fix",
@@ -28,15 +29,12 @@
   "homepage": "https://prozi.github.io/bouncer.js/",
   "devDependencies": {
     "@jacekpietal/docma": "^3.3.3",
+    "dustjs-linkedin": "^2.7.5",
     "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
-    "http-server": "^0.12.3",
     "jest": "^26.6.3",
-    "jest-dot-reporter": "^1.0.14",
     "prettier": "^2.2.1",
-    "request": "^2.88.2",
-    "socket-starter": "^1.22.7",
     "ws": "^7.4.4"
   },
   "keywords": [

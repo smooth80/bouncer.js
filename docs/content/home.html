@@ -33,9 +33,9 @@ $ npm i @jacekpietal/bouncer.js --save
 <h2 id="2-example--chat---nodejs-part-">2. Example: Chat - Node.js part:</h2>
 <hr />
 <pre><code class="javascript">// require static files server
-const serve = require('@jacekpietal/bouncer.js/server.js')
+const serve = require('@jacekpietal/bouncer.js/server')
 // require chat plugin
-const { chat } = require('@jacekpietal/bouncer.js/echo.js')
+const { chat } = require('@jacekpietal/bouncer.js/echo')
 
 // serve demo folder with chat plugin
 serve('demo', { chat })
@@ -163,27 +163,27 @@ refs.chat.addEventListener('submit', (event) =&gt; {
 </code></pre>
 <h3 id="example-includes-from-this-library-">Example includes from this library:</h3>
 <pre><code class="javascript">// the heart of the library
-const BouncerJs = require('@jacekpietal/bouncer.js')
+const BouncerJs = require('@jacekpietal/bouncer')
 </code></pre>
-<pre><code class="javascript">const { createEcho } = require('@jacekpietal/bouncer.js/echo.js')
+<pre><code class="javascript">const { createEcho } = require('@jacekpietal/bouncer.js/echo')
 // this creates a simple plugin with echo broadcast back to others
 // with topic named joystick
 const plugin = createEcho('joystick')
 </code></pre>
 <pre><code class="javascript">// chat plugin ready to be used with bouncer
 // chat === createEcho("chat");
-const { chat } = require('@jacekpietal/bouncer.js/echo.js')
+const { chat } = require('@jacekpietal/bouncer.js/echo')
 </code></pre>
 <pre><code class="javascript">// for frontend use this is a websocket enchanced,
 // but you can still use normal websocket on frontend
-const UWebSocketClient = require('@jacekpietal/bouncer.js/client.js')
+const UWebSocketClient = require('@jacekpietal/bouncer.js/client')
 </code></pre>
 <pre><code class="javascript">// require static files server
-const serve = require('@jacekpietal/bouncer.js/server.js')
+const serve = require('@jacekpietal/bouncer.js/server')
 </code></pre>
 <pre><code class="javascript">// allows to use older plugins with 2 functions
 // deprecated, backwards compatibility to older versions
-const shim = require('@jacekpietal/bouncer.js/shim.js')
+const shim = require('@jacekpietal/bouncer.js/shim')
 </code></pre>
 <h3 id="the-plugins----">The Plugins (!)</h3>
 <ul>

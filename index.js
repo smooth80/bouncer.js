@@ -1,7 +1,7 @@
 'use strict'
 
 const uWebSockets = require('uWebSockets.js')
-const UWSRoomManager = require('./api.js')
+const UWSRoomManager = require('./lib/api')
 
 /**
  * @desc this is the default export

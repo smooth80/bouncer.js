@@ -38,9 +38,9 @@ $ npm i @jacekpietal/bouncer.js --save
 
 ```javascript
 // require static files server
-const serve = require('@jacekpietal/bouncer.js/server.js')
+const serve = require('@jacekpietal/bouncer.js/server')
 // require chat plugin
-const { chat } = require('@jacekpietal/bouncer.js/echo.js')
+const { chat } = require('@jacekpietal/bouncer.js/echo')
 
 // serve demo folder with chat plugin
 serve('demo', { chat })
@@ -180,11 +180,11 @@ STEP 4: Finish Connection
 
 ```javascript
 // the heart of the library
-const BouncerJs = require('@jacekpietal/bouncer.js')
+const BouncerJs = require('@jacekpietal/bouncer')
 ```
 
 ```javascript
-const { createEcho } = require('@jacekpietal/bouncer.js/echo.js')
+const { createEcho } = require('@jacekpietal/bouncer.js/echo')
 // this creates a simple plugin with echo broadcast back to others
 // with topic named joystick
 const plugin = createEcho('joystick')
@@ -193,24 +193,24 @@ const plugin = createEcho('joystick')
 ```javascript
 // chat plugin ready to be used with bouncer
 // chat === createEcho("chat");
-const { chat } = require('@jacekpietal/bouncer.js/echo.js')
+const { chat } = require('@jacekpietal/bouncer.js/echo')
 ```
 
 ```javascript
 // for frontend use this is a websocket enchanced,
 // but you can still use normal websocket on frontend
-const UWebSocketClient = require('@jacekpietal/bouncer.js/client.js')
+const UWebSocketClient = require('@jacekpietal/bouncer.js/client')
 ```
 
 ```javascript
 // require static files server
-const serve = require('@jacekpietal/bouncer.js/server.js')
+const serve = require('@jacekpietal/bouncer.js/server')
 ```
 
 ```javascript
 // allows to use older plugins with 2 functions
 // deprecated, backwards compatibility to older versions
-const shim = require('@jacekpietal/bouncer.js/shim.js')
+const shim = require('@jacekpietal/bouncer.js/shim')
 ```
 
 ### The Plugins (!)
