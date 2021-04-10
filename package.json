@@ -54,6 +54,7 @@
   ],
   "resolutions": {
     "ecstatic": "^4.1.4",
-    "clean-css": "^4.1.11"
+    "clean-css": "^4.1.11",
+    "braces": "^2.3.1"
   }
 }
