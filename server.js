@@ -15,14 +15,15 @@ function server(
   // create bouncer.js instance
   const bouncer = new BouncerJs({ plugins })
   // init cache with fileReader on dist folder
-  const read = fileReader(dist);
+  const read = fileReader(dist)
+  const cache = new Cache((url) => read(url))
 
   // process all requests
   bouncer.router.get('/*', async (res, req) => {
     const url = req.getUrl()
-    const { mime, body } = read(url);
+    const { mime, body, filename } = cache.get(url)
 
-    console.log(url, mime)
+    console.log(200, mime, filename)
 
     res.end(body)
   })
