@@ -6,6 +6,9 @@
   "repository": "git@github.com:Prozi/bouncer.js.git",
   "author": "Jacek Pietal <prozi85@gmail.com>",
   "license": "MIT",
+  "bin": {
+    "bouncer.js": "./.bin/index.js"
+  },
   "private": false,
   "scripts": {
     "test": "jest",
