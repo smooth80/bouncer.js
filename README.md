@@ -291,7 +291,7 @@ If you do `shim(plugin)` then your plugin may be in the format of:
 }
 ```
 
-## 19. License
+## 10. License
 
 [LICENSE](https://github.com/Prozi/bouncer.js/blob/master/LICENSE)
 
