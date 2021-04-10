@@ -40,7 +40,7 @@ $ npm i @jacekpietal/bouncer.js --save
 // require static files server
 const serve = require('@jacekpietal/bouncer.js/server')
 // require chat plugin
-const { chat } = require('@jacekpietal/bouncer.js/echo')
+const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 
 // serve demo folder with chat plugin
 serve('demo', { chat })
@@ -100,7 +100,11 @@ refs.chat.addEventListener('submit', (event) => {
 })
 ```
 
-\*) frontend part can be improved using `@jacekpietal/bouncer.js/client.js`
+\*) frontend part can be improved using
+
+```
+@jacekpietal/bouncer.js/client
+```
 
 ## 4. What happened? - The Flow (!)
 
@@ -193,7 +197,7 @@ const plugin = createEcho('joystick')
 ```javascript
 // chat plugin ready to be used with bouncer
 // chat === createEcho("chat");
-const { chat } = require('@jacekpietal/bouncer.js/echo')
+const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 ```
 
 ```javascript
@@ -210,7 +214,7 @@ const serve = require('@jacekpietal/bouncer.js/server')
 ```javascript
 // allows to use older plugins with 2 functions
 // deprecated, backwards compatibility to older versions
-const shim = require('@jacekpietal/bouncer.js/shim')
+const shim = require('@jacekpietal/bouncer.js/lib/shim')
 ```
 
 ### The Plugins (!)
