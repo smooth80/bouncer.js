@@ -13,7 +13,7 @@
     "demo": "node ./demo.js",
     "docs": "docma",
     "lint": "eslint ./*.js --fix",
-    "prettify": "cross-env npm run prettier './*.js' --write",
+    "prettify": "prettier . --write",
     "prepare:npm": "rm -rf node_modules && npm i && npm audit fix",
     "prepare:yarn": "rm -rf node_modules && yarn",
     "groom": "npm run prepare:npm && npm run prepare:yarn",
@@ -28,7 +28,6 @@
   "homepage": "https://prozi.github.io/bouncer.js/",
   "devDependencies": {
     "@jacekpietal/docma": "^3.3.3",
-    "cross-env": "^7.0.3",
     "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",

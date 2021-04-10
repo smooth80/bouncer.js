@@ -1,6 +1,7 @@
 const { existsSync, statSync, readFileSync } = require('fs')
 
-module.exports = function fileReader(dist) {
+module.exports = function (dist) {
+  // adds dist folder context before any path
   function wrapPath(path) {
     return `./${dist}/${path}`
   }
@@ -8,7 +9,8 @@ module.exports = function fileReader(dist) {
   // cache main index
   const mainIndex = readFileSync(wrapPath('index.html'), { encoding: 'utf8' })
 
-  return function (url) {
+  // this is used as file reader cache
+  return function fileReader(url) {
     const urlRelativeToDist = wrapPath(url)
 
     if (existsSync(urlRelativeToDist)) {

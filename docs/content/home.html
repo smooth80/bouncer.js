@@ -34,9 +34,11 @@ $ npm i @jacekpietal/bouncer.js --save
 <hr />
 <pre><code class="javascript">// require static files server
 const serve = require('@jacekpietal/bouncer.js/server.js')
+// require chat plugin
+const { chat } = require('@jacekpietal/bouncer.js/echo.js')
 
-// serve demo folder relative to script directory
-serve('demo')
+// serve demo folder with chat plugin
+serve('demo', { chat })
 </code></pre>
 <h2 id="3-example--chat---frontend-part-">3. Example: Chat - Frontend part:</h2>
 <hr />
@@ -175,6 +177,9 @@ const { chat } = require('@jacekpietal/bouncer.js/echo.js')
 <pre><code class="javascript">// for frontend use this is a websocket enchanced,
 // but you can still use normal websocket on frontend
 const UWebSocketClient = require('@jacekpietal/bouncer.js/client.js')
+</code></pre>
+<pre><code class="javascript">// require static files server
+const serve = require('@jacekpietal/bouncer.js/server.js')
 </code></pre>
 <pre><code class="javascript">// allows to use older plugins with 2 functions
 // deprecated, backwards compatibility to older versions
