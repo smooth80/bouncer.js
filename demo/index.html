@@ -38,7 +38,7 @@
     <div id="messages"></div>
 
     <script type="text/javascript">
-      const socket = new WebSocket('ws://localhost:1337')
+      const socket = new WebSocket('ws://localhost:4200')
       const refs = ['username', 'messages', 'message', 'chat'].reduce(
         (obj, id) => ({
           ...obj,

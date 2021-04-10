@@ -46,8 +46,8 @@ serve('demo', { chat })
 ## 3. Example: Chat - Frontend part:
 
 ```javascript
-// concect to server at port 1337
-const socket = new WebSocket('ws://localhost:1337')
+// concect to server at port 4200
+const socket = new WebSocket('ws://localhost:4200')
 
 // convert above/below html ids list to html object references
 const ids = ['username', 'messages', 'message', 'chat']
@@ -105,7 +105,7 @@ $ yarn # install deps
 $ yarn demo # start demo
 ```
 
-And visit `http://localhost:1337` in your favourite Chrome browser or other.
+And visit `http://localhost:4200` in your favourite Chrome browser or other.
 
 ### 3.b Front End Client (socket.io -ish)
 
@@ -188,7 +188,7 @@ It is ready to receive any number of the following props if any as constructor p
   // logo for discriminating lib's messages
   LOGO: 'bouncer 🐻',
   // default port is read from ENV
-  port: process.env.PORT | 1337,
+  port: process.env.PORT | 4200,
   // this event joins a topic / room
   join: '/join',
   // this event leaves a topic / room

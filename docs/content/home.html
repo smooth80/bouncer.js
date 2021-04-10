@@ -42,8 +42,8 @@ serve('demo', { chat })
 </code></pre>
 <h2 id="3-example--chat---frontend-part-">3. Example: Chat - Frontend part:</h2>
 <hr />
-<pre><code class="javascript">// concect to server at port 1337
-const socket = new WebSocket('ws://localhost:1337')
+<pre><code class="javascript">// concect to server at port 4200
+const socket = new WebSocket('ws://localhost:4200')
 
 // convert above/below html ids list to html object references
 const ids = ['username', 'messages', 'message', 'chat']
@@ -97,7 +97,7 @@ refs.chat.addEventListener('submit', (event) =&gt; {
 $ yarn # install deps
 $ yarn demo # start demo
 </code></pre>
-<p>And visit <code>http://localhost:1337</code> in your favourite Chrome browser or other.</p>
+<p>And visit <code>http://localhost:4200</code> in your favourite Chrome browser or other.</p>
 <h3 id="3b-front-end-client--socketio--ish-">3.b Front End Client (socket.io -ish)</h3>
 <pre><code class="javascript">// uWebSocket api is extended in @jacekpietal/bouncer.js/client by
 {
@@ -172,7 +172,7 @@ $ yarn demo # start demo
   // logo for discriminating lib's messages
   LOGO: 'bouncer 🐻',
   // default port is read from ENV
-  port: process.env.PORT | 1337,
+  port: process.env.PORT | 4200,
   // this event joins a topic / room
   join: '/join',
   // this event leaves a topic / room
