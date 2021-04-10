@@ -281,14 +281,14 @@ To test run:
 - `yarn start` (manual test: chat)
 ```
 
-## 9. Backwards compatibility
+## 9. Compatibility
 
 For the few users to have somewhat of a bridge between the [socket-starter](https://github.com/Prozi/socket-starter) library that this library deprecates:
 
 - see [shim.js](https://github.com/Prozi/bouncer.js/blob/master/lib/shim.js)
 - see [shim.spec.js](https://github.com/Prozi/bouncer.js/blob/master/lib/shim.spec.js)
 
-### 9.a What does this shim do?
+### 9.a What does that shim do?
 
 If you do `shim(plugin)` then your plugin may be in the format of:
 
@@ -297,6 +297,36 @@ If you do `shim(plugin)` then your plugin may be in the format of:
   initialize(io)
   handshake(socket, data),
 }
+```
+
+### 9.b Angular CharService
+
+```javascript
+// app.module.ts
+
++ import { ChatService } from '@jacekpietal/bouncer.js/build/plugins/chat/ng/chat.service';
+
++ function chatFactory(window: Window) {
++   return new ChatService(window);
++ }
+
++ { provide: 'Window', useValue: window },
++ { provide: 'Chat', useFactory: chatFactory, deps: ['Window'] }
+```
+
+```javascript
+// your-component.ts
+
++ constructor(@Inject('Chat') chat: ChatService) {
++   console.log(chat)
++ }
+```
+
+```bash
+# add minimal typings
+
+$ mkdir -p src/types
+$ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 ```
 
 ## 10. License

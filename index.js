@@ -55,11 +55,11 @@ class BouncerJs extends UWSRoomManager {
    */
   onClose(ws) {
     try {
-      for (let topic of ws.topics) {
+      for (const topic of ws.topics) {
         this.leave(ws, topic)
       }
     } catch (err) {
-      console.error(err)
+      // socket already closed
     }
   }
 
@@ -70,6 +70,7 @@ class BouncerJs extends UWSRoomManager {
    */
   onMessage(ws, message) {
     const utf8 = Buffer.from(message).toString()
+
     try {
       const { event, data } = JSON.parse(utf8)
 

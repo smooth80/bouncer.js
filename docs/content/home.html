@@ -29,6 +29,10 @@
 # or
 $ npm i @jacekpietal/bouncer.js --save
 </code></pre>
+<h3 id="1a-cli-usage">1.a Cli Usage</h3>
+<p>to start static server of folder <code>public</code> with just <code>chat</code> plugin, and default options, on <code>process.env.PORT || 4200</code> run</p>
+<pre><code class="bash">$ yarn bouncer.js public
+</code></pre>
 <h2 id="2-example--chat---nodejs-part-">2. Example: Chat - Node.js part:</h2>
 <hr />
 <pre><code class="javascript">// require static files server
@@ -253,19 +257,42 @@ const shim = require('@jacekpietal/bouncer.js/lib/shim')
 - `yarn test` (automatic tests in jest)
 - `yarn start` (manual test: chat)
 </code></pre>
-<h2 id="9-backwards-compatibility">9. Backwards compatibility</h2>
+<h2 id="9-compatibility">9. Compatibility</h2>
 <hr />
 <p>For the few users to have somewhat of a bridge between the <a href="https://github.com/Prozi/socket-starter">socket-starter</a> library that this library deprecates:</p>
 <ul>
 <li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/lib/shim.js">shim.js</a></li>
 <li>see <a href="https://github.com/Prozi/bouncer.js/blob/master/lib/shim.spec.js">shim.spec.js</a></li>
 </ul>
-<h3 id="9a-what-does-this-shim-do-">9.a What does this shim do?</h3>
+<h3 id="9a-what-does-that-shim-do-">9.a What does that shim do?</h3>
 <p>If you do <code>shim(plugin)</code> then your plugin may be in the format of:</p>
 <pre><code class="javascript">{
   initialize(io)
   handshake(socket, data),
 }
+</code></pre>
+<h3 id="9b-angular-charservice">9.b Angular CharService</h3>
+<pre><code class="javascript">// app.module.ts
+
++ import { ChatService } from '@jacekpietal/bouncer.js/build/plugins/chat/ng/chat.service';
+
++ function chatFactory(window: Window) {
++   return new ChatService(window);
++ }
+
++ { provide: 'Window', useValue: window },
++ { provide: 'Chat', useFactory: chatFactory, deps: ['Window'] }
+</code></pre>
+<pre><code class="javascript">// your-component.ts
+
++ constructor(@Inject('Chat') chat: ChatService) {
++   console.log(chat)
++ }
+</code></pre>
+<pre><code class="bash"># add minimal typings
+
+$ mkdir -p src/types
+$ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 </code></pre>
 <h2 id="10-license">10. License</h2>
 <hr />
