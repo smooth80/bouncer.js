@@ -37,11 +37,12 @@ const serve = require('@jacekpietal/bouncer.js/server')
 const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 
 // serve demo folder with chat plugin
+// at process.env.PORT
 serve('demo', { chat })
 </code></pre>
 <h2 id="3-example--chat---frontend-part-">3. Example: Chat - Frontend part:</h2>
 <hr />
-<pre><code class="javascript">// conect
+<pre><code class="javascript">// concect to server at port 1337
 const socket = new WebSocket('ws://localhost:1337')
 
 // convert above/below html ids list to html object references

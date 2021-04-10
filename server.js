@@ -7,15 +7,14 @@ const fileReader = require('./lib/file-reader')
 
 // return bouncer.js instance
 function server(
-  // first argument is directory you want to static server
+  // first argument is directory you want to static serve
   dist = 'dist',
   // second argument is plugins object with functions - more in README.md
   plugins = {}
 ) {
-  // create bouncer.js instnace
+  // create bouncer.js instance
   const bouncer = new BouncerJs({ plugins })
-  // get index.html file fcontent rom folder you want to serve
-  // init cache
+  // init cache with fileReader on dist folder
   const cache = new Cache(fileReader(dist))
 
   // process all requests
