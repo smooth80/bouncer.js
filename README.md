@@ -317,6 +317,8 @@ If you do `shim(plugin)` then your plugin may be in the format of:
 ```javascript
 // your-component.ts
 
++ import { ChatService } from '@jacekpietal/bouncer.js/build/plugins/chat/ng/chat.service';
+
 + constructor(@Inject('Chat') chat: ChatService) {
 +   console.log(chat)
 + }
