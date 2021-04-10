@@ -275,12 +275,11 @@ If you do `shim(plugin)` then your plugin may be in the format of:
 
 ## 7. Tests
 
-| Name         | Count               |
+| Test Suites: | 5 passed, 5 total   |
 | ------------ | ------------------- |
-| Test Suites: | 3 passed, 3 total   |
-| Tests:       | 14 passed, 14 total |
+| Tests:       | 16 passed, 16 total |
 | Snapshots:   | 0 total             |
-| Time:        | 1.009 s             |
+| Time:        | 1.303 s             |
 
 <br/>
 
