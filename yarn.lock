@@ -3943,6 +3943,11 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
+latermom@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/latermom/-/latermom-1.0.3.tgz#86e3cd329c62450334bbddaadd1772ed86cb3c05"
+  integrity sha512-94b2Y4bGhVwy9uSIGYn+aX8jh76oQrHcc0pn6LQyO9KHLiJZ9KTisFkbUNmmN2ymYzC0DeRqf3tW9IiHjHgdGQ==
+
 less-plugin-clean-css@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/less-plugin-clean-css/-/less-plugin-clean-css-1.5.1.tgz#cc57af7aa3398957e56decebe63cb60c23429703"

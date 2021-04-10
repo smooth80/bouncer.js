@@ -13,55 +13,63 @@
       input {
         font-family: monospace;
       }
+
+      img.bear {
+        width: 20%;
+        max-width: 200px;
+        float: right;
+      }
     </style>
   </head>
 
   <body>
+    <img src="./img/bear.svg" class="bear" />
+
     <h1>Chat</h1>
 
     <p><strong>Your username:</strong> <span id="username"></span></p>
 
     <form id="chat" autocomplete="off">
       <input type="text" id="message" />
-      <input type="submit" value="send" />
+      <button type="submit">send</button>
     </form>
 
     <p><strong>Messages:</strong></p>
     <div id="messages"></div>
 
     <script type="text/javascript">
-      const socket = new WebSocket("ws://localhost:1337");
-      const refs = ["username", "messages", "message", "chat"].reduce(
+      const socket = new WebSocket('ws://localhost:1337')
+      const refs = ['username', 'messages', 'message', 'chat'].reduce(
         (obj, id) => ({
           ...obj,
-          [id]: document.querySelector(`#${id}`),
+          [id]: document.querySelector(`#${id}`)
         }),
-        {},
-      );
+        {}
+      )
 
       socket.onopen = (value) => {
-        socket.send(JSON.stringify({ event: "/join", data: "chat" }));
-      };
+        socket.send(JSON.stringify({ event: '/join', data: 'chat' }))
+      }
 
       socket.onmessage = ({ data: string }) => {
-        const { id, event, data } = JSON.parse(string);
+        const { id, event, data } = JSON.parse(string)
 
         if (!refs.username.innerText) {
-          refs.username.innerText = id;
+          refs.username.innerText = id
         }
 
-        refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
-      };
+        refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`
+      }
 
-      refs.chat.addEventListener("submit", (event) => {
-        event.preventDefault();
+      refs.chat.addEventListener('submit', (event) => {
+        event.preventDefault()
 
-        const data = refs.message.value.trim();
-        if (!data) return;
+        const data = refs.message.value.trim()
+        if (!data) return
 
-        refs.message.value = "";
-        socket.send(JSON.stringify({ event: "say", data }));
-      });
+        refs.message.value = ''
+        socket.send(JSON.stringify({ event: 'say', data }))
+      })
     </script>
   </body>
 </html>

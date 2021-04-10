@@ -116,10 +116,7 @@
     }
   },
   "src": [
-    "./types.js",
-    "./index.js",
-    "./api.js",
-    "./client.js",
+    "./*.js",
     {
       "license": "./LICENSE:md"
     },

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // require static files server
 const serve = require('./server.js')

@@ -1,8 +1,9 @@
 'use strict'
 
 // dependencies
-const { readFileSync } = require('fs')
+const Cache = require('latermom')
 const BouncerJs = require('.')
+const fileReader = require('./file-reader.js')
 
 // return bouncer.js instance
 function server(
@@ -14,12 +15,15 @@ function server(
   // create bouncer.js instnace
   const bouncer = new BouncerJs({ plugins })
   // get index.html file fcontent rom folder you want to serve
-  const index = readFileSync(`./${dist}/index.html`, { encoding: 'utf8' })
+  // init cache
+  const cache = new Cache(fileReader(dist))
 
   // process all requests
-  bouncer.router.get('/*', (res, _req) => {
-    // to send index content
-    res.end(index)
+  bouncer.router.get('/*', async (res, req) => {
+    const url = req.getUrl()
+    const content = cache.get(url)
+
+    res.end(content)
   })
 
   // return bouncer.js instance

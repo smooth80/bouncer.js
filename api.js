@@ -5,7 +5,7 @@ const { takeId, freeId, generateId } = require('./ids.js')
 
 /**
  * @param {BouncerConfig} userConfig
- * @returns {UWSRoomManager}
+ * @type {UWSRoomManager}
  */
 class UWSRoomManager {
   constructor(userConfig = {}) {
