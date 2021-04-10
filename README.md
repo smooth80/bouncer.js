@@ -30,6 +30,14 @@ $ yarn add @jacekpietal/bouncer.js
 $ npm i @jacekpietal/bouncer.js --save
 ```
 
+### 1.a Cli Usage
+
+to start static server of folder `public` with just `chat` plugin, and default options, on `process.env.PORT || 4200` run
+
+```bash
+$ yarn bouncer.js public
+```
+
 ## 2. Example: Chat - Node.js part:
 
 ```javascript
