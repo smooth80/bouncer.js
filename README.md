@@ -60,9 +60,13 @@ const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 serve(
   'dist/your-app',
   { chat },
-  {
-    debug: true,
-    ssl: {}
+  { // optional
+    debug: true, // optional
+    ssl: { // optional
+      key_file_name,
+      cert_file_name,
+      passphrase // optional
+    }
   }
 )
 ```
@@ -88,7 +92,7 @@ frontend for above backend
 // your-component.ts
 
 + constructor(@Inject('Chat') chat: ChatService) {
-+   chat.connect(address) // if address not specified connects to origin
++   chat.connect() // if argument address not specified connects to location.origin
 + }
 ```
 
@@ -99,7 +103,7 @@ $ mkdir -p src/types
 $ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 ```
 
-### 2.d Frontend: Vanilla JS Frontend
+### 2.d Frontend: Vanilla JS
 
 ```javascript
 // concect to server at port 4200
@@ -207,7 +211,7 @@ It is ready to receive any number of the following props if any as constructor p
     }
   },
   // logo for discriminating lib's messages
-  LOGO: '>',
+  LOGO: '~>',
   // default port is read from ENV
   port: process.env.PORT | 4200,
   // this event joins a topic / room
@@ -217,7 +221,13 @@ It is ready to receive any number of the following props if any as constructor p
   // a lot more logs
   debug: false,
   // for creating random unique socket id
-  idConfig: { lang: "english"|"japanese", len: 5 }
+  idConfig: { lang: "english"|"japanese", len: 5 },
+  // defaults to undefined
+  ssl: {
+    key: '/path/to/key_file_name.key',
+    cert: '/path/to/cert_file_name.crt',
+    passphrase: ''
+  }
 }
 ```
 
