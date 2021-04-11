@@ -108,13 +108,13 @@ function sendMessage(event) {
   // dont send form anywhere :)
   event.preventDefault()
 
-  const data = message.value.trim()
+  const data = message.trim()
 
   // dont send void data
   if (!data) return
 
   // after we get data value, empty chatbox
-  message.value = ''
+  message = ''
 
   // send message to socket
   socket.send(JSON.stringify({ event: 'say', data }))
