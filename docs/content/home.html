@@ -47,10 +47,14 @@ const serve = require('@jacekpietal/bouncer.js/server')
 const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 
 // serve public folder with chat plugin debug and ssl
-serve('dist/your-app', { chat }, {
-  debug: true,
-  ssl: {}
-})
+serve(
+  'dist/your-app',
+  { chat },
+  {
+    debug: true,
+    ssl: {}
+  }
+)
 </code></pre>
 <h3 id="2c-frontend--angular-charservice">2.c Frontend: Angular CharService</h3>
 <p>frontend for above backend</p>

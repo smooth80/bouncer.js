@@ -18,16 +18,33 @@ function server(
   const bouncer = new BouncerJs({ ...config, plugins })
   // init cache with fileReader on dist folder
   const cache = new Cache(fileReader(dist))
+  const statuses = {
+    200: '200 OK',
+    301: '301 Redirect'
+  }
 
   // process all requests
-  bouncer.router.get('/*', async (res, req) => {
+  bouncer.router.get('/*', (res, req) => {
     const url = req.getUrl()
-    const { mime, body, filename } = cache.get(url)
+    const { mime, body, status } = cache.get(url)
 
-    console.log(200, 'GET', mime, filename)
+    console.log(status, 'GET', mime, url)
 
-    res.writeHeader('Content-Type', mime)
-    res.end(body)
+    res.writeStatus(statuses[status])
+
+    switch (status) {
+      case 301:
+        const referer = encodeURIComponent(url.substr(1))
+
+        res.writeHeader('Location', `/?404=${referer}`)
+        res.end()
+        break
+
+      default:
+        res.writeHeader('Content-Type', mime)
+        res.end(body)
+        break
+    }
   })
 
   // return bouncer.js instance
