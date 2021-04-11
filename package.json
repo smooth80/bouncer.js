@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.22.2",
+  "version": "2.22.3",
   "description": "static files server + plugins on same instance (🐻)",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
