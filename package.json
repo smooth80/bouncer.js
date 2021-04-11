@@ -48,18 +48,15 @@
     "@angular/core": "^11.2.9"
   },
   "keywords": [
-    "bouncer",
-    "rooms",
-    "frontend",
+    "http-server",
     "websockets",
-    "chat",
     "uwebsockets",
-    "socket-io",
-    "socket-io-client",
-    "nodejs",
-    "jacekpietal",
     "uws",
-    "sockets"
+    "socket.io",
+    "socket.io-client",
+    "chat",
+    "rooms",
+    "nodejs"
   ],
   "resolutions": {
     "ecstatic": "^4.1.4",

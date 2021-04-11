@@ -7,20 +7,50 @@
 </p>
 
 <p align="center">
-  A `bouncer` is a guy who works outside the night club checking did you pay for the entrance to that particular club. This is a simple but extendable multiple room manager for uWebSockets aka micro web sockets. One person (socket) may be in many clubs (topics) at the same time (from v2.18.0).
+  A `bouncer` is a guy who works outside the night club checking did you pay for the entrance to that particular club.
+  This library is a plug-and-play static files server + uWebSockets plugin manager with chat example and angular integration. One client (socket) may be subscribed to many topics (rooms) at the same time (since v2.18.0).
 </p>
 
-<br/><br/>
+<br/>
 
 ## Common use cases when you might want to use this library:
 
-- You're only able to spawn one process and you'd like to have an app with rooms.
-- At the same time spawn X number of scalable microservices that can connect as websockets.
-- Single process app server like a free `heroku.com` account or similar
-- Building a chat
-- Making node + javascript games
+- you want a static files server
+- you want to build a websocket chat
+- you want to build any websocket plugin
+- you want it on a single process
+- you want easy angular integration
+- you want easy vanilla js integration
 
-## 1. Installation
+----
+
+<!-- TOC -->
+
+1. [Common use cases when you might want to use this library:](#common-use-cases-when-you-might-want-to-use-this-library)
+1. [Installation](#installation)
+1. [Usage](#usage)
+    - [Backend: Cli Usage](#backend-cli-usage)
+    - [Backend: API Usage](#backend-api-usage)
+    - [Frontend: Angular CharService](#frontend-angular-charservice)
+    - [Frontend: Vanilla JS](#frontend-vanilla-js)
+1. [The Flow (!)](#the-flow-)
+1. [The Plugins (!)](#the-plugins-)
+1. [Configuration](#configuration)
+    - [BouncerJS API](#bouncerjs-api)
+1. [Front End Client (socket.io-ish) extension](#front-end-client-socketio-ish-extension)
+1. [Example imports](#example-imports)
+1. [Tests](#tests)
+1. [Compatibility](#compatibility)
+    - [What does that shim do?](#what-does-that-shim-do)
+1. [License](#license)
+    - [MIT](#mit)
+1. [Author](#author)
+
+<!-- /TOC -->
+
+----
+
+## Installation
 
 It's hosted as an `npm` package so installation is of course as simple as:
 
@@ -32,9 +62,9 @@ $ yarn add @jacekpietal/bouncer.js
 $ npm i @jacekpietal/bouncer.js --save
 ```
 
-## 2. Usage
+## Usage
 
-### 2.a Backend: Cli Usage
+### Backend: Cli Usage
 
 to start static server of folder `dist/your-app` with `chat` plugin and default options run:
 
@@ -44,7 +74,7 @@ $ yarn bouncer.js dist/your-app
 
 port defaults to `4200` if `process.env.PORT` not set
 
-### 2.b Backend: API Usage
+### Backend: API Usage
 
 serve folder with plugin (chat)
 
@@ -71,7 +101,7 @@ serve(
 )
 ```
 
-### 2.c Frontend: Angular CharService
+### Frontend: Angular CharService
 
 frontend for above backend
 
@@ -103,7 +133,7 @@ $ mkdir -p src/types
 $ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 ```
 
-### 2.d Frontend: Vanilla JS
+### Frontend: Vanilla JS
 
 ```javascript
 // concect to server at port 4200
@@ -150,7 +180,7 @@ function sendMessage(event) {
 }
 ```
 
-## 3. The Flow (!)
+## The Flow (!)
 
 STEP 1: Before Connection
 
@@ -173,7 +203,7 @@ STEP 4: Finish Connection
 - client -> disconnects after some time
 - server -> broadcasts to all other people from the room that client left (config.leave)
 
-## 4. The Plugins (!)
+## The Plugins (!)
 
 - To handshake a plugin in bouncer you need to send from your connected client something with similar payload:
 
@@ -187,7 +217,8 @@ STEP 4: Finish Connection
 
 ```javascript
 {
-  id,    // WebSocket id - this is automatically added
+  id,    // WebSocket id - this is 
+matically added
   event, // event name as string
   data,  // any data accompanying the event
 }
@@ -195,7 +226,7 @@ STEP 4: Finish Connection
 
 - Read more (with types and parameters) in the [API Documentation](https://prozi.github.io/bouncer.js/api/)
 
-## 5. Configuration
+## Configuration
 
 A call to `new BouncerJs(userConfig)` creates a bouncer instance
 
@@ -231,7 +262,7 @@ It is ready to receive any number of the following props if any as constructor p
 }
 ```
 
-### 5.a Instance of bouncer has the following API exposed:
+### BouncerJS API
 
 ```javascript
 {
@@ -250,7 +281,7 @@ It is ready to receive any number of the following props if any as constructor p
 }
 ```
 
-## 6. Front End Client (socket.io-ish) extension
+## Front End Client (socket.io-ish) extension
 
 If you can use a bundler for frontend, see:
 
@@ -269,7 +300,7 @@ to improve above frontend code yourself with it
 }
 ```
 
-## 7. Example imports from this library:
+## Example imports
 
 ```javascript
 // require static files server
@@ -306,7 +337,7 @@ const BouncerJs = require('@jacekpietal/bouncer.js')
 const shim = require('@jacekpietal/bouncer.js/lib/shim')
 ```
 
-## 8. Tests
+## Tests
 
 | Test Suites: | 5 passed, 5 total   |
 | ------------ | ------------------- |
@@ -319,18 +350,19 @@ const shim = require('@jacekpietal/bouncer.js/lib/shim')
 ```bash
 # to test run:
 
-$ yarn test # automatic tests in jest
+$ yarn test # 
+matic tests in jest
 $ yarn start # manual test/example: chat
 ```
 
-## 9. Compatibility
+## Compatibility
 
 For the few users to have somewhat of a bridge between the [socket-starter](https://github.com/Prozi/socket-starter) library that this library deprecates:
 
 - see [shim.js](https://github.com/Prozi/bouncer.js/blob/master/lib/shim.js)
 - see [shim.spec.js](https://github.com/Prozi/bouncer.js/blob/master/lib/shim.spec.js)
 
-### 9.a What does that shim do?
+### What does that shim do?
 
 If you do `shim(plugin)` then your plugin may be in the format of:
 
@@ -341,7 +373,7 @@ If you do `shim(plugin)` then your plugin may be in the format of:
 }
 ```
 
-## 10. License
+## License
 
 [LICENSE](https://github.com/Prozi/bouncer.js/blob/master/LICENSE)
 
@@ -351,6 +383,6 @@ If you do `shim(plugin)` then your plugin may be in the format of:
 - I am not responsible for any problem this free application causes :P
 - Have fun, please open any issues, etc.
 
-## 11. Author
+## Author
 
 - &copy; 2020-2021 Jacek Pietal
