@@ -72,7 +72,7 @@ serve(
 <pre><code class="javascript">// your-component.ts
 
 + constructor(@Inject('Chat') chat: ChatService) {
-+   console.log(chat)
++   chat.connect(address) // if address not specified connects to origin
 + }
 </code></pre>
 <pre><code class="bash"># add minimal typings

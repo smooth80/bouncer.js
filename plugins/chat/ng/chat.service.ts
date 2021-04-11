@@ -8,8 +8,6 @@ export type TMessage = { id: string; event: string; data: any }
   providedIn: 'root'
 })
 export class ChatService {
-  serverUrl: string
-
   topic: string = 'chat'
   joinEvent: string = '/join'
 
@@ -20,31 +18,16 @@ export class ChatService {
   messages: TMessage[] = []
   messagesLimit: number = 1000
 
-  constructor(@Inject('Window') protected window: Window) {
-    this.serverUrl = this.window.location.origin.replace(/^http/, 'ws')
+  constructor(@Inject('Window') protected window: Window) {}
 
-    this.initialize()
-  }
-
-  send(
-    event: string,
-    data: any,
-    onError: (e: Error) => void = (e) => console.warn(e)
+  async connect(
+    address: string = this.window.location.origin.replace(/^http/, 'ws')
   ) {
-    if (!this.socket) {
-      throw new Error('Socket not ready')
-    }
-
-    try {
-      this.socket.emitEvent(event, data)
-    } catch (err) {
-      onError(err)
-    }
-  }
-
-  protected async initialize() {
     // connect to parameters
-    await this.connect()
+    await new Promise((resolve) => {
+      this.socket = new UWebSocket(address)
+      this.socket.onopen = resolve
+    })
 
     if (!this.socket) {
       return
@@ -66,12 +49,5 @@ export class ChatService {
     })
 
     this.socket.onmessage = console.log.bind(console)
-  }
-
-  protected async connect(): Promise<any> {
-    return new Promise((resolve) => {
-      this.socket = new UWebSocket(this.serverUrl)
-      this.socket.onopen = resolve
-    })
   }
 }

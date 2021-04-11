@@ -88,7 +88,7 @@ frontend for above backend
 // your-component.ts
 
 + constructor(@Inject('Chat') chat: ChatService) {
-+   console.log(chat)
++   chat.connect(address) // if address not specified connects to origin
 + }
 ```
 
