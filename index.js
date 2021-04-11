@@ -36,7 +36,8 @@ class BouncerJs extends UWSRoomManager {
 
     return startRouter({
       key_file_name: ssl.key,
-      cert_file_name: ssl.cert
+      cert_file_name: ssl.cert,
+      passphrase: ssl.passphrase
     })
   }
 

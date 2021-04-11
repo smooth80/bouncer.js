@@ -10,10 +10,12 @@ function server(
   // first argument is directory you want to static serve
   dist = 'dist',
   // second argument is plugins object with functions - more in README.md
-  plugins = {}
+  plugins = {},
+  // extra configuration for bouncer
+  config = {}
 ) {
   // create bouncer.js instance
-  const bouncer = new BouncerJs({ plugins })
+  const bouncer = new BouncerJs({ ...config, plugins })
   // init cache with fileReader on dist folder
   const cache = new Cache(fileReader(dist))
 

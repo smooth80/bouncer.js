@@ -34,7 +34,7 @@ $ npm i @jacekpietal/bouncer.js --save
 
 ## 2. Usage
 
-### 2.a Cli Usage
+### 2.a Backend: Cli Usage
 
 to start static server of folder `dist/your-app` with `chat` plugin and default options run:
 
@@ -44,9 +44,9 @@ $ yarn bouncer.js dist/your-app
 
 port defaults to `4200` if `process.env.PORT` not set
 
-### 2. API Usage
+### 2.b Backend: API Usage
 
-#### 2.a Serve folder with plugin (chat)
+serve folder with plugin (chat)
 
 port defaults to `4200` if `process.env.PORT` not set
 
@@ -56,11 +56,14 @@ const serve = require('@jacekpietal/bouncer.js/server')
 // require chat plugin
 const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 
-// serve public folder with chat plugin
-serve('dist/your-app', { chat })
+// serve public folder with chat plugin debug and ssl
+serve('dist/your-app', { chat }, {
+  debug: true,
+  ssl: {}
+})
 ```
 
-#### 2.b Angular CharService
+### 2.c Frontend: Angular CharService
 
 frontend for above backend
 
@@ -92,7 +95,7 @@ $ mkdir -p src/types
 $ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 ```
 
-#### 2.c Vanilla JS Frontend
+### 2.d Frontend: Vanilla JS Frontend
 
 ```javascript
 // concect to server at port 4200

@@ -33,23 +33,26 @@ $ npm i @jacekpietal/bouncer.js --save
 </code></pre>
 <h2 id="2-usage">2. Usage</h2>
 <hr />
-<h3 id="2a-cli-usage">2.a Cli Usage</h3>
+<h3 id="2a-backend--cli-usage">2.a Backend: Cli Usage</h3>
 <p>to start static server of folder <code>dist/your-app</code> with <code>chat</code> plugin and default options run:</p>
 <pre><code class="bash">$ yarn bouncer.js dist/your-app
 </code></pre>
 <p>port defaults to <code>4200</code> if <code>process.env.PORT</code> not set</p>
-<h3 id="2-api-usage">2. API Usage</h3>
-<h4 id="2a-serve-folder-with-plugin--chat-">2.a Serve folder with plugin (chat)</h4>
+<h3 id="2b-backend--api-usage">2.b Backend: API Usage</h3>
+<p>serve folder with plugin (chat)</p>
 <p>port defaults to <code>4200</code> if <code>process.env.PORT</code> not set</p>
 <pre><code class="javascript">// require static files server
 const serve = require('@jacekpietal/bouncer.js/server')
 // require chat plugin
 const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 
-// serve public folder with chat plugin
-serve('dist/your-app', { chat })
+// serve public folder with chat plugin debug and ssl
+serve('dist/your-app', { chat }, {
+  debug: true,
+  ssl: {}
+})
 </code></pre>
-<h4 id="2b-angular-charservice">2.b Angular CharService</h4>
+<h3 id="2c-frontend--angular-charservice">2.c Frontend: Angular CharService</h3>
 <p>frontend for above backend</p>
 <pre><code class="javascript">// app.module.ts
 
@@ -73,7 +76,7 @@ serve('dist/your-app', { chat })
 $ mkdir -p src/types
 $ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 </code></pre>
-<h4 id="2c-vanilla-js-frontend">2.c Vanilla JS Frontend</h4>
+<h3 id="2d-frontend--vanilla-js-frontend">2.d Frontend: Vanilla JS Frontend</h3>
 <pre><code class="javascript">// concect to server at port 4200
 const socket = new WebSocket('ws://localhost:4200')
 let username,
