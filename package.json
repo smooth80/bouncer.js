@@ -48,15 +48,22 @@
     "@angular/core": "^11.2.9"
   },
   "keywords": [
-    "http-server",
-    "websockets",
-    "uwebsockets",
-    "uws",
-    "socket.io",
-    "socket.io-client",
+    "nodejs",
     "chat",
+    "frontend",
+    "backend",
+    "websockets",
+    "socket-io",
+    "socket-io-client",
+    "javascript-library",
+    "http-server",
+    "handshake",
+    "static-server",
+    "uws",
+    "uwebsockets",
     "rooms",
-    "nodejs"
+    "static-server-nodejs",
+    "micro-websockets"
   ],
   "resolutions": {
     "ecstatic": "^4.1.4",
