@@ -67,7 +67,7 @@ $ npm i @jacekpietal/bouncer.js --save
 to start static server of folder `dist/your-app` with `chat` plugin and default options run:
 
 ```bash
-$ yarn bouncer.js dist/your-app
+$ yarn bouncer.js dist/your-app [--debug]
 ```
 
 port defaults to `4200` if `process.env.PORT` not set
