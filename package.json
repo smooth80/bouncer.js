@@ -50,6 +50,7 @@
   "keywords": [
     "nodejs",
     "chat",
+    "angular",
     "frontend",
     "backend",
     "websockets",
@@ -59,6 +60,7 @@
     "http-server",
     "handshake",
     "static-server",
+    "angular-service",
     "uws",
     "uwebsockets",
     "rooms",
