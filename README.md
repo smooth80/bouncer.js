@@ -31,7 +31,7 @@
 1. [Usage](#usage)
     - [Backend: Cli Usage](#backend-cli-usage)
     - [Backend: API Usage](#backend-api-usage)
-    - [Frontend: Angular CharService](#frontend-angular-charservice)
+    - [Frontend: Angular ChatService](#frontend-angular-chatservice)
     - [Frontend: Vanilla JS](#frontend-vanilla-js)
 1. [The Flow (!)](#the-flow-)
 1. [The Plugins (!)](#the-plugins-)
@@ -101,7 +101,7 @@ serve(
 )
 ```
 
-### Frontend: Angular CharService
+### Frontend: Angular ChatService
 
 frontend for above backend
 
