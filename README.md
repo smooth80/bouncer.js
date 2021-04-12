@@ -25,27 +25,25 @@
 ----
 
 <!-- TOC -->
-
-1. [Common use cases when you might want to use this library:](#common-use-cases-when-you-might-want-to-use-this-library)
-1. [Installation](#installation)
-1. [Usage](#usage)
-    - [Backend: Cli Usage](#backend-cli-usage)
-    - [Backend: API Usage](#backend-api-usage)
-    - [Frontend: Angular ChatService](#frontend-angular-chatservice)
-    - [Frontend: Vanilla JS](#frontend-vanilla-js)
-1. [The Flow (!)](#the-flow-)
-1. [The Plugins (!)](#the-plugins-)
-1. [Configuration](#configuration)
-    - [BouncerJS API](#bouncerjs-api)
-1. [Front End Client (socket.io-ish) extension](#front-end-client-socketio-ish-extension)
-1. [Example imports](#example-imports)
-1. [Tests](#tests)
-1. [Compatibility](#compatibility)
-    - [What does that shim do?](#what-does-that-shim-do)
-1. [License](#license)
-    - [MIT](#mit)
-1. [Author](#author)
-
+- [Common use cases when you might want to use this library:](#common-use-cases-when-you-might-want-to-use-this-library)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Backend: Cli Usage](#backend-cli-usage)
+  - [Backend: API Usage](#backend-api-usage)
+  - [Frontend: Angular ChatService](#frontend-angular-chatservice)
+  - [Frontend: Vanilla JS](#frontend-vanilla-js)
+- [The Flow (!)](#the-flow-)
+- [The Plugins (!)](#the-plugins-)
+- [Configuration](#configuration)
+  - [BouncerJS API](#bouncerjs-api)
+- [Front End Client (socket.io-ish) extension](#front-end-client-socketio-ish-extension)
+- [Example imports](#example-imports)
+- [Tests](#tests)
+- [Compatibility](#compatibility)
+  - [What does that shim do?](#what-does-that-shim-do)
+- [License](#license)
+  - [MIT](#mit)
+- [Author](#author)
 <!-- /TOC -->
 
 ----
