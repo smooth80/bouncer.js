@@ -68,12 +68,11 @@ $ npm i @jacekpietal/bouncer.js --save
 </code></pre>
 <h2 id="usage">Usage</h2>
 <hr />
-<h3 id="backend-cli-usage">Backend: Cli Usage</h3>
+<h3 id="backend--cli-usage">Backend: Cli Usage</h3>
 <p>to start static server of folder <code>dist/your-app</code> with <code>chat</code> plugin and default options run:</p>
-<pre><code class="bash">$ yarn bouncer.js dist/your-app [--debug]
+<pre><code class="bash">$ [PORT=4200] yarn bouncer.js dist/your-app [--debug]
 </code></pre>
-<p>port defaults to <code>4200</code> if <code>process.env.PORT</code> not set</p>
-<h3 id="backend-api-usage">Backend: API Usage</h3>
+<h3 id="backend--api-usage">Backend: API Usage</h3>
 <p>serve folder with plugin (chat)</p>
 <p>port defaults to <code>4200</code> if <code>process.env.PORT</code> not set</p>
 <pre><code class="javascript">// require static files server
@@ -84,18 +83,18 @@ const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 // serve public folder with chat plugin debug and ssl
 serve(
   'dist/your-app',
-  { chat },
+  { chat }, // optional
   { // optional
     debug: true, // optional
     ssl: { // optional
-      key_file_name,
-      cert_file_name,
+      key: '/path/to/key_file_name.key',
+      cert: '/path/to/cert_file_name.crt',
       passphrase // optional
     }
   }
 )
 </code></pre>
-<h3 id="frontend-angular-chatservice">Frontend: Angular ChatService</h3>
+<h3 id="frontend--angular-chatservice">Frontend: Angular ChatService</h3>
 <p>frontend for above backend</p>
 <pre><code class="javascript">// app.module.ts
 
@@ -119,12 +118,12 @@ serve(
 $ mkdir -p src/types
 $ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 </code></pre>
-<h3 id="frontend-vanilla-js">Frontend: Vanilla JS</h3>
+<h3 id="frontend--vanilla-js">Frontend: Vanilla JS</h3>
 <pre><code class="javascript">// concect to server at port 4200
 const socket = new WebSocket('ws://localhost:4200')
 let username,
   messages = [],
-  message = ''
+  message = '' // updated elsewhere
 
 // on socket available to send
 socket.onopen = (value) =&gt; {
@@ -163,7 +162,7 @@ function sendMessage(event) {
   socket.send(JSON.stringify({ event: 'say', data }))
 }
 </code></pre>
-<h2 id="the-flow-">The Flow (!)</h2>
+<h2 id="the-flow----">The Flow (!)</h2>
 <hr />
 <p>STEP 1: Before Connection</p>
 <ul>
@@ -186,7 +185,7 @@ function sendMessage(event) {
 <li>client -&gt; disconnects after some time</li>
 <li>server -&gt; broadcasts to all other people from the room that client left (config.leave)</li>
 </ul>
-<h2 id="the-plugins-">The Plugins (!)</h2>
+<h2 id="the-plugins----">The Plugins (!)</h2>
 <hr />
 <ul>
 <li>To handshake a plugin in bouncer you need to send from your connected client something with similar payload:</li>
@@ -256,7 +255,7 @@ function sendMessage(event) {
   }
 }
 </code></pre>
-<h2 id="front-end-client-socketio-ish-extension">Front End Client (socket.io-ish) extension</h2>
+<h2 id="front-end-client--socketio-ish--extension">Front End Client (socket.io-ish) extension</h2>
 <hr />
 <p>If you can use a bundler for frontend, see:</p>
 <ul>
@@ -323,8 +322,7 @@ const shim = require('@jacekpietal/bouncer.js/lib/shim')
 
 <pre><code class="bash"># to test run:
 
-$ yarn test # 
-matic tests in jest
+$ yarn test # automatic tests in jest
 $ yarn start # manual test/example: chat
 </code></pre>
 <h2 id="compatibility">Compatibility</h2>
