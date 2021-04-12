@@ -67,10 +67,8 @@ $ npm i @jacekpietal/bouncer.js --save
 to start static server of folder `dist/your-app` with `chat` plugin and default options run:
 
 ```bash
-$ yarn bouncer.js dist/your-app [--debug]
+$ [PORT=4200] yarn bouncer.js dist/your-app [--debug]
 ```
-
-port defaults to `4200` if `process.env.PORT` not set
 
 ### Backend: API Usage
 
@@ -87,12 +85,12 @@ const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 // serve public folder with chat plugin debug and ssl
 serve(
   'dist/your-app',
-  { chat },
+  { chat }, // optional
   { // optional
     debug: true, // optional
     ssl: { // optional
-      key_file_name,
-      cert_file_name,
+      key: '/path/to/key_file_name.key',
+      cert: '/path/to/cert_file_name.crt',
       passphrase // optional
     }
   }
@@ -138,7 +136,7 @@ $ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 const socket = new WebSocket('ws://localhost:4200')
 let username,
   messages = [],
-  message = ''
+  message = '' // updated elsewhere
 
 // on socket available to send
 socket.onopen = (value) => {

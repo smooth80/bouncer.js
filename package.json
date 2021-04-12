@@ -17,6 +17,7 @@
     "start": "npm run demo",
     "demo": "node ./bin/index.js demo",
     "docs": "docma",
+    "docs:patch": "sed -i -E 's/id=(.*)--+/id=\\1-/' docs/content/*.html",
     "docs:show": "docma serve",
     "lint": "eslint ./*.js --fix",
     "prettify": "prettier . --write",
