@@ -345,8 +345,7 @@ const shim = require('@jacekpietal/bouncer.js/lib/shim')
 ```bash
 # to test run:
 
-$ yarn test # 
-matic tests in jest
+$ yarn test # automatic tests in jest
 $ yarn start # manual test/example: chat
 ```
 
