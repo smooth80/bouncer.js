@@ -217,8 +217,7 @@ STEP 4: Finish Connection
 
 ```javascript
 {
-  id,    // WebSocket id - this is 
-matically added
+  id,    // WebSocket id - this is automatically added
   event, // event name as string
   data,  // any data accompanying the event
 }
