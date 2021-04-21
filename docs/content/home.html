@@ -75,24 +75,19 @@ $ npm i @jacekpietal/bouncer.js --save
 <h3 id="backend--api-usage">Backend: API Usage</h3>
 <p>serve folder with plugin (chat)</p>
 <p>port defaults to <code>4200</code> if <code>process.env.PORT</code> not set</p>
-<pre><code class="javascript">// require static files server
-const serve = require('@jacekpietal/bouncer.js/server')
-// require chat plugin
+<pre><code class="javascript">const serve = require('@jacekpietal/bouncer.js/server')
 const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 
-// serve public folder with chat plugin debug and ssl
-serve(
-  'dist/your-app',
-  { chat }, // optional
-  { // optional
-    debug: true, // optional
-    ssl: { // optional
-      key: '/path/to/key_file_name.key',
-      cert: '/path/to/cert_file_name.crt',
-      passphrase // optional
-    }
-  }
-)
+// serve public folder with chat plugin
+serve('dist/your-app', { chat })
+</code></pre>
+<p>alternative</p>
+<pre><code class="javascript">const BouncerJs = require('@jacekpietal/bouncer.js')
+const chat = require('@jacekpietal/bouncer.js/plugins/chat')
+const plugins = { chat }
+
+// serve public folder with chat plugin
+new BouncerJs({ plugins }).serve('dist/your-app')
 </code></pre>
 <h3 id="frontend--angular-chatservice">Frontend: Angular ChatService</h3>
 <p>frontend for above backend</p>

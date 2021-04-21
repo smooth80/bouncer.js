@@ -77,24 +77,22 @@ serve folder with plugin (chat)
 port defaults to `4200` if `process.env.PORT` not set
 
 ```javascript
-// require static files server
 const serve = require('@jacekpietal/bouncer.js/server')
-// require chat plugin
 const chat = require('@jacekpietal/bouncer.js/plugins/chat')
 
-// serve public folder with chat plugin debug and ssl
-serve(
-  'dist/your-app',
-  { chat }, // optional
-  { // optional
-    debug: true, // optional
-    ssl: { // optional
-      key: '/path/to/key_file_name.key',
-      cert: '/path/to/cert_file_name.crt',
-      passphrase // optional
-    }
-  }
-)
+// serve public folder with chat plugin
+serve('dist/your-app', { chat })
+```
+
+alternative
+
+```javascript
+const BouncerJs = require('@jacekpietal/bouncer.js')
+const chat = require('@jacekpietal/bouncer.js/plugins/chat')
+const plugins = { chat }
+
+// serve public folder with chat plugin
+new BouncerJs({ plugins }).serve('dist/your-app')
 ```
 
 ### Frontend: Angular ChatService

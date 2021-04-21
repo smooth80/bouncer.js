@@ -28,6 +28,16 @@ describe('GIVEN bouncer is provided', () => {
     })
   })
 
+  describe('WHEN bouncer.serve is run on demo folder', () => {
+    it('THEN it should not throw error', () => {
+      const BouncerJs = require('.')
+      const bouncer = new BouncerJs({ debug: true })
+      const test = () => bouncer.serve('demo')
+
+      expect(test).not.toThrow()
+    })
+  })
+
   describe('WHEN bouncer is initialized on specified port', () => {
     it('THEN it should start without error', () => {
       const BouncerJs = require('.')

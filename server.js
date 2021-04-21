@@ -14,8 +14,8 @@ function server(
   // extra configuration for bouncer
   config = {}
 ) {
-  // create bouncer.js instance
-  const bouncer = new BouncerJs({ ...config, plugins })
+  // get bouncer from second argument
+  const bouncer = arguments.length === 2 ? arguments[1] : new BouncerJs({ ...config, plugins })
   // init cache with fileReader on dist folder
   const cache = new Cache(fileReader(dist))
   const statuses = {

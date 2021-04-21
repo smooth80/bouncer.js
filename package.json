@@ -1,6 +1,6 @@
 {
   "name": "@jacekpietal/bouncer.js",
-  "version": "2.22.5",
+  "version": "2.23.0",
   "description": "static files server + plugins on same instance (🐻)",
   "main": "index.js",
   "repository": "git@github.com:Prozi/bouncer.js.git",
@@ -30,7 +30,7 @@
     "latermom": "^1.0.4",
     "mime-types": "^2.1.30",
     "sillyname": "^0.1.0",
-    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v19.0.0",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v19.2.0",
     "wanakana": "^4.0.2"
   },
   "homepage": "https://prozi.github.io/bouncer.js/",
@@ -38,15 +38,15 @@
     "@jacekpietal/docma": "^3.3.3",
     "dustjs-linkedin": "^2.7.5",
     "eslint": "^7.24.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
     "typescript": "^4.2.4",
-    "ws": "^7.4.4"
+    "ws": "^7.4.5"
   },
   "peerDependencies": {
-    "@angular/core": "^11.2.9"
+    "@angular/core": "^11.2.11"
   },
   "keywords": [
     "nodejs",

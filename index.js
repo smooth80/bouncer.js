@@ -2,6 +2,7 @@
 
 const uWebSockets = require('uWebSockets.js')
 const UWSRoomManager = require('./lib/api')
+const serve = require('./server');
 
 /**
  * @desc this is the default export
@@ -89,6 +90,10 @@ class BouncerJs extends UWSRoomManager {
     } catch (err) {
       console.error(err)
     }
+  }
+
+  serve(dist = 'dist') {
+    return serve(dist, this);
   }
 }
 
