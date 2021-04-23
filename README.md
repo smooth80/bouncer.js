@@ -22,9 +22,10 @@
 - you want easy angular integration
 - you want easy vanilla js integration
 
-----
+---
 
 <!-- TOC -->
+
 - [Common use cases when you might want to use this library:](#common-use-cases-when-you-might-want-to-use-this-library)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -46,7 +47,7 @@
 - [Author](#author)
 <!-- /TOC -->
 
-----
+---
 
 ## Installation
 

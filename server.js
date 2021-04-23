@@ -15,7 +15,10 @@ function server(
   config = {}
 ) {
   // get bouncer from second argument
-  const bouncer = arguments.length === 2 ? arguments[1] : new BouncerJs({ ...config, plugins })
+  const bouncer =
+    arguments.length === 2
+      ? arguments[1]
+      : new BouncerJs({ ...config, plugins })
   // init cache with fileReader on dist folder
   const cache = new Cache(fileReader(dist))
   const statuses = {
@@ -34,10 +37,10 @@ function server(
 
     switch (status) {
       case 301:
-        const referer = encodeURIComponent(url.substr(1))
+        const index = cache.get('/index.html')
 
-        res.writeHeader('Location', `/?404=${referer}`)
-        res.end()
+        res.writeHeader('Content-Type', index.mime)
+        res.end(index.body)
         break
 
       default:
