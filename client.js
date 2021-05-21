@@ -140,5 +140,5 @@ class UWebSocket {
 module.exports = UWebSocket
 
 if (typeof window !== 'undefined') {
-  window.UWebSocket = UWebSocket;
+  window.UWebSocket = UWebSocket
 }

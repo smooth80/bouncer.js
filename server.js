@@ -21,10 +21,6 @@ function server(
       : new BouncerJs({ ...config, plugins })
   // init cache with fileReader on dist folder
   const cache = new Cache(fileReader(dist))
-  const statuses = {
-    200: '200 OK',
-    301: '301 Redirect'
-  }
 
   // process all requests
   bouncer.router.get('/*', (res, req) => {
@@ -35,8 +31,10 @@ function server(
       console.info(status, 'GET', mime, url)
     }
 
-    res.writeStatus(statuses[status])
+    // send 200 for google seo
+    res.writeStatus('200 OK')
 
+    // check based on real status from file-reader
     switch (status) {
       case 301:
         const index = cache.get('/index.html')
