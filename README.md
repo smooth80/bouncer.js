@@ -131,12 +131,12 @@ $ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 ### Frontend: bouncer client
 
 ```javascript
-const UWebSocket = require("bouncer.js/client.js");
+const UWebSocket = require("@jacekpietal/bouncer.js/client.js");
 const socket = new UWebSocket('ws://localhost:4200');
 const refs = getHTMLElements();
 
 socket.onopen = (value) => {
-  // crucial - step 1 of flow - send handshake of plugin name
+  // step 1 ~> 2 of flow - send handshake of plugin name
   socket.emitEvent("/join", "chat");
 }
 
@@ -340,11 +340,10 @@ const shim = require('@jacekpietal/bouncer.js/lib/shim')
 
 ## Tests
 
-| Test Suites: | 5 passed, 5 total   |
-| ------------ | ------------------- |
-| Tests:       | 16 passed, 16 total |
-| Snapshots:   | 0 total             |
-| Time:        | 1.303 s             |
+- Test Suites: 5 passed, 5 total
+- Tests:       17 passed, 17 total
+
+[https://circleci.com/gh/Prozi/bouncer.js](https://circleci.com/gh/Prozi/bouncer.js)
 
 <br/>
 

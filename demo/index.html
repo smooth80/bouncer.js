@@ -42,7 +42,7 @@
     const refs = getHTMLElements();
 
     socket.onopen = (value) => {
-      // crucial - step 1 of flow - send handshake of plugin name
+      // step 1 ~> 2 of flow - send handshake of plugin name
       socket.emitEvent("/join", "chat");
     }
 

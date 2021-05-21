@@ -33,7 +33,7 @@
     "title": "ʕ•ᴥ•ʔ Bouncer.js Documentation",
     "meta": null,
     "base": ".",
-    "entrance": "content:home",
+    "entrance": "api",
     "routing": "path",
     "server": "github"
   },
@@ -50,7 +50,6 @@
         "enabled": true,
         "outline": "tree", // "flat" | "tree"
         "collapsed": false,
-        "toolbar": true,
         "itemsFolded": false,
         "itemsOverflow": "shrink", // "crop" | "shrink"
         "badges": true, // true | false | <string-value>
@@ -67,57 +66,12 @@
       "contentView": {
         "bookmarks": "h1,h2,h3",
         "faLibs": "all" // "all" or "solid"|"regular"|"brands" or comma-separated or null
-      },
-      "navbar": {
-        "enabled": true,
-        "fixed": true,
-        "dark": false,
-        "animations": true,
-        "menu": [
-          {
-            "label": "ʕ•ᴥ•ʔ Bouncer.js",
-            "href": "home"
-          },
-          {
-            "label": "ʕ•ᴥ•ʔ Bouncer.js API",
-            "href": "api"
-          },
-          {
-            "iconClass": "fas fa-cloud-download-alt",
-            "label": "Download",
-            "items": [
-              {
-                "label": "<code>yarn add bouncer.js -D</code>",
-                "href": "https://www.npmjs.com/package/@jacekpietal/bouncer.js",
-                "target": "_blank"
-              },
-              {
-                "label": "Bouncer.js Releases",
-                "href": "https://github.com/Prozi/bouncer.js/releases",
-                "target": "_blank"
-              },
-              {
-                "separator": true
-              },
-              {
-                "label": "License",
-                "href": "license"
-              }
-            ]
-          },
-          {
-            "iconClass": "fab fa-lg fa-github",
-            "label": "",
-            "href": "https://github.com/Prozi/bouncer.js",
-            "target": "_blank"
-          }
-        ]
       }
     }
   },
   "src": [
     "./*.js",
-    "./lib/*.js",
+    "./lib/*.js"
     {
       "license": "./LICENSE:md"
     },

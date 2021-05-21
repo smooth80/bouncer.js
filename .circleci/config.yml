@@ -6,7 +6,7 @@ executors:
       - image: circleci/buildpack-deps:bionic
 
 jobs:
-  build:
+  build_and_test:
     executor: my
     steps:
       # apt prepare
