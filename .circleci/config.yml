@@ -30,18 +30,12 @@ jobs:
       - run: node --version
       - run: npm --version
       - run: yarn --version
-  # test
-  test:
-    executor: my
-    steps:
+      # test here to reuse all of above (same job)
       - checkout
       - run: yarn
       - run: yarn test
 workflows:
   version: 2
-  build_and_test:
+  test:
     jobs:
       - build
-      - test:
-          requires:
-            - build
