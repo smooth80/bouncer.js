@@ -7,7 +7,7 @@ const serve = require('./server')
 /**
  * @desc this is the default export
  * @param {BouncerConfig} userConfig
- * @type {BouncerJs}
+ * @type BouncerJs
  */
 class BouncerJs extends UWSRoomManager {
   constructor(userConfig = {}) {
@@ -28,6 +28,10 @@ class BouncerJs extends UWSRoomManager {
       )
   }
 
+  /**
+   * internal / override if necessary in class extends BouncerJd
+   * @returns uWebSockets.SSLApp|uWebSockets.App
+   */
   createRouter() {
     // if user provides ssl in configuration
     // SSLApp is started
@@ -43,6 +47,7 @@ class BouncerJs extends UWSRoomManager {
   }
 
   /**
+   * internal / override if necessary in class extends BouncerJd
    * @param {number} port
    */
   onListen(listenSocket) {
@@ -62,6 +67,7 @@ class BouncerJs extends UWSRoomManager {
   }
 
   /**
+   * internal / override if necessary in class extends BouncerJd
    * @desc on disconnect leave socket ws.topic
    * @param {WebSocket} ws
    */
@@ -76,6 +82,7 @@ class BouncerJs extends UWSRoomManager {
   }
 
   /**
+   * internal / override if necessary in class extends BouncerJd
    * @desc this is Join + run plugins + leave
    * @param {WebSocket} ws
    * @param {ArrayBuffer} message
@@ -102,6 +109,11 @@ class BouncerJs extends UWSRoomManager {
     }
   }
 
+  /**
+   * call to serve static files folder directory
+   * @param {string} dist
+   * @returns BouncerJS
+   */
   serve(dist = 'dist') {
     return serve(dist, this)
   }

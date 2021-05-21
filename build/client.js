@@ -1,5 +1,6 @@
 'use strict'
 /**
+ * microwebsocket - socket.io-like extension to websocket, use on front
  * @typedef {UWebSocket | SocketIOClient} UWebSocket
  */
 class UWebSocket {
@@ -118,9 +119,8 @@ class UWebSocket {
     this.ws.send(string)
   }
 }
-try {
-  module.exports = UWebSocket
-} catch (err) {
-  console.error(err)
+module.exports = UWebSocket
+if (typeof window !== 'undefined') {
+  window.UWebSocket = UWebSocket
 }
 //# sourceMappingURL=client.js.map

@@ -46,24 +46,16 @@
       socket.emitEvent("/join", "chat");
     }
 
+    socket.on("*", ({ id, event, data }) => {
+      // append output
+      refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
+    });
+
     socket.on("/join", ({ id, event, data }) => {
       // first join is your join, set your server named id
       if (!refs.username.innerText) {
         refs.username.innerText = id;
       }
-
-      // append output
-      refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
-    });
-
-    socket.on("/leave", ({ id, event, data }) => {
-      // append output
-      refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
-    });
-
-    socket.on("say", ({ id, event, data }) => {
-      // append output
-      refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
     });
 
     refs.chat.addEventListener('submit', (event) => {

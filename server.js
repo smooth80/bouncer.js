@@ -5,7 +5,13 @@ const Cache = require('latermom')
 const BouncerJs = require('.')
 const fileReader = require('./lib/file-reader')
 
-// return bouncer.js instance
+/**
+ * static files server, returning bouncer instance
+ * @param {string?} dist
+ * @param {object?} plugins
+ * @param {object?} config
+ * @returns BouncerJS
+ */
 function server(
   // first argument is directory you want to static serve
   dist = 'dist',

@@ -146,24 +146,16 @@ socket.onopen = (value) => {
   socket.emitEvent("/join", "chat");
 }
 
+socket.on("*", ({ id, event, data }) => {
+  // append output
+  refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
+});
+
 socket.on("/join", ({ id, event, data }) => {
   // first join is your join, set your server named id
   if (!refs.username.innerText) {
     refs.username.innerText = id;
   }
-
-  // append output
-  refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
-});
-
-socket.on("/leave", ({ id, event, data }) => {
-  // append output
-  refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
-});
-
-socket.on("say", ({ id, event, data }) => {
-  // append output
-  refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
 });
 
 refs.chat.addEventListener('submit', (event) => {
@@ -258,8 +250,6 @@ It is ready to receive any number of the following props if any as constructor p
   leave: '/leave',
   // a lot more logs
   debug: false,
-  // for creating random unique socket id
-  idConfig: { lang: "english"|"japanese", len: 5 },
   // defaults to undefined
   ssl: {
     key: '/path/to/key_file_name.key',

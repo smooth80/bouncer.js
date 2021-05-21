@@ -132,24 +132,16 @@ socket.onopen = (value) =&gt; {
   socket.emitEvent("/join", "chat");
 }
 
+socket.on("*", ({ id, event, data }) =&gt; {
+  // append output
+  refs.messages.innerHTML += `&lt;div&gt;${id} &amp;gt; ${event} &amp;gt; ${data}&lt;/div&gt;\n`;
+});
+
 socket.on("/join", ({ id, event, data }) =&gt; {
   // first join is your join, set your server named id
   if (!refs.username.innerText) {
     refs.username.innerText = id;
   }
-
-  // append output
-  refs.messages.innerHTML += `&lt;div&gt;${id} &amp;gt; ${event} &amp;gt; ${data}&lt;/div&gt;\n`;
-});
-
-socket.on("/leave", ({ id, event, data }) =&gt; {
-  // append output
-  refs.messages.innerHTML += `&lt;div&gt;${id} &amp;gt; ${event} &amp;gt; ${data}&lt;/div&gt;\n`;
-});
-
-socket.on("say", ({ id, event, data }) =&gt; {
-  // append output
-  refs.messages.innerHTML += `&lt;div&gt;${id} &amp;gt; ${event} &amp;gt; ${data}&lt;/div&gt;\n`;
 });
 
 refs.chat.addEventListener('submit', (event) =&gt; {
@@ -240,8 +232,6 @@ function getHTMLElements() {
   leave: '/leave',
   // a lot more logs
   debug: false,
-  // for creating random unique socket id
-  idConfig: { lang: "english"|"japanese", len: 5 },
   // defaults to undefined
   ssl: {
     key: '/path/to/key_file_name.key',

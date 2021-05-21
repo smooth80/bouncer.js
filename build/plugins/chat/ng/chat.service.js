@@ -32,7 +32,6 @@ let ChatService = class ChatService {
         this.messages.splice(-this.messagesLimit)
         this.message.next(message)
       })
-      this.socket.onmessage = console.info.bind(console)
     })
   }
 }

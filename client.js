@@ -1,6 +1,7 @@
 'use strict'
 
 /**
+ * microwebsocket - socket.io-like extension to websocket, use on front
  * @typedef {UWebSocket | SocketIOClient} UWebSocket
  */
 class UWebSocket {
