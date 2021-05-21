@@ -115,12 +115,12 @@ $ mkdir -p src/types
 $ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 </code></pre>
 <h3 id="frontend--bouncer-client">Frontend: bouncer client</h3>
-<pre><code class="javascript">const UWebSocket = require("bouncer.js/client.js");
+<pre><code class="javascript">const UWebSocket = require("@jacekpietal/bouncer.js/client.js");
 const socket = new UWebSocket('ws://localhost:4200');
 const refs = getHTMLElements();
 
 socket.onopen = (value) =&gt; {
-  // crucial - step 1 of flow - send handshake of plugin name
+  // step 1 ~&gt; 2 of flow - send handshake of plugin name
   socket.emitEvent("/join", "chat");
 }
 
@@ -301,26 +301,11 @@ const shim = require('@jacekpietal/bouncer.js/lib/shim')
 </code></pre>
 <h2 id="tests">Tests</h2>
 <hr />
-<table>
-<thead>
-<tr>
-<th>Test Suites:</th>
-<th>5 passed, 5 total</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Tests:</td>
-<td>16 passed, 16 total</td>
-</tr>
-<tr>
-<td>Snapshots:</td>
-<td>0 total</td>
-</tr>
-<tr>
-<td>Time:</td>
-<td>1.303 s</td>
-</tr>
-</tbody></table>
+<ul>
+<li>Test Suites: 5 passed, 5 total</li>
+<li>Tests:       17 passed, 17 total</li>
+</ul>
+<p><a href="https://circleci.com/gh/Prozi/bouncer.js">https://circleci.com/gh/Prozi/bouncer.js</a></p>
 <br>
 
 <pre><code class="bash"># to test run:

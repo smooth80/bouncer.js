@@ -48,30 +48,30 @@
       },
       "sidebar": {
         "enabled": true,
-        "outline": "tree", // "flat" | "tree"
+        "outline": "tree",
         "collapsed": false,
         "itemsFolded": false,
-        "itemsOverflow": "shrink", // "crop" | "shrink"
-        "badges": true, // true | false | <string-value>
+        "itemsOverflow": "shrink",
+        "badges": true,
         "search": true,
         "animations": true
       },
       "symbols": {
-        "autoLink": true, // "internal" | "external" | true (both)
-        "params": "list", // "list" | "table"
-        "enums": "list", // "list" | "table"
-        "props": "list", // "list" | "table"
+        "autoLink": true,
+        "params": "list",
+        "enums": "list",
+        "props": "list",
         "meta": false
       },
       "contentView": {
         "bookmarks": "h1,h2,h3",
-        "faLibs": "all" // "all" or "solid"|"regular"|"brands" or comma-separated or null
+        "faLibs": "all"
       }
     }
   },
   "src": [
     "./*.js",
-    "./lib/*.js"
+    "./lib/*.js",
     {
       "license": "./LICENSE:md"
     },
