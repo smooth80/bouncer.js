@@ -65,11 +65,17 @@ $ npm i @jacekpietal/bouncer.js --save
 
 ### Backend: Cli Usage
 
-to start static server of folder `dist/your-app` with `chat` plugin and default options run:
+to start static server of folder `dist/your-app` run
 
 ```bash
-$ [PORT=4200] yarn bouncer.js dist/your-app [--debug]
+$ [PORT=4200] yarn bouncer.js dist/your-app [--debug] [--chat]
 ```
+
+* the `--chat` flag starts websockets chat plugin
+
+* the `--debug` flag starts debug mode with lots of logs
+
+* alter port by setting `PORT env var`
 
 ### Backend: API Usage
 

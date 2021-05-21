@@ -70,9 +70,17 @@ $ npm i @jacekpietal/bouncer.js --save
 <h2 id="usage">Usage</h2>
 <hr />
 <h3 id="backend--cli-usage">Backend: Cli Usage</h3>
-<p>to start static server of folder <code>dist/your-app</code> with <code>chat</code> plugin and default options run:</p>
-<pre><code class="bash">$ [PORT=4200] yarn bouncer.js dist/your-app [--debug]
+<p>to start static server of folder <code>dist/your-app</code> run</p>
+<pre><code class="bash">$ [PORT=4200] yarn bouncer.js dist/your-app [--debug] [--chat]
 </code></pre>
+<ul>
+<li><p>the <code>--chat</code> flag starts websockets chat plugin</p>
+</li>
+<li><p>the <code>--debug</code> flag starts debug mode with lots of logs</p>
+</li>
+<li><p>alter port by setting <code>PORT env var</code></p>
+</li>
+</ul>
 <h3 id="backend--api-usage">Backend: API Usage</h3>
 <p>serve folder with plugin (chat)</p>
 <p>port defaults to <code>4200</code> if <code>process.env.PORT</code> not set</p>
