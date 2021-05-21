@@ -1,76 +1,92 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>
-      Bouncer.js Simplest Front End Example For Demonstration of Chat
-    </title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, user-scalable=no"
-    />
-    <style>
-      body,
-      input {
-        font-family: monospace;
+
+<head>
+  <meta charset="utf-8" />
+  <title>
+    Bouncer.js Simplest Front End Example For Demonstration of Chat
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <style>
+    body,
+    input {
+      font-family: monospace;
+    }
+
+    img.bear {
+      width: 20%;
+      max-width: 200px;
+      float: right;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="./img/bear.png" class="bear" />
+
+  <h1>Chat</h1>
+
+  <p><strong>Your username:</strong> <span id="username"></span></p>
+
+  <form id="chat" autocomplete="off">
+    <input type="text" id="message" />
+    <button type="submit">send</button>
+  </form>
+
+  <p><strong>Messages:</strong></p>
+  <div id="messages"></div>
+
+  <script type="text/javascript" src="./client.js"></script>
+  <script type="text/javascript">
+    const socket = new UWebSocket('ws://localhost:4200');
+    const refs = getHTMLElements();
+
+    socket.onopen = (value) => {
+      // crucial - step 1 of flow - send handshake of plugin name
+      socket.emitEvent("/join", "chat");
+    }
+
+    socket.on("/join", ({ id, event, data }) => {
+      // first join is your join, set your server named id
+      if (!refs.username.innerText) {
+        refs.username.innerText = id;
       }
 
-      img.bear {
-        width: 20%;
-        max-width: 200px;
-        float: right;
-      }
-    </style>
-  </head>
+      // append output
+      refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
+    });
 
-  <body>
-    <img src="./img/bear.png" class="bear" />
+    socket.on("/leave", ({ id, event, data }) => {
+      // append output
+      refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
+    });
 
-    <h1>Chat</h1>
+    socket.on("say", ({ id, event, data }) => {
+      // append output
+      refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
+    });
 
-    <p><strong>Your username:</strong> <span id="username"></span></p>
+    refs.chat.addEventListener('submit', (event) => {
+      event.preventDefault();
 
-    <form id="chat" autocomplete="off">
-      <input type="text" id="message" />
-      <button type="submit">send</button>
-    </form>
+      const payload = refs.message.value.trim();
+      if (!payload) return;
 
-    <p><strong>Messages:</strong></p>
-    <div id="messages"></div>
+      socket.emitEvent("say", payload);
 
-    <script type="text/javascript">
-      const socket = new WebSocket('ws://localhost:4200')
-      const refs = ['username', 'messages', 'message', 'chat'].reduce(
+      refs.message.value = "";
+    });
+
+    function getHTMLElements() {
+      return ['username', 'messages', 'message', 'chat'].reduce(
         (obj, id) => ({
           ...obj,
           [id]: document.querySelector(`#${id}`)
         }),
         {}
-      )
+      );
+    }
+  </script>
+</body>
 
-      socket.onopen = (value) => {
-        socket.send(JSON.stringify({ event: '/join', data: 'chat' }))
-      }
-
-      socket.onmessage = ({ data: string }) => {
-        const { id, event, data } = JSON.parse(string)
-
-        if (!refs.username.innerText) {
-          refs.username.innerText = id
-        }
-
-        refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`
-      }
-
-      refs.chat.addEventListener('submit', (event) => {
-        event.preventDefault()
-
-        const data = refs.message.value.trim()
-        if (!data) return
-
-        refs.message.value = ''
-        socket.send(JSON.stringify({ event: 'say', data }))
-      })
-    </script>
-  </body>
 </html>

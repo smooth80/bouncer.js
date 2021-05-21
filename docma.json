@@ -30,7 +30,7 @@
     "emoji": true
   },
   "app": {
-    "title": "🐻 Bouncer.js Documentation",
+    "title": "ʕ•ᴥ•ʔ Bouncer.js Documentation",
     "meta": null,
     "base": ".",
     "entrance": "content:home",
@@ -75,11 +75,11 @@
         "animations": true,
         "menu": [
           {
-            "label": "🐻 Bouncer.js",
+            "label": "ʕ•ᴥ•ʔ Bouncer.js",
             "href": "home"
           },
           {
-            "label": "🐻 Bouncer.js API",
+            "label": "ʕ•ᴥ•ʔ Bouncer.js API",
             "href": "api"
           },
           {

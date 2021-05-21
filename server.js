@@ -31,7 +31,9 @@ function server(
     const url = req.getUrl()
     const { mime, body, status } = cache.get(url)
 
-    console.log(status, 'GET', mime, url)
+    if (bouncer.config.debug) {
+      console.info(status, 'GET', mime, url)
+    }
 
     res.writeStatus(statuses[status])
 

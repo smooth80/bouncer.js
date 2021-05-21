@@ -1,4 +1,4 @@
-<h2 align="center">bouncer 🐻</h2>
+<h2 align="center">ʕ•ᴥ•ʔ bouncer.js ʕ•ᴥ•ʔ</h2>
 
 <p align="center">
   <a href="https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js"><img src="https://badge.fury.io/js/%40jacekpietal%2Fbouncer.js.svg" alt="shield" /></a>
@@ -32,7 +32,7 @@
   - [Backend: Cli Usage](#backend-cli-usage)
   - [Backend: API Usage](#backend-api-usage)
   - [Frontend: Angular ChatService](#frontend-angular-chatservice)
-  - [Frontend: Vanilla JS](#frontend-vanilla-js)
+  - [Frontend: bouncer client](#frontend-bouncer-client)
 - [The Flow (!)](#the-flow-)
 - [The Plugins (!)](#the-plugins-)
 - [Configuration](#configuration)
@@ -128,50 +128,57 @@ $ mkdir -p src/types
 $ cp node_modules/@jacekpietal/bouncer.js/bouncer-js.d.ts src/types
 ```
 
-### Frontend: Vanilla JS
+### Frontend: bouncer client
 
 ```javascript
-// concect to server at port 4200
-const socket = new WebSocket('ws://localhost:4200')
-let username,
-  messages = [],
-  message = '' // updated elsewhere
+const UWebSocket = require("bouncer.js/client.js");
+const socket = new UWebSocket('ws://localhost:4200');
+const refs = getHTMLElements();
 
-// on socket available to send
 socket.onopen = (value) => {
-  // mandatory in this library
-  socket.send(JSON.stringify({ event: '/join', data: 'chat' }))
+  // crucial - step 1 of flow - send handshake of plugin name
+  socket.emitEvent("/join", "chat");
 }
 
-// on receive message from server
-socket.onmessage = ({ data: string }) => {
-  const { id, event, data } = JSON.parse(string)
-
-  // first message is always join message
-  if (!username) {
-    // set own user id
-    username = id
+socket.on("/join", ({ id, event, data }) => {
+  // first join is your join, set your server named id
+  if (!refs.username.innerText) {
+    refs.username.innerText = id;
   }
 
-  // append to list of messages
-  messages.push(`<div>${id} &gt; ${event} &gt; ${data}</div>\n`)
-}
+  // append output
+  refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
+});
 
-// on demo form submit send message to server
-function sendMessage(event) {
-  // dont send form anywhere :)
-  event.preventDefault()
+socket.on("/leave", ({ id, event, data }) => {
+  // append output
+  refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
+});
 
-  const data = message.trim()
+socket.on("say", ({ id, event, data }) => {
+  // append output
+  refs.messages.innerHTML += `<div>${id} &gt; ${event} &gt; ${data}</div>\n`;
+});
 
-  // dont send void data
-  if (!data) return
+refs.chat.addEventListener('submit', (event) => {
+  event.preventDefault();
 
-  // after we get data value, empty chatbox
-  message = ''
+  const payload = refs.message.value.trim();
+  if (!payload) return;
 
-  // send message to socket
-  socket.send(JSON.stringify({ event: 'say', data }))
+  socket.emitEvent("say", payload);
+
+  refs.message.value = "";
+});
+
+function getHTMLElements() {
+  return ['username', 'messages', 'message', 'chat'].reduce(
+    (obj, id) => ({
+      ...obj,
+      [id]: document.querySelector(`#${id}`)
+    }),
+    {}
+  );
 }
 ```
 
@@ -236,7 +243,7 @@ It is ready to receive any number of the following props if any as constructor p
     }
   },
   // logo for discriminating lib's messages
-  LOGO: '~>',
+  logo: 'ʕ•ᴥ•ʔ bouncer.js',
   // default port is read from ENV
   port: process.env.PORT | 4200,
   // this event joins a topic / room

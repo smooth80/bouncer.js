@@ -47,7 +47,5 @@ export class ChatService {
 
       this.message.next(message)
     })
-
-    this.socket.onmessage = console.log.bind(console)
   }
 }

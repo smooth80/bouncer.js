@@ -14,7 +14,7 @@ class BouncerJs extends UWSRoomManager {
     super(userConfig)
 
     if (this.config.debug) {
-      console.log(`${this.config.LOGO} Starts with config:`, this.config)
+      console.info(`${this.config.logo} with config:`, this.config)
     }
 
     this.router = this.createRouter()
@@ -47,7 +47,17 @@ class BouncerJs extends UWSRoomManager {
    */
   onListen(listenSocket) {
     if (listenSocket) {
-      console.log(`${this.config.LOGO} Listens on port: ${this.config.port}`)
+      const plugins = Object.keys(this.config.plugins)
+
+      if (plugins.length) {
+        console.info(
+          `${this.config.logo} with: ${plugins.join(', ')} on port: ${
+            this.config.port
+          }`
+        )
+      } else {
+        console.info(`${this.config.logo} on port: ${this.config.port}`)
+      }
     }
   }
 

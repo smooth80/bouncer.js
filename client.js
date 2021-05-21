@@ -137,8 +137,8 @@ class UWebSocket {
   }
 }
 
-try {
-  module.exports = UWebSocket
-} catch (err) {
-  console.error(err)
+module.exports = UWebSocket
+
+if (typeof window !== 'undefined') {
+  window.UWebSocket = UWebSocket;
 }
